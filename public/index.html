@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>project</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <main class="main">
+        <div class="queqe">
+          <h2 class="queqe__h2">The queqe</h2>
+          <div class="input-block">
+            <div class="input-block__values">
+              <h3 class="input-block__h3">Current patient:</h3>
+              <div class="patient-stack"></div>
+            </div>
+            <div class="input-block__wrapper">
+              <form class="input-block__form" action="#" method="POST">
+                <input
+                  class="input-block__input"
+                  type="text"
+                  name="patient"
+                  placeholder="name"
+                />
+                <button class="input-block__button" type="submit">Add</button>
+              </form>
+            </div>
+          </div>
+          <form class="search-block" action="#">
+            <input
+              class="search-block__input"
+              type="text"
+              placeholder="search"
+            />
+            <textarea class="search-block__results"></textarea>
+          </form>
+        </div>
+        <div class="doctor">
+          <div class="current-patient">
+            <div class="current-patient__wrapper">
+              <h3 class="current-patient__header">Current patient:</h3>
+              <span class="current-patient-patient">No patient</span>
+            </div>
+            <div class="current-patient__button-wrap">
+              <button class="current-patient__button">Next</button>
+              <span class="current-patient__description"
+                >click next to process patient</span
+              >
+            </div>
+          </div>
+          <div class="set-resolution">
+            <h3 class="set-resolution__h3">Set appointment resolution</h3>
+            <form class="set-resolution__form" action="#">
+              <textarea
+                name="resolution"
+                class="set-resolution__input"
+              ></textarea>
+              <button class="set-resolution__button" type="submit">Add</button>
+            </form>
+          </div>
+          <div class="found-resolution">
+            <div class="show_resolution">
+              <form action="#" class="show_resolution__form">
+                <button class="show_resolution__button">Show resolution</button>
+                <input type="text" class="show_resolution__input" />
+              </form>
+            </div>
+            <div class="delete_resolution">
+              <form action="#" class="delete_resolution__form">
+                <textarea class="delete_resolution__text" disabled></textarea>
+                <button class="delete_resolution_button" type="submit">
+                  Delete
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+  <script type="module" src="js/main.js"></script>
+</html>
