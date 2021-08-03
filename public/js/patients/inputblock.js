@@ -1,4 +1,5 @@
-import addDiv from './adddiv.js';
+/* eslint-disable import/extensions */
+import addDiv from './addDiv.js';
 
 export default function inputPatient(queqe, addForm, patientStack) {
   addForm.addEventListener('submit', (e) => {

@@ -1,4 +1,3 @@
-export default function addFirstPatient(txt) {
-  const firstPat = document.querySelector('.current-patient-patient');
+export default function addFirstPatient(txt, firstPat) {
   firstPat.innerHTML = txt;
 }

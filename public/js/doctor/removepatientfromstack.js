@@ -1,12 +1,14 @@
+/* eslint-disable import/extensions */
 import addFirstPatient from './addFirstPatient.js';
 
-export default function reomoveFromStack(arr, removeButton, patientStack) {
+export default function reomoveFromStack(arr, removeButton, patientStack, firstPat) {
   removeButton.addEventListener('click', () => {
-    if (arr[0]) {
-      addFirstPatient(arr.shift());
+    const lastPatient = arr.shift();
+    if (lastPatient) {
+      addFirstPatient(lastPatient, firstPat);
       patientStack.removeChild(patientStack.firstChild);
       return;
     }
-    addFirstPatient('No pacient');
+    addFirstPatient('No pacient', firstPat);
   });
 }

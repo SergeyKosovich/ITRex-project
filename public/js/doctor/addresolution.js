@@ -2,17 +2,18 @@ export default function addResolution(map, last, setres, textarea) {
   setres.addEventListener('submit', (e) => {
     e.preventDefault();
     const text = textarea.value;
-    if (last.innerHTML !== 'No patient' && !map.has(last.innerHTML) && text) {
-      map.set(last.innerHTML, [text]);
+    const currenPatient = last.innerHTML;
+    const mapHasPatient = map.has(currenPatient);
+    if (currenPatient === 'No patient' || !text) {
+      return;
+    }
+    if (!mapHasPatient) {
+      map.set(currenPatient, [text]);
       textarea.value = '';
-    } else if (
-      last.innerHTML !== 'No patient'
-      && map.has(last.innerHTML)
-      && text
-    ) {
-      const previous = map.get(last.innerHTML);     
+    } else {
+      const previous = map.get(currenPatient);
       previous.push(text);
-      map.set(last.innerHTML, previous);
+      map.set(currenPatient, previous);
       textarea.value = '';
     }
   });

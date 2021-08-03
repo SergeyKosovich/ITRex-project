@@ -1,11 +1,13 @@
-import inputPatient from './patients/inputblock.js';
-import reomoveFromStack from './doctor/removepatientfromstack.js';
-import addResolution from './doctor/addresolution.js';
-import showRes from './doctor/showres.js';
-import deleteRes from './doctor/deleteres.js';
-import showForPatient from './patients/showforpatient.js';
+/* eslint-disable import/extensions */
+import inputPatient from './patients/inputBlock.js';
+import reomoveFromStack from './doctor/removePatientFromStack.js';
+import addResolution from './doctor/addResolution.js';
+import showRes from './doctor/showRes.js';
+import deleteRes from './doctor/deleteRes.js';
+import showForPatient from './patients/showForPatient.js';
 
 const queqe = [];
+const map = new Map();
 const addForm = document.querySelector('.input-block__form');
 const patientStack = document.querySelector('.patient-stack');
 const removeButton = document.querySelector('.current-patient__button');
@@ -21,8 +23,7 @@ const patientSearchInput = document.querySelector('.search-block__input');
 const patientResults = document.querySelector('.search-block__results');
 
 inputPatient(queqe, addForm, patientStack);
-reomoveFromStack(queqe, removeButton, patientStack);
-const map = new Map();
+reomoveFromStack(queqe, removeButton, patientStack, lastPatient);
 addResolution(map, lastPatient, setResolution, textareaInSetResolution);
 showRes(map, showResolutionform, showResolutioninput, resoltext);
 deleteRes(map, showResolutioninput, deleteform, resoltext);
