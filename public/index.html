@@ -24,8 +24,14 @@
                   type="text"
                   name="patient"
                   placeholder="name"
+                  required
                 />
-                <button class="input-block__button" type="submit">Add</button>
+                <div class="input_block__button-wrapper">                 
+                  <input class="input-block__checkbox" type="checkbox"  name="ttl" id="input1"></input>      
+                  <label class="input-block__label" for="input1" >Add TTL</label>      
+                  <input class="input-block__ttl-number" type="number"  disabled name='ttlNumber'>    
+                  <button class="input-block__button" type="submit">Add</button>              
+                </div>                
               </form>
             </div>
           </div>

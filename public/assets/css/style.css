@@ -51,7 +51,7 @@ h2{
 .input-block__form{
     display: flex;
     flex-direction: column;
-    height: 80px;
+    height: 120px;
     justify-content: space-between;
     align-items: flex-end;
 }
@@ -224,4 +224,22 @@ h3{
 }
 .delete_resolution_button{
     margin-top: 10px;
+}
+.input_block__button-wrapper{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  
+    flex-wrap: wrap;
+    height: 80px;
+}
+.input-block__ttl-number{
+    width: 50px;
+    border: 1px solid black;
+    border-radius: 2px;
+    height: 30px;
+}
+
+.input-block__label{
+    padding-left: 10px;
 }

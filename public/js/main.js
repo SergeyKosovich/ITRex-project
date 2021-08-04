@@ -5,6 +5,7 @@ import addResolution from './doctor/addResolution.js';
 import showRes from './doctor/showRes.js';
 import deleteRes from './doctor/deleteRes.js';
 import showForPatient from './patients/showForPatient.js';
+import checkBoxChange from './patients/checkBox.js';
 
 const queqe = [];
 const map = new Map();
@@ -21,10 +22,13 @@ const deleteform = document.querySelector('.delete_resolution__form');
 const patientSearchForm = document.querySelector('.search-block');
 const patientSearchInput = document.querySelector('.search-block__input');
 const patientResults = document.querySelector('.search-block__results');
+const checkBox = document.querySelector('.input-block__checkbox');
+const inputTtl = document.querySelector('.input-block__ttl-number');
 
-inputPatient(queqe, addForm, patientStack);
+inputPatient(queqe, addForm, patientStack, map);
 reomoveFromStack(queqe, removeButton, patientStack, lastPatient);
 addResolution(map, lastPatient, setResolution, textareaInSetResolution);
 showRes(map, showResolutionform, showResolutioninput, resoltext);
 deleteRes(map, showResolutioninput, deleteform, resoltext);
 showForPatient(map, patientSearchForm, patientSearchInput, patientResults);
+checkBoxChange(checkBox, inputTtl);
