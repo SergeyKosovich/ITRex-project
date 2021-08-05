@@ -24,8 +24,9 @@ const patientSearchInput = document.querySelector('.search-block__input');
 const patientResults = document.querySelector('.search-block__results');
 const checkBox = document.querySelector('.input-block__checkbox');
 const inputTtl = document.querySelector('.input-block__ttl-number');
+const patientsInStack = document.getElementsByClassName('patient-stack-patient');
 
-inputPatient(queqe, addForm, patientStack, map);
+inputPatient(queqe, addForm, patientStack, map, patientsInStack);
 reomoveFromStack(queqe, removeButton, patientStack, lastPatient);
 addResolution(map, lastPatient, setResolution, textareaInSetResolution);
 showRes(map, showResolutionform, showResolutioninput, resoltext);

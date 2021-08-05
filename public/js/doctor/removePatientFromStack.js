@@ -9,6 +9,6 @@ export default function reomoveFromStack(arr, removeButton, patientStack, firstP
       patientStack.removeChild(patientStack.firstChild);
       return;
     }
-    addFirstPatient('No pacient', firstPat);
+    addFirstPatient('No patient', firstPat);
   });
 }
