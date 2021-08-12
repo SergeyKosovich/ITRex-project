@@ -3,16 +3,16 @@ import express from 'express';
 import { queqe, map } from '../consts.js';
 import forInputPatient from '../handlers/forInputPatient.js';
 import checkGetFromDoc from '../handlers/checkGetFromDoc.js';
+import ApiError from '../errors/appError.js';
 
 const router = express.Router();
 
 router.post('/', (req, res) => {
-  if (req.body && req.body.name) {
-    forInputPatient(queqe, req.body, map);
-    res.status(200).send(JSON.stringify('success'));
-  } else {
-    res.status(400).send(JSON.stringify('incorrect input'));
+  if (!req.body.name) {
+    throw new ApiError(400);
   }
+  forInputPatient(queqe, req.body, map);
+  res.status(200).send(JSON.stringify('success'));
 });
 router.get(
   '/',
