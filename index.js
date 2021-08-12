@@ -4,6 +4,7 @@ import WebSocket, { WebSocketServer } from 'ws';
 import nameRouter from './src/routes/nameRoutes.js';
 import resRouter from './src/routes/resRouter.js';
 import { queqe } from './src/consts.js';
+import errorHandler from './src/handlers/errorHandler.js';
 
 const dirname = path.resolve();
 const PORT = 3000;
@@ -45,3 +46,4 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`server has been started on port ${PORT}`);
 });
+app.use(errorHandler);
