@@ -1,14 +1,17 @@
-export default function deleteRes(map, input, deleteform, resoltext) {
-  deleteform.addEventListener('submit', (e) => {
+/* eslint-disable import/extensions */
+import resolutionDelete from './resolutionDelete.js';
+
+export default function deleteRes(input, deleteform, resoltext) {
+  deleteform.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!resoltext.value) {
       return;
     }
-    if (!map.has(input.value)) {
-      resoltext.value = 'no matches by this name';
-      return;
+    try {
+      await resolutionDelete(input.value);
+    } catch (err) {
+      console.log(err);
     }
-    map.delete(input.value);
     resoltext.value = '';
     input.value = '';
   });

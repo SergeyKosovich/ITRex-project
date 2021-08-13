@@ -6,4 +6,5 @@ export default function addDiv(selector, text) {
   pacient.className = 'patient-stack-patient';
   pacient.innerHTML = text;
   selector.append(pacient);
+  return pacient;
 }
