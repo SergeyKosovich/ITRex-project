@@ -12,5 +12,8 @@ module.exports = {
   },
   rules: {
     'no-console': 'off',
+    'no-param-reassign': 0,
+    'curly': ['error', 'all'],
+    'consistent-return': 'off'
   },
 };
