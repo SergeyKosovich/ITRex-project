@@ -1,28 +1,19 @@
-/* eslint-disable import/extensions */
 import resolutionPost from './resolutionPost.js';
 
-export default function addResolution(map, last, setres, textarea) {
-  setres.addEventListener('submit', async (e) => {
+export default function addResolution(storage, lastPatient, setRes, textarea) {
+  setRes.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const text = textarea.value;
-    const currenPatient = last.innerHTML;
-    const mapHasPatient = map.has(currenPatient);
+    const resolutionText = textarea.value;
+    const currenPatient = lastPatient.innerHTML;
     try {
-      await resolutionPost(text, currenPatient);
+      const response = await resolutionPost(resolutionText, currenPatient);
+      if (response.status !== 200) {
+        throw new Error(response.status);
+      }
     } catch (err) {
-      console.log(err);
-    }
-    if (currenPatient === 'No patient' || !text) {
+      console.log(err.name, err.message);
       return;
     }
-    if (!mapHasPatient) {
-      map.set(currenPatient, [text]);
-      textarea.value = '';
-    } else {
-      const previous = map.get(currenPatient);
-      previous.push(text);
-      map.set(currenPatient, previous);
-      textarea.value = '';
-    }
+    textarea.value = '';
   });
 }

@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions */
 import addResolution from './doctor/addResolution.js';
 import deleteRes from './doctor/deleteRes.js';
 import reomoveFromStack from './doctor/removePatientFromStack.js';
@@ -7,6 +6,8 @@ import { data } from './main.js';
 
 const { map } = data;
 const { ws } = data;
+const { userUrl } = data;
+
 const removeButton = document.querySelector('.current-patient__button');
 const lastPatient = document.querySelector('.current-patient-patient');
 const setResolution = document.querySelector('.set-resolution__form');
@@ -27,13 +28,24 @@ ws.addEventListener('open', () => console.log('Connection opened...'));
 ws.addEventListener('close', () => console.log('Connection closed...'));
 ws.addEventListener('error', (e) => console.log(e));
 ws.addEventListener('message', async (res) => {
-  const { event } = JSON.parse(res.data);
-  if (event === 'addUser') {
+  try {
+    JSON.parse(res.data);
+  } catch (e) {
+    console.log(e);
+    return;
+  }
+  const response = JSON.parse(res.data);
+  if (response.event === 'addUser') {
     try {
-      const userCurrent = await fetch('/name');
-      const name = await userCurrent.json();
+      let name = 'No patient';
+      const userCurrent = await fetch(userUrl);
+      if (!userCurrent.status === 200) {
+        throw new Error(userCurrent.status);
+      }
+      name = await userCurrent.json();
       lastPatient.innerHTML = name;
     } catch (err) {
+      lastPatient.innerHTML = 'No patient';
       console.log(err);
     }
   }

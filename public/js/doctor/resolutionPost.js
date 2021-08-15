@@ -1,5 +1,8 @@
+import { data } from '../main.js';
+
+const { docUrl } = data;
 export default function resolutionPost(text, currenPatient) {
-  return fetch('/resolution', {
+  return fetch(docUrl, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',

@@ -1,24 +1,25 @@
-/* eslint-disable import/extensions */
 import express from 'express';
 import Service from './docService.js';
 import Controller from './docControllers.js';
+import Validator from './docValidators.js';
 
 const service = new Service();
 const controller = new Controller();
+const validator = new Validator();
 const router = express.Router();
 
 router.patch(
   '/',
-  controller.checkRes,
-  service.setResolution,
-  controller.send200Res,
+  validator.checkRes,
+  service.setResolution(),
+  controller.addToStorage,
 );
-router.get('/', controller.checkName, controller.sendName);
+router.get('/', validator.checkName, controller.sendName());
 router.delete(
   '/',
-  controller.checkPatIsExist,
-  service.deleteRes,
-  controller.send200Res,
+  controller.checkPatIsExist(),
+  service.deleteRes(),
+  controller.addToStorage,
 );
 
 export default router;

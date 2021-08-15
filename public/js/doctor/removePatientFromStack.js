@@ -1,24 +1,32 @@
-/* eslint-disable import/extensions */
 import addFirstPatient from './addFirstPatient.js';
+import { data } from '../main.js';
+
+const { userUrl } = data;
 
 export default function reomoveFromStack(removeButton, firstPat, ws) {
   removeButton.addEventListener('click', async () => {
     try {
-      const lastPatient = await fetch('/name', {
+      const lastPatient = await fetch(userUrl, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      const data = await lastPatient.json();
-      addFirstPatient(data, firstPat);
+      let response = 'No patient';
+      if (lastPatient.status !== 200 && lastPatient.status !== 204) {
+        throw new Error(lastPatient.status);
+      }
+      if (lastPatient.status === 200) {
+        response = await lastPatient.json();
+      }
+      addFirstPatient(response, firstPat);
       ws.send(
         JSON.stringify({
           event: 'removeUser',
         }),
       );
     } catch (err) {
-      console.log(err);
+      console.log(err.name, err.message);
     }
   });
 }

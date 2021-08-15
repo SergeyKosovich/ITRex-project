@@ -11,6 +11,7 @@ module.exports = {
   rules: {
     'no-console': 'off',
     'no-param-reassign': 0,
+    'import/extensions': 0,
     curly: ['error', 'all'],
     'consistent-return': 'off',
     'class-methods-use-this': ['off']

@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions */
 import createDiv from './createDiv.js';
 
 export default function addDiv(selector, text) {

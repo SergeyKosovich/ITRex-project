@@ -1,5 +1,9 @@
+import { data } from '../main.js';
+
+const { docUrl } = data;
+
 export default function resolutionDelete(val) {
-  return fetch('/resolution', {
+  return fetch(docUrl, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

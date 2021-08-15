@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/png" href="./fav.png"/>    
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>patient</title>
+  </head>
+  <body>   
+    <div class="wrapper">
+      <header class="header">
+        <a href="/doctor">To doctor</a>
+      </header>
+      <main class="main">       
+        <div class="queqe">
+          <h2 class="queqe__h2">The queqe</h2>
+          <div class="input-block">
+            <div class="input-block__values">
+              <h3 class="input-block__h3">Current patient:</h3>
+              <div class="patient-stack"></div>
+            </div>
+            <div class="input-block__wrapper">
+              <form class="input-block__form" action="#">
+                <input
+                  class="input-block__input"
+                  type="text"
+                  name="patient"
+                  placeholder="name"
+                  required
+                />
+                <div class="input_block__button-wrapper">                 
+                  <input class="input-block__checkbox" type="checkbox"  name="ttl" id="input1"></input>      
+                  <label class="input-block__label" for="input1" >Add TTL</label>      
+                  <input class="input-block__ttl-number" type="number"  disabled name='ttlNumber' min="1">    
+                  <button class="input-block__button" type="submit">Add</button>              
+                </div> 
+              </form>
+            </div>
+          </div>
+          <form class="search-block" action="#">
+            <input
+              class="search-block__input"
+              type="text"
+              placeholder="search"
+            />
+            <textarea class="search-block__results"></textarea>
+          </form>
+        </div>      
+      </main>
+    </div>
+  </body>
+  <script type="module" src="./js/patient.js"></script>
+</html>

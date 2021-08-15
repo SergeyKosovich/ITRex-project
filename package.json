@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "lint": "eslint src --ext .js",
+    "lint": "eslint ./ --ext .js",
     "prepare": "husky install",
     "serve": "nodemon index.js",
     "start": "node index.js"
@@ -29,7 +29,8 @@
   "dependencies": {
     "ejs": "^3.1.6",
     "express": "^4.17.1",
+    "joi": "^17.4.2",
     "node-fetch": "^2.6.1",
-    "ws": "^8.0.0"
+    "ws": "^8.1.0"
   }
 }
