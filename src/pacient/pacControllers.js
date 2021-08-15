@@ -5,13 +5,6 @@ const wsPort = 8080;
 export const port = { wsPort };
 
 export default class Controller {
-  checkName(req, res, next) {
-    if (!req.body.name) {
-      throw new ApiError(400);
-    }
-    next();
-  }
-
   checkQueqe(q = queqe) {
     return (req, res) => {
       if (q[0]) {

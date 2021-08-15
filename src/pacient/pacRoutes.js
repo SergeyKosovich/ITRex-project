@@ -2,14 +2,16 @@
 import express from 'express';
 import Service from './pacService.js';
 import Controller from './pacControllers.js';
+import Validator from './pacValidators.js';
 
 const service = new Service();
 const controller = new Controller();
+const validator = new Validator();
 const router = express.Router();
 
 router.post(
   '/',
-  controller.checkName,
+  validator.checkName,
   service.addToQue(),
   service.wsMessage,
   service.removeAfterTtl(),
