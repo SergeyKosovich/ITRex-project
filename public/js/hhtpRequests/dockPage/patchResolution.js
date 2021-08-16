@@ -1,7 +1,7 @@
-import { data } from '../main.js';
+import { data } from '../../main.js';
 
 const { docUrl } = data;
-export default function resolutionPost(text, currenPatient) {
+export default function patchResolution(text, currenPatient) {
   return fetch(docUrl, {
     method: 'PATCH',
     headers: {

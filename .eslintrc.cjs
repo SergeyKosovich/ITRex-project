@@ -14,6 +14,7 @@ module.exports = {
     'import/extensions': 0,
     curly: ['error', 'all'],
     'consistent-return': 'off',
-    'class-methods-use-this': ['off']
+    'class-methods-use-this': ['off'],
+    "no-underscore-dangle": ['off']
   },
 };

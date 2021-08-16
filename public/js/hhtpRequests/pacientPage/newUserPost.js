@@ -1,4 +1,4 @@
-import { data } from '../main.js';
+import { data } from '../../main.js';
 
 const { userUrl } = data;
 

@@ -1,4 +1,4 @@
-import resolutionDelete from './resolutionDelete.js';
+import deleteResolution from '../hhtpRequests/dockPage/deleteResolution.js';
 
 export default function deleteRes(input, deleteform, resoltext) {
   deleteform.addEventListener('submit', async (e) => {
@@ -7,7 +7,7 @@ export default function deleteRes(input, deleteform, resoltext) {
       return;
     }
     try {
-      const response = await resolutionDelete(input.value);
+      const response = await deleteResolution(input.value);
       if (response.status !== 200) {
         throw new Error(response.status);
       }

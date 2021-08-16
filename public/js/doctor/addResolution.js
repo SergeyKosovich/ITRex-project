@@ -1,4 +1,4 @@
-import resolutionPost from './resolutionPost.js';
+import patchResolution from '../hhtpRequests/dockPage/patchResolution.js';
 
 export default function addResolution(storage, lastPatient, setRes, textarea) {
   setRes.addEventListener('submit', async (e) => {
@@ -6,7 +6,7 @@ export default function addResolution(storage, lastPatient, setRes, textarea) {
     const resolutionText = textarea.value;
     const currenPatient = lastPatient.innerHTML;
     try {
-      const response = await resolutionPost(resolutionText, currenPatient);
+      const response = await patchResolution(resolutionText, currenPatient);
       if (response.status !== 200) {
         throw new Error(response.status);
       }

@@ -1,5 +1,5 @@
 import addDiv from './addDiv.js';
-import newUserPost from './newUserPost.js';
+import newUserPost from '../hhtpRequests/pacientPage/newUserPost.js';
 
 export default function inputPatient(addForm, patientStack, ws, usersInTtl) {
   addForm.addEventListener('submit', async (e) => {

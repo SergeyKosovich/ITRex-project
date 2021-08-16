@@ -9,15 +9,9 @@ const controller = new Controller();
 const validator = new Validator();
 const router = express.Router();
 
-router.post(
-  '/',
-  validator.checkName,
-  service.addToQue(),
-  service.wsMessage,
-  service.removeAfterTtl(),
-  controller.addToStorage,
-);
-router.delete('/', service.removeTopPacient, controller.checkQueqe());
+router.post('/', validator.checkName, controller.addUser());
+router.delete('/', service.removeTopPacient(), controller.checkQueqe());
 router.get('/', controller.getName());
+router.get('/queue', controller.getQueue());
 
 export default router;

@@ -3,10 +3,9 @@ import deleteRes from './doctor/deleteRes.js';
 import reomoveFromStack from './doctor/removePatientFromStack.js';
 import showRes from './doctor/showRes.js';
 import { data } from './main.js';
+import checkNewPatients from './doctor/checkNewPatient.js';
 
-const { map } = data;
-const { ws } = data;
-const { userUrl } = data;
+const { map, ws } = data;
 
 const removeButton = document.querySelector('.current-patient__button');
 const lastPatient = document.querySelector('.current-patient-patient');
@@ -28,25 +27,15 @@ ws.addEventListener('open', () => console.log('Connection opened...'));
 ws.addEventListener('close', () => console.log('Connection closed...'));
 ws.addEventListener('error', (e) => console.log(e));
 ws.addEventListener('message', async (res) => {
+  let response;
   try {
-    JSON.parse(res.data);
+    response = JSON.parse(res.data);
   } catch (e) {
     console.log(e);
     return;
   }
-  const response = JSON.parse(res.data);
   if (response.event === 'addUser') {
-    try {
-      let name = 'No patient';
-      const userCurrent = await fetch(userUrl);
-      if (!userCurrent.status === 200) {
-        throw new Error(userCurrent.status);
-      }
-      name = await userCurrent.json();
-      lastPatient.innerHTML = name;
-    } catch (err) {
-      lastPatient.innerHTML = 'No patient';
-      console.log(err);
-    }
+    checkNewPatients(lastPatient);
   }
 });
+checkNewPatients(lastPatient);

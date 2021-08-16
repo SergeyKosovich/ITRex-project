@@ -1,8 +1,8 @@
-import { data } from '../main.js';
+import { data } from '../../main.js';
 
 const { docUrl } = data;
 
-export default function resolutionDelete(val) {
+export default function deleteResolution(val) {
   return fetch(docUrl, {
     method: 'DELETE',
     headers: {
