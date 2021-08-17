@@ -5,17 +5,8 @@ const { docUrl } = data;
 export default function showForPatient(form, input, resoltext) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    try {
-      const res = await getResByName(docUrl, input.value);
-      if (res.status !== 200) {
-        resoltext.value = 'no matches by this name';
-        throw new Error(res.status);
-      }
-      const response = await res.json();
-      resoltext.value = response;
-    } catch (err) {
-      console.log(err.name);
-    }
+    const response = await getResByName(docUrl, input.value);
+    resoltext.value = response;
   });
   form.addEventListener('focusout', (e) => {
     e.preventDefault();

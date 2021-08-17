@@ -1,8 +1,8 @@
 /* eslint-disable import/extensions */
 import express from 'express';
-import Service from './pacService.js';
-import Controller from './pacControllers.js';
-import Validator from './pacValidators.js';
+import Service from './patientService.js';
+import Controller from './patientControllers.js';
+import Validator from './patientValidators.js';
 
 const service = new Service();
 const controller = new Controller();

@@ -1,6 +1,6 @@
 import createDiv from './createDiv.js';
 
-export default function addDiv(selector, text) {
+export default function addPacientToStack(selector, text) {
   const pacient = createDiv('span');
   pacient.className = 'patient-stack-patient';
   pacient.innerHTML = text;

@@ -1,21 +1,12 @@
-import { data } from '../main.js';
 import getResByName from '../hhtpRequests/getResByName.js';
+import { data } from '../main.js';
 
 const { docUrl } = data;
 
-export default function showRes(form, input, resoltext) {
+export default async function showRes(form, input, resoltext) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    try {
-      const res = await getResByName(docUrl, input.value);
-      if (res.status !== 200) {
-        resoltext.value = 'no matches by this name';
-        throw new Error(res.status);
-      }
-      const response = await res.json();
-      resoltext.value = response;
-    } catch (err) {
-      console.log(err);
-    }
+    const response = await getResByName(docUrl, input.value);
+    resoltext.value = response;
   });
 }

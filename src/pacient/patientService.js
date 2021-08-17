@@ -2,9 +2,13 @@
 import { queqe } from '../storage.js';
 
 export default class Service {
-  removeTopPacient(q = queqe) {
+  constructor() {
+    this.queqe = queqe;
+  }
+
+  removeTopPacient() {
     return (req, res, next) => {
-      q.shift();
+      this.queqe.shift();
       next();
     };
   }

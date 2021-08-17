@@ -1,22 +1,26 @@
 import { dataStorage } from '../storage.js';
 
 export default class Service {
-  setResolution(m = dataStorage) {
+  constructor() {
+    this.dataStorage = dataStorage;
+  }
+
+  setResolution() {
     return (req, res, next) => {
-      if (m.has(req.body.name)) {
-        let previous = m.get(req.body.name);
+      if (this.dataStorage.has(req.body.name)) {
+        let previous = this.dataStorage.get(req.body.name);
         previous += req.body.resolution;
-        m.set(req.body.name, previous);
+        this.dataStorage.set(req.body.name, previous);
         return next();
       }
-      m.set(req.body.name, req.body.resolution);
+      this.dataStorage.set(req.body.name, req.body.resolution);
       next();
     };
   }
 
-  deleteRes(m = dataStorage) {
+  deleteRes() {
     return (req, res, next) => {
-      m.delete(req.body.name);
+      this.dataStorage.delete(req.body.name);
       next();
     };
   }

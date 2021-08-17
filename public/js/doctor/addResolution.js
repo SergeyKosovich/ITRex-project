@@ -5,13 +5,8 @@ export default function addResolution(storage, lastPatient, setRes, textarea) {
     e.preventDefault();
     const resolutionText = textarea.value;
     const currenPatient = lastPatient.innerHTML;
-    try {
-      const response = await patchResolution(resolutionText, currenPatient);
-      if (response.status !== 200) {
-        throw new Error(response.status);
-      }
-    } catch (err) {
-      console.log(err.name, err.message);
+    const res = await patchResolution(resolutionText, currenPatient);
+    if (!res) {
       return;
     }
     textarea.value = '';
