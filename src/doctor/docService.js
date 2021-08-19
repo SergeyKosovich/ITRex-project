@@ -7,13 +7,13 @@ export default class Service {
 
   setResolution() {
     return (req, res) => {
-      if (this.dataStorage.has(req.body.name)) {       
+      if (this.dataStorage.has(req.body.name)) {
         let previous = this.dataStorage.get(req.body.name);
         previous += req.body.resolution;
         this.dataStorage.set(req.body.name, previous);
         res.status(200).send();
-        return
-      }      
+        return;
+      }
       this.dataStorage.set(req.body.name, req.body.resolution);
       res.status(200).send();
     };
