@@ -1,4 +1,4 @@
-import deleteResolution from '../hhtpRequests/dockPage/deleteResolution.js';
+import deleteResolution from '../httpRequests/docPageRequests/deleteResolution.js';
 
 export default function deleteRes(input, deleteform, resoltext) {
   deleteform.addEventListener('submit', async (e) => {

@@ -20,7 +20,7 @@ const deleteform = document.querySelector('.delete_resolution__form');
 
 addResolution(map, lastPatient, setResolution, textareaInSetResolution);
 deleteRes(showResolutioninput, deleteform, resoltext);
-reomoveFromStack(removeButton, lastPatient, ws);
+reomoveFromStack(removeButton, lastPatient);
 showRes(showResolutionform, showResolutioninput, resoltext);
 
 ws.addEventListener('open', () => console.log('Connection opened...'));

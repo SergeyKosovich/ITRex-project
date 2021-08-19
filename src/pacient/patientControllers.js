@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import { queqe, dataStorage } from '../storage.js';
-import { WS_PORT } from '../ports.js';
+import { WS_PORT } from '../config.js';
 
 const ws = new WebSocket(`ws://localhost:${WS_PORT}`);
 
@@ -15,7 +15,7 @@ export default class Controller {
       if (this.queqe[0]) {
         return res.status(200).json(this.queqe[0]);
       }
-      return res.status(204).send();
+      return res.status(200).json('No patient');
     };
   }
 
@@ -25,7 +25,7 @@ export default class Controller {
         res.status(200).json(this.queqe[0]);
         return;
       }
-      res.status(204).send();
+      res.status(404).send();
     };
   }
 
@@ -53,7 +53,7 @@ export default class Controller {
         res.status(200).json(this.queqe);
         return;
       }
-      res.status(204).send();
+      res.status(200).json([]);
     };
   }
 }

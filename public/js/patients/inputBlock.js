@@ -1,7 +1,7 @@
 import addPacientToStack from './addPacientToStack.js';
-import newUserPost from '../hhtpRequests/pacientPage/newUserPost.js';
+import newUserPost from '../httpRequests/patientPageRequests/newUserPost.js';
 
-export default async function inputPatient(addForm, patientStack, ws, usersInTtl) {
+export default async function inputPatient(addForm, patientStack, usersInTtl) {
   addForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const inner = e.target.elements.patient.value;

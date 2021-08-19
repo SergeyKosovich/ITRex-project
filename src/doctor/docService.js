@@ -6,22 +6,23 @@ export default class Service {
   }
 
   setResolution() {
-    return (req, res, next) => {
-      if (this.dataStorage.has(req.body.name)) {
+    return (req, res) => {
+      if (this.dataStorage.has(req.body.name)) {       
         let previous = this.dataStorage.get(req.body.name);
         previous += req.body.resolution;
         this.dataStorage.set(req.body.name, previous);
-        return next();
-      }
+        res.status(200).send();
+        return
+      }      
       this.dataStorage.set(req.body.name, req.body.resolution);
-      next();
+      res.status(200).send();
     };
   }
 
   deleteRes() {
-    return (req, res, next) => {
+    return (req, res) => {
       this.dataStorage.delete(req.body.name);
-      next();
+      res.status(200).send();
     };
   }
 }

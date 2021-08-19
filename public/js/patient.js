@@ -4,7 +4,7 @@ import checkBoxChange from './patients/checkBox.js';
 import { data } from './main.js';
 import renderPacientInStack from './patients/renderPacientInStack.js';
 
-const { ws, usersInTtl, userUrl } = data;
+const { ws, usersInTtl } = data;
 const addForm = document.querySelector('.input-block__form');
 const patientStack = document.getElementsByClassName('patient-stack')[0];
 const patientSearchForm = document.querySelector('.search-block');
@@ -13,7 +13,7 @@ const patientResults = document.querySelector('.search-block__results');
 const checkBox = document.querySelector('.input-block__checkbox');
 const inputTtl = document.querySelector('.input-block__ttl-number');
 
-inputPatient(addForm, patientStack, ws, usersInTtl);
+inputPatient(addForm, patientStack, usersInTtl);
 showForPatient(patientSearchForm, patientSearchInput, patientResults);
 checkBoxChange(checkBox, inputTtl);
 
@@ -35,4 +35,4 @@ ws.addEventListener('message', async (res) => {
     patientStack.removeChild(usersInTtl.get(response.name));
   }
 });
-renderPacientInStack(userUrl, patientStack);
+renderPacientInStack(patientStack);

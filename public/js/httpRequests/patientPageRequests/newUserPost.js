@@ -1,6 +1,4 @@
-import { data } from '../../main.js';
-
-const { userUrl } = data;
+import { userUrl } from '../../config.js';
 
 export default async function newUserPost(inner, value) {
   try {
@@ -12,11 +10,11 @@ export default async function newUserPost(inner, value) {
       body: JSON.stringify({ name: inner, ttl: value }),
     });
     if (response.status !== 200) {
-      throw new Error(response.status);
+      throw new Error(`Something went wrong. Error: ${response.status}`);
     }
     return true;
   } catch (err) {
-    console.log(err);
-    return false;
+    console.log(err.message);
+    return null;
   }
 }

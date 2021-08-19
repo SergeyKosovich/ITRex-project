@@ -5,7 +5,7 @@ import WebSocket, { WebSocketServer } from 'ws';
 import patientRouter from './src/pacient/patientRoutes.js';
 import docRouter from './src/doctor/docRouter.js';
 import errorHandler from './src/handlers/errorHandler.js';
-import { PORT, WS_PORT } from './src/ports.js';
+import { PORT, WS_PORT } from './src/config.js';
 
 const dirname = path.resolve();
 const app = express();

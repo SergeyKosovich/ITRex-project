@@ -1,11 +1,14 @@
-import { data } from '../main.js';
-import getResByName from '../hhtpRequests/getResByName.js';
+import getResolutionByName from '../httpRequests/getResolutionByName.js';
 
-const { docUrl } = data;
 export default function showForPatient(form, input, resoltext) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const response = await getResByName(docUrl, input.value);
+    const defaultText = 'no matches by this name';
+    const response = await getResolutionByName(input.value);
+    if (!response) {
+      resoltext.value = defaultText;
+      return;
+    }
     resoltext.value = response;
   });
   form.addEventListener('focusout', (e) => {

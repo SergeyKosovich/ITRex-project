@@ -2,7 +2,7 @@ import ApiError from '../errors/appError.js';
 import {
   shemaForResolutionAndName,
   schemaForName,
-} from '../validatorSchemes/schemes.js';
+} from '../validatorSchemes/schemas.js';
 
 export default class Validator {
   checkRes(req, res, next) {

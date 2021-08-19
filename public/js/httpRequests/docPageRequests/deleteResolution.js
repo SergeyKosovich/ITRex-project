@@ -1,6 +1,4 @@
-import { data } from '../../main.js';
-
-const { docUrl } = data;
+import { docUrl } from '../../config.js';
 
 export default async function deleteResolution(val) {
   try {
@@ -12,11 +10,11 @@ export default async function deleteResolution(val) {
       body: JSON.stringify({ name: val }),
     });
     if (response.status !== 200) {
-      throw new Error(response.status);
+      throw new Error(`Something went wrong. Error: ${response.status}`);
     }
     return true;
   } catch (err) {
-    console.log(err.name, err.message);
-    return false;
+    console.log(err.message);
+    return null;
   }
 }

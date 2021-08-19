@@ -1,4 +1,4 @@
-import patchResolution from '../hhtpRequests/dockPage/patchResolution.js';
+import patchResolution from '../httpRequests/docPageRequests/patchResolution.js';
 
 export default function addResolution(storage, lastPatient, setRes, textarea) {
   setRes.addEventListener('submit', async (e) => {

@@ -6,7 +6,7 @@ export default class Controller {
     this.dataStorage = dataStorage;
   }
 
-  checkPatIsExist() {
+  checkPatientIsExist() {
     return (req, res, next) => {
       if (!this.dataStorage.has(req.body.name)) {
         throw new ApiError(404, `No matches by name: ${req.body.name}`);
@@ -15,7 +15,7 @@ export default class Controller {
     };
   }
 
-  sendName() {
+  getbyName() {
     return (req, res) => {
       if (this.dataStorage.has(req.query.name)) {
         res.status(200).json(this.dataStorage.get(req.query.name));
@@ -23,9 +23,5 @@ export default class Controller {
         res.status(204).send();
       }
     };
-  }
-
-  addToStorage(req, res) {
-    res.status(200).send();
   }
 }
