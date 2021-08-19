@@ -7,9 +7,6 @@ export default class Service {
   }
 
   removeTopPacient() {
-    return (req, res, next) => {
-      this.queqe.shift();
-      next();
-    };
+    this.queqe.shift();
   }
 }

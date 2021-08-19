@@ -5,24 +5,13 @@ export default class Service {
     this.dataStorage = dataStorage;
   }
 
-  setResolution() {
-    return (req, res) => {
-      if (this.dataStorage.has(req.body.name)) {
-        let previous = this.dataStorage.get(req.body.name);
-        previous += req.body.resolution;
-        this.dataStorage.set(req.body.name, previous);
-        res.status(200).send();
-        return;
-      }
-      this.dataStorage.set(req.body.name, req.body.resolution);
-      res.status(200).send();
-    };
-  }
-
-  deleteRes() {
-    return (req, res) => {
-      this.dataStorage.delete(req.body.name);
-      res.status(200).send();
-    };
-  }
+  setResolution = async (name, resolution) => {
+    if (this.dataStorage.has(name)) {
+      let previous = this.dataStorage.get(name);
+      previous += resolution;
+      this.dataStorage.set(name, previous);
+      return;
+    }
+    this.dataStorage.set(name, resolution);
+  };
 }

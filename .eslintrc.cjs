@@ -8,6 +8,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 12,
   },
+  parser: "babel-eslint",
   rules: {
     'no-console': 'off',
     'no-param-reassign': 0,
@@ -15,6 +16,6 @@ module.exports = {
     curly: ['error', 'all'],
     'consistent-return': 'off',
     'class-methods-use-this': ['off'],
-    "no-underscore-dangle": ['off']
+    "no-underscore-dangle": ['off'],
   },
 };
