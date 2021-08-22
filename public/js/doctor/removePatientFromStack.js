@@ -1,14 +1,14 @@
-/* eslint-disable import/extensions */
 import addFirstPatient from './addFirstPatient.js';
+import deleteFromStack from '../httpRequests/docPageRequests/deleFromStack.js';
+import removeUserMessage from './webSocketsMessages/removeUser.js';
 
-export default function reomoveFromStack(arr, removeButton, patientStack, firstPat) {
-  removeButton.addEventListener('click', () => {
-    const lastPatient = arr.shift();
-    if (lastPatient) {
-      addFirstPatient(lastPatient, firstPat);
-      patientStack.removeChild(patientStack.firstChild);
+export default function reomoveFromStack(removeButton, firstPat) {
+  removeButton.addEventListener('click', async () => {
+    const response = await deleteFromStack();
+    if (!response) {
       return;
     }
-    addFirstPatient('No patient', firstPat);
+    addFirstPatient(response, firstPat);
+    removeUserMessage();
   });
 }

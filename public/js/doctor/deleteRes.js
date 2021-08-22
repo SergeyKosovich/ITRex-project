@@ -1,14 +1,15 @@
-export default function deleteRes(map, input, deleteform, resoltext) {
-  deleteform.addEventListener('submit', (e) => {
+import deleteResolution from '../httpRequests/docPageRequests/deleteResolution.js';
+
+export default function deleteRes(input, deleteform, resoltext) {
+  deleteform.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!resoltext.value) {
       return;
     }
-    if (!map.has(input.value)) {
-      resoltext.value = 'no matches by this name';
+    const response = await deleteResolution(input.value);
+    if (!response) {
       return;
     }
-    map.delete(input.value);
     resoltext.value = '';
     input.value = '';
   });

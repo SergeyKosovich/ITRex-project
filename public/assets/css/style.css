@@ -24,13 +24,22 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: inherit;}
     flex: 1 0 auto;
     display: flex;
 }
+.header{
+    height: 40px;
+    background-color: rgb(194, 204, 214);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    text-decoration: underline;
+}
 .queqe{
-    width: 50%;
+    width: 100%;
     min-height: 100%;  
     background-color: rgba(137, 43, 226, 0.034);
 }
 .doctor{
-    width: 50%;
+    width: 100%;
     min-height: 100%;
     background-color: rgba(85, 168, 17, 0.192);
 }
@@ -51,7 +60,7 @@ h2{
 .input-block__form{
     display: flex;
     flex-direction: column;
-    height: 120px;
+    height: 80px;
     justify-content: space-between;
     align-items: flex-end;
 }
@@ -225,21 +234,6 @@ h3{
 .delete_resolution_button{
     margin-top: 10px;
 }
-.input_block__button-wrapper{
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-  
-    flex-wrap: wrap;
-    height: 80px;
-}
-.input-block__ttl-number{
-    width: 50px;
-    border: 1px solid black;
-    border-radius: 2px;
-    height: 30px;
-}
-
-.input-block__label{
-    padding-left: 10px;
+.input-block__wrapper{
+    margin-top: 5px;
 }

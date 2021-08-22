@@ -1,20 +1,16 @@
-export default function addResolution(map, last, setres, textarea) {
-  setres.addEventListener('submit', (e) => {
+import patchResolution from '../httpRequests/docPageRequests/patchResolution.js';
+
+export default function addResolution(lastPatient, setRes, textarea) {
+  setRes.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const text = textarea.value;
-    const currenPatient = last.innerHTML;
-    const mapHasPatient = map.has(currenPatient);
-    if (currenPatient === 'No patient' || !text) {
+    const resolutionText = textarea.value;
+    const currenPatient = lastPatient.innerHTML;
+    const ttl = e.target.elements.ttlNumber.value;
+    const res = await patchResolution(resolutionText, currenPatient, ttl);
+    if (!res) {
       return;
     }
-    if (!mapHasPatient) {
-      map.set(currenPatient, [text]);
-      textarea.value = '';
-    } else {
-      const previous = map.get(currenPatient);
-      previous.push(text);
-      map.set(currenPatient, previous);
-      textarea.value = '';
-    }
+    textarea.value = '';
+    e.target.elements.ttlNumber.value = '';
   });
 }

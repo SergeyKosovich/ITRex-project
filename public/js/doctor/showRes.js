@@ -1,11 +1,14 @@
-export default function showRes(map, form, input, resoltext) {
-  form.addEventListener('submit', (e) => {
+import getResolutionByName from '../httpRequests/getResolutionByName.js';
+
+export default async function showRes(form, input, resoltext) {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (map.has(input.value)) {
-      resoltext.value = map.get(input.value);
+    const defaultText = 'no matches by this name';
+    const response = await getResolutionByName(input.value);
+    if (!response) {
+      resoltext.value = defaultText;
       return;
     }
-    resoltext.value = 'no matches by this name';
-    input.value = '';
+    resoltext.value = response;
   });
 }

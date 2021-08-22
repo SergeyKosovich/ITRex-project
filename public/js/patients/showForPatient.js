@@ -1,12 +1,15 @@
-export default function showForPatient(map, form, input, resoltext) {
-  form.addEventListener('submit', (e) => {
+import getResolutionByName from '../httpRequests/getResolutionByName.js';
+
+export default function showForPatient(form, input, resoltext) {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (map.has(input.value)) {
-      resoltext.value = map.get(input.value);
+    const defaultText = 'no matches by this name';
+    const response = await getResolutionByName(input.value);
+    if (!response) {
+      resoltext.value = defaultText;
       return;
     }
-    resoltext.value = 'no matches by this name';
-    input.value = '';
+    resoltext.value = response;
   });
   form.addEventListener('focusout', (e) => {
     e.preventDefault();
