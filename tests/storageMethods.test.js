@@ -1,7 +1,33 @@
 /* eslint-disable */
 import currentStorageMethods from '../src/storageClasses/storageFactory.js';
-import quit from './quit.js';
-import clear from './clear.js';
+import { storageType } from '../src/config.js';
+import {Queque, Patient, Resolution} from '../src/db/models.js';
+jest.mock('../src/storageClasses/storageFactory.js'); 
+jest.mock('../src/db/models.js'); 
+
+afterAll(async() =>  {if (storageType === 2 || +storageType === 2) {   
+  currentStorageMethods.client.quit();
+}if(storageType === 3 || +storageType === 3){
+  await Queque.truncate({ restartIdentity: true });
+  await Patient.truncate({ cascade: true });
+  await Resolution.truncate({ cascade: true });
+  currentStorageMethods.init.close()
+}
+});
+async function clear() {
+  if (storageType === 2) {
+    await currentStorageMethods.client.FLUSHDB();
+  }
+  if (storageType === 1) {
+    currentStorageMethods.queqe = [];
+    currentStorageMethods.storage = new Map();
+  }
+  if(storageType === 3){
+    await Queque.truncate({ restartIdentity: true });
+    await Patient.truncate({ cascade: true });
+    await Resolution.truncate({ cascade: true });
+  }
+}
 
 test('addToque should add new element in storage', async () => {
   await clear();
@@ -45,11 +71,11 @@ test('deleteFromQue should delete element from storage', async () => {
   await clear();
   const element = 'example1';
   await currentStorageMethods.addToque(element);
-  let index = await currentStorageMethods.indexInQueqe(element);
+  let index = await currentStorageMethods.indexInQueqe(element); 
   expect(index).toBeGreaterThan(-1);
   expect(index).toBe(0);
   await currentStorageMethods.deleteFromQue(index);
-  index = await currentStorageMethods.indexInQueqe(element);
+  index = await currentStorageMethods.indexInQueqe(element); 
   expect(index).toBe(-1);
   expect(index).toBeLessThan(0);
 });
@@ -129,6 +155,5 @@ test('deleteResolutionInstorage should delete resolution in storage by name', as
   const resolutionUndef = await currentStorageMethods.getResolutionInStorage(
     'name1'
   );
-  expect(resolutionUndef).toBeFalsy();
-  quit();
+  expect(resolutionUndef).toBeFalsy(); 
 });

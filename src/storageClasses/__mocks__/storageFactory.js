@@ -1,10 +1,9 @@
-import RedisStorage from './redisStorage.js';
-import InMemoryStorage from './localStorage.js';
-import SqlStorage from './sqlStorage.js';
-import { storageType } from '../config.js';
+import RedisStorage from '../redisStorage.js';
+import InMemoryStorage from '../localStorage.js';
+import SqlStorage from '../sqlStorage.js';
+import { storageType } from '../../config.js';
 
 let env;
-// Почему-то докер выдает ошибку когда передаю напрямую storageType, пока что так:
 if (storageType === 1 || +storageType === 1) {
   env = 1;
 } else if (storageType === 2 || +storageType === 2) {

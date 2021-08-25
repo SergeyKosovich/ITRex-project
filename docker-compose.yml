@@ -1,16 +1,29 @@
-version: '3'
+version: '3.8'
 services:
+  node-app:
+      build: .
+      environment: 
+        - REDIS_PORT=redis://cache   
+        - MEMORY_TYPE=3      
+        - POST_HOST=db        
+      ports:
+        - "3000:3000"
+        - "8080:8080"
+      depends_on: 
+        - db
   redis: 
     image: 'redis' 
     container_name: cache
     expose:
-      - 6379   
-  app-node:
-    build: .
-    environment: 
-      - REDIS_PORT=redis://cache   
-      - MEMORY_TYPE= 1          
-    ports:
-      - "3000:3000"
-      - "8080:8080"
+      - 6379 
+  db:
+    image: postgres
+    restart: always
+    environment:      
+      - POSTGRES_PASSWORD=123   
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=node_postgres
+    ports: 
+     - 5432:5432  
+ 
      

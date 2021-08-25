@@ -6,7 +6,11 @@ export default class Service {
     if (isResolutionInstorage) {
       let previous = await currentStorageMethods.getResolutionInStorage(name);
       previous += resolution;
-      await currentStorageMethods.setResolutionInStorage(name, previous);
+      await currentStorageMethods.setResolutionInStorage(
+        name,
+        previous,
+        resolution,
+      );
       return;
     }
     await currentStorageMethods.setResolutionInStorage(name, resolution);
