@@ -1,7 +1,7 @@
 import inputPatient from './patients/inputBlock.js';
 import showForPatient from './patients/showForPatient.js';
 import { data } from './main.js';
-import renderPacientInStack from './patients/renderPacientInStack.js';
+import renderPatientInStack from './patients/renderPatientInStack.js';
 
 const { ws } = data;
 const addForm = document.querySelector('.input-block__form');
@@ -28,4 +28,4 @@ ws.addEventListener('message', async (res) => {
     patientStack.removeChild(patientStack.firstChild);
   }
 });
-renderPacientInStack(patientStack);
+renderPatientInStack(patientStack);

@@ -8,9 +8,9 @@ const service = new Service();
 const ws = new WebSocket(`ws://localhost:${WS_PORT}`);
 
 export default class Controller {
-  deleteFromQueqe = async (req, res) => {
-    await service.removeTopPacient();
-    const patient = await currentStorageMethods.checkFirstPatientInQueqe();
+  deleteFromQueue = async (req, res) => {
+    await service.removeTopPatient();
+    const patient = await currentStorageMethods.checkFirstPatientInQueue();
     if (patient) {
       return res.status(200).json(patient);
     }
@@ -18,7 +18,7 @@ export default class Controller {
   };
 
   getName = async (req, res) => {
-    const patient = await currentStorageMethods.checkFirstPatientInQueqe();
+    const patient = await currentStorageMethods.checkFirstPatientInQueue();
     if (patient) {
       res.status(200).json(patient);
       return;
@@ -33,9 +33,9 @@ export default class Controller {
   };
 
   getQueue = async (req, res) => {
-    const queqe = await currentStorageMethods.returnQueqe();
-    if (queqe.length > 0) {
-      res.status(200).json(queqe);
+    const queue = await currentStorageMethods.returnQueue();
+    if (queue.length > 0) {
+      res.status(200).json(queue);
       return;
     }
     res.status(200).json([]);

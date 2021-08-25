@@ -1,16 +1,16 @@
 import deleteResolution from '../httpRequests/docPageRequests/deleteResolution.js';
 
-export default function deleteRes(input, deleteform, resoltext) {
-  deleteform.addEventListener('submit', async (e) => {
+export default function deleteRes(input, deleteForm, resolutionText) {
+  deleteForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (!resoltext.value) {
+    if (!resolutionText.value) {
       return;
     }
     const response = await deleteResolution(input.value);
     if (!response) {
       return;
     }
-    resoltext.value = '';
+    resolutionText.value = '';
     input.value = '';
   });
 }

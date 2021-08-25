@@ -8,7 +8,7 @@ const validator = new Validator();
 const router = express.Router();
 
 router.post('/', validator.checkName, controller.addUser);
-router.delete('/', controller.deleteFromQueqe);
+router.delete('/', controller.deleteFromQueue);
 router.get('/', controller.getName);
 router.get('/queue', controller.getQueue);
 

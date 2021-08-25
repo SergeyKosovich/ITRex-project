@@ -1,34 +1,34 @@
-const queqe = [];
+const queue = [];
 const dataStorage = new Map();
 
 export default class InMemoryStorage {
   constructor() {
-    this.queqe = queqe;
+    this.queue = queue;
     this.storage = dataStorage;
   }
 
   addToque(data) {
-    this.queqe.push(data);
+    this.queue.push(data);
   }
 
-  indexInQueqe(name) {
-    return this.queqe.indexOf(name);
+  indexInQueue(name) {
+    return this.queue.indexOf(name);
   }
 
   deleteFromQue(index) {
-    this.queqe.splice(index, 1);
+    this.queue.splice(index, 1);
   }
 
   removeFirstPatientInQue() {
-    this.queqe.shift();
+    this.queue.shift();
   }
 
-  checkFirstPatientInQueqe() {
-    return this.queqe[0];
+  checkFirstPatientInQueue() {
+    return this.queue[0];
   }
 
-  returnQueqe() {
-    return this.queqe;
+  returnQueue() {
+    return this.queue;
   }
 
   getResolutionInStorage(name) {
@@ -40,7 +40,7 @@ export default class InMemoryStorage {
     this.storage.set(name, previous);
   }
 
-  deleteResolutionInstorage(name) {
+  deleteResolutionInStorage(name) {
     this.storage.delete(name);
   }
 }

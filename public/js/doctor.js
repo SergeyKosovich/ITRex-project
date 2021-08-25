@@ -1,6 +1,6 @@
 import addResolution from './doctor/addResolution.js';
 import deleteRes from './doctor/deleteRes.js';
-import reomoveFromStack from './doctor/removePatientFromStack.js';
+import removeFromStack from './doctor/removePatientFromStack.js';
 import showRes from './doctor/showRes.js';
 import { data } from './main.js';
 import checkNewPatients from './doctor/checkNewPatient.js';
@@ -13,10 +13,10 @@ const setResolution = document.querySelector('.set-resolution__form');
 const textareaInSetResolution = document.querySelector(
   '.set-resolution__input',
 );
-const showResolutionform = document.querySelector('.show_resolution__form');
-const showResolutioninput = document.querySelector('.show_resolution__input');
-const resoltext = document.querySelector('.delete_resolution__text');
-const deleteform = document.querySelector('.delete_resolution__form');
+const showResolutionForm = document.querySelector('.show_resolution__form');
+const showResolutionInput = document.querySelector('.show_resolution__input');
+const resolutionText = document.querySelector('.delete_resolution__text');
+const deleteForm = document.querySelector('.delete_resolution__form');
 
 const checkBox = document.querySelector('.input-block__checkbox');
 
@@ -24,9 +24,9 @@ const inputTtl = document.querySelector('.input-block__ttl-number');
 checkBoxChange(checkBox, inputTtl);
 
 addResolution(lastPatient, setResolution, textareaInSetResolution);
-deleteRes(showResolutioninput, deleteform, resoltext);
-reomoveFromStack(removeButton, lastPatient);
-showRes(showResolutionform, showResolutioninput, resoltext);
+deleteRes(showResolutionInput, deleteForm, resolutionText);
+removeFromStack(removeButton, lastPatient);
+showRes(showResolutionForm, showResolutionInput, resolutionText);
 
 ws.addEventListener('open', () => console.log('Connection opened...'));
 ws.addEventListener('close', () => console.log('Connection closed...'));

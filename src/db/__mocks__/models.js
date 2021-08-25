@@ -3,13 +3,13 @@ import data from 'sequelize';
 import sequelizeReturn from '../index.js';
 
 const { Model, DataTypes } = data;
-class Queque extends Model {}
+class Queue extends Model {}
 class Patient extends Model {}
 class Resolution extends Model {}
 
 function sequelizeInit() {
   const sequelize = sequelizeReturn();
-  Queque.init(
+  Queue.init(
     {
       que_id: {
         type: DataTypes.INTEGER,
@@ -18,7 +18,7 @@ function sequelizeInit() {
       },
       name: DataTypes.STRING,
     },
-    { sequelize, modelName: 'qeques' },
+    { sequelize, modelName: 'queues' },
   );
   sequelize.sync();
 
@@ -49,5 +49,5 @@ function sequelizeInit() {
 }
 
 export {
-  Queque, Patient, Resolution, sequelizeInit,
+  Queue, Patient, Resolution, sequelizeInit,
 };

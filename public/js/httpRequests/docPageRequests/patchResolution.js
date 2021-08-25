@@ -1,12 +1,12 @@
 import { docUrl } from '../../config.js';
 
-export default async function patchResolution(text, currenPatient, ttl) {
+export default async function patchResolution(text, currentPatient, ttl) {
   try {
-    let body = { resolution: text, name: currenPatient };
+    let body = { resolution: text, name: currentPatient };
     if (ttl) {
-      body = { resolution: text, name: currenPatient, ttl };
+      body = { resolution: text, name: currentPatient, ttl };
     }
-    if (currenPatient === 'No patient') {
+    if (currentPatient === 'No patient') {
       body = { resolution: text };
     }
     const response = await fetch(docUrl, {

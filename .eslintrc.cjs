@@ -2,7 +2,8 @@ module.exports = {
   env: {
     browser: true,
     commonjs: true,
-    es2021: true,
+    es2021: true,    
+    jest: true,  
   },
   extends: ['airbnb-base'],
   parserOptions: {
@@ -17,5 +18,6 @@ module.exports = {
     'consistent-return': 'off',
     'class-methods-use-this': ['off'],
     "no-underscore-dangle": ['off'],
+
   },
 };

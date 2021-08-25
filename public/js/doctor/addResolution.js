@@ -4,9 +4,9 @@ export default function addResolution(lastPatient, setRes, textarea) {
   setRes.addEventListener('submit', async (e) => {
     e.preventDefault();
     const resolutionText = textarea.value;
-    const currenPatient = lastPatient.innerHTML;
+    const currentPatient = lastPatient.innerHTML;
     const ttl = e.target.elements.ttlNumber.value;
-    const res = await patchResolution(resolutionText, currenPatient, ttl);
+    const res = await patchResolution(resolutionText, currentPatient, ttl);
     if (!res) {
       return;
     }

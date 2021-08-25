@@ -1,5 +1,5 @@
 import {
-  Queque, Patient, Resolution, sequelizeInit,
+  Queue, Patient, Resolution, sequelizeInit,
 } from '../db/models.js';
 
 export default class SqlStorage {
@@ -8,13 +8,13 @@ export default class SqlStorage {
   }
 
   async addToque(data) {
-    await Queque.create({
+    await Queue.create({
       name: data,
     });
   }
 
-  async indexInQueqe(patientName) {
-    const res = await Queque.findOne({
+  async indexInQueue(patientName) {
+    const res = await Queue.findOne({
       attributes: ['que_id', 'name'],
       where: {
         name: patientName,
@@ -28,7 +28,7 @@ export default class SqlStorage {
   }
 
   async deleteFromQue(index) {
-    await Queque.destroy({
+    await Queue.destroy({
       where: {
         que_id: index + 1,
       },
@@ -36,12 +36,12 @@ export default class SqlStorage {
   }
 
   async removeFirstPatientInQue() {
-    const user = await Queque.findOne({
+    const user = await Queue.findOne({
       order: [['que_id', 'ASC']],
       attributes: ['que_id', 'name'],
     });
     if (user) {
-      await Queque.destroy({
+      await Queue.destroy({
         where: {
           name: user.name,
         },
@@ -49,20 +49,20 @@ export default class SqlStorage {
     }
   }
 
-  async checkFirstPatientInQueqe() {
-    const user = await Queque.findOne({
+  async checkFirstPatientInQueue() {
+    const user = await Queue.findOne({
       order: [['que_id', 'ASC']],
       attributes: ['que_id', 'name'],
     });
     if (user) {
       return user.name;
     }
-    await Queque.truncate({ restartIdentity: true });
+    await Queue.truncate({ restartIdentity: true });
     return null;
   }
 
-  async returnQueqe() {
-    const usersArr = await Queque.findAll({
+  async returnQueue() {
+    const usersArr = await Queue.findAll({
       order: [['que_id', 'ASC']],
       attributes: ['name'],
     });
@@ -122,7 +122,7 @@ export default class SqlStorage {
     });
   }
 
-  async deleteResolutionInstorage(patientName) {
+  async deleteResolutionInStorage(patientName) {
     const patient = await Patient.findOne({
       attributes: ['patient_id', 'name'],
       where: {
@@ -130,10 +130,10 @@ export default class SqlStorage {
       },
     });
     if (patient) {
-      const patienId = patient.patient_id;
+      const patientId = patient.patient_id;
       await Resolution.destroy({
         where: {
-          patient_id: patienId,
+          patient_id: patientId,
         },
       });
     }

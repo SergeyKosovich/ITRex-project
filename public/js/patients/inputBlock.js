@@ -1,4 +1,4 @@
-import addPacientToStack from './addPacientToStack.js';
+import addPatientToStack from './addPatientToStack.js';
 import newUserPost from '../httpRequests/patientPageRequests/newUserPost.js';
 
 export default async function inputPatient(addForm, patientStack) {
@@ -9,7 +9,7 @@ export default async function inputPatient(addForm, patientStack) {
     if (!response) {
       return;
     }
-    addPacientToStack(patientStack, inner);
+    addPatientToStack(patientStack, inner);
     e.target.elements.patient.value = '';
   });
 }

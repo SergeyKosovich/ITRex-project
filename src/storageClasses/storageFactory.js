@@ -1,17 +1,9 @@
 import RedisStorage from './redisStorage.js';
 import InMemoryStorage from './localStorage.js';
 import SqlStorage from './sqlStorage.js';
-import { storageType } from '../config.js';
+import { StorageType } from '../config.js';
 
-let env;
-// Почему-то докер выдает ошибку когда передаю напрямую storageType, пока что так:
-if (storageType === 1 || +storageType === 1) {
-  env = 1;
-} else if (storageType === 2 || +storageType === 2) {
-  env = 2;
-} else {
-  env = 3;
-}
+const env = StorageType.toString();
 
 class StorageFactory {
   static list = {
@@ -29,5 +21,5 @@ class StorageFactory {
 }
 
 const storage = new StorageFactory();
-const currentStorageMethods = storage.create(env);
+const currentStorageMethods = storage.create(+env);
 export default currentStorageMethods;

@@ -1,12 +1,12 @@
 import ApiError from '../errors/appError.js';
 import {
-  shemaForResolutionAndName,
+  schemaForResolutionAndName,
   schemaForName,
 } from '../validatorSchemes/schemas.js';
 
 export default class Validator {
   checkRes(req, res, next) {
-    const schema = shemaForResolutionAndName;
+    const schema = schemaForResolutionAndName;
     const { error } = schema.validate({ body: req.body });
     if (error) {
       throw new ApiError(400, 'incorrect name of patient or resolution value');
