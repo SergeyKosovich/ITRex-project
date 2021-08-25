@@ -1,6 +1,6 @@
 import currentStorageMethods from '../storageClasses/storageFactory.js';
 import { StorageType } from '../config.js';
-import { Queue, Patient, Resolution } from '../db/models.js';
+import { Patient, Resolution } from '../db/models.js';
 
 jest.mock('../storageClasses/storageFactory.js');
 jest.mock('../db/models.js');
@@ -10,6 +10,7 @@ afterAll(async () => {
     currentStorageMethods.client.quit();
   }
   if (+env === 3) {
+    currentStorageMethods.client.quit();
     currentStorageMethods.init.close();
   }
 });
@@ -22,7 +23,7 @@ async function clear() {
     currentStorageMethods.storage = new Map();
   }
   if (+env === 3) {
-    await Queue.truncate({ restartIdentity: true });
+    await currentStorageMethods.client.FLUSHDB();
     await Patient.truncate({ cascade: true });
     await Resolution.truncate({ cascade: true });
   }

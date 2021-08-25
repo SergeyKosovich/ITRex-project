@@ -1,75 +1,48 @@
-import {
-  Queue, Patient, Resolution, sequelizeInit,
-} from '../db/models.js';
+import asyncRedis from 'async-redis';
+import { Patient, Resolution, sequelizeInit } from '../db/models.js';
+import { REDIS_PORT } from '../config.js';
 
 export default class SqlStorage {
   constructor() {
     this.init = sequelizeInit();
+    this.client = asyncRedis.createClient(REDIS_PORT);
+    this.client.on('error', (err) => {
+      console.log(`Error ${err}`);
+    });
+    this.client.FLUSHDB();
+    this.queue = this.client;
+    this.counter = 0;
   }
 
   async addToque(data) {
-    await Queue.create({
-      name: data,
-    });
+    await this.client.RPUSH('queueForPostgres', data);
   }
 
   async indexInQueue(patientName) {
-    const res = await Queue.findOne({
-      attributes: ['que_id', 'name'],
-      where: {
-        name: patientName,
-      },
-    });
-    if (!res) {
-      return -1;
-    }
-
-    return res.que_id - 1;
+    const value = await this.client.lrange('queueForPostgres', 0, -1);
+    const arr = Array.from(value);
+    return arr.indexOf(`${patientName}`);
   }
 
   async deleteFromQue(index) {
-    await Queue.destroy({
-      where: {
-        que_id: index + 1,
-      },
-    });
+    const value = await this.client.lrange('queueForPostgres', 0, -1);
+    const arr = Array.from(value);
+    await this.client.lrem('queueForPostgres', 1, arr[index]);
   }
 
   async removeFirstPatientInQue() {
-    const user = await Queue.findOne({
-      order: [['que_id', 'ASC']],
-      attributes: ['que_id', 'name'],
-    });
-    if (user) {
-      await Queue.destroy({
-        where: {
-          name: user.name,
-        },
-      });
-    }
+    await this.client.LPOP('queueForPostgres');
   }
 
   async checkFirstPatientInQueue() {
-    const user = await Queue.findOne({
-      order: [['que_id', 'ASC']],
-      attributes: ['que_id', 'name'],
-    });
-    if (user) {
-      return user.name;
-    }
-    await Queue.truncate({ restartIdentity: true });
-    return null;
+    const [patient] = await this.client.lrange('queueForPostgres', 0, 0);
+    return patient;
   }
 
   async returnQueue() {
-    const usersArr = await Queue.findAll({
-      order: [['que_id', 'ASC']],
-      attributes: ['name'],
-    });
-    if (usersArr) {
-      return usersArr.map((user) => user.name);
-    }
-    return [];
+    const value = await this.client.lrange('queueForPostgres', 0, -1);
+    const arr = Array.from(value);
+    return arr;
   }
 
   async getResolutionInStorage(patientName) {
