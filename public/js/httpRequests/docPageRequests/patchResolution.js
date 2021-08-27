@@ -17,7 +17,7 @@ export default async function patchResolution(text, currentPatient, ttl) {
       body: JSON.stringify(body),
     });
     if (response.status !== 200) {
-      throw new Error(`Something went wrong. Error: ${response.status}`);
+      throw new Error(`Something went wrong. Error: ${response.statusText}`);
     }
   } catch (err) {
     console.log(err.message);

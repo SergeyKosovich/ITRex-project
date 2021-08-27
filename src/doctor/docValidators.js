@@ -9,7 +9,7 @@ export default class Validator {
     const schema = schemaForResolutionAndName;
     const { error } = schema.validate({ body: req.body });
     if (error) {
-      throw new ApiError(400, 'incorrect name of patient or resolution value');
+      next(new ApiError(400, 'incorrect name of patient or resolution value'));
     }
     next();
   }
@@ -18,7 +18,7 @@ export default class Validator {
     const schema = schemaForName;
     const { error } = schema.validate(req.query);
     if (error) {
-      throw new ApiError(400, 'incorrect name of patient');
+      next(new ApiError(400, 'incorrect name of patient'));
     }
     next();
   }

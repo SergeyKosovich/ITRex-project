@@ -5,12 +5,11 @@ export default async function getUser() {
   try {
     const userCurrent = await fetch(userUrl);
     if (!userCurrent.status === 200) {
-      throw new Error(`Something went wrong. Error: ${userCurrent.status}`);
+      throw new Error(`Something went wrong. Error: ${userCurrent.statusText}`);
     }
     name = await userCurrent.json();
-    return name;
   } catch (err) {
-    console.log(err.message);
-    return name;
+    console.log(err);
   }
+  return name;
 }

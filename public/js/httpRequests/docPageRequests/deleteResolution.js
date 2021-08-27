@@ -10,7 +10,7 @@ export default async function deleteResolution(val) {
       body: JSON.stringify({ name: val }),
     });
     if (response.status !== 200) {
-      throw new Error(`Something went wrong. Error: ${response.status}`);
+      throw new Error(`Something went wrong. Error: ${response.statusText}`);
     }
     return true;
   } catch (err) {

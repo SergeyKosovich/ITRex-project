@@ -2,7 +2,7 @@
 import express from 'express';
 import path from 'path';
 import WebSocket, { WebSocketServer } from 'ws';
-import patientRouter from './src/pacient/patientRoutes.js';
+import patientRouter from './src/patient/patientRoutes.js';
 import docRouter from './src/doctor/docRouter.js';
 import errorHandler from './src/handlers/errorHandler.js';
 import { PORT, WS_PORT } from './src/config.js';

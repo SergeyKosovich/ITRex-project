@@ -1,15 +1,13 @@
 import WebSocket from 'ws';
 import { WS_PORT } from '../config.js';
-import Service from './patientService.js';
 import currentStorageMethods from '../storageClasses/storageFactory.js';
-
-const service = new Service();
+import ApiError from '../errors/appError.js';
 
 const ws = new WebSocket(`ws://localhost:${WS_PORT}`);
 
 export default class Controller {
   deleteFromQueue = async (req, res) => {
-    await service.removeTopPatient();
+    await currentStorageMethods.removeFirstPatientInQue();
     const patient = await currentStorageMethods.checkFirstPatientInQueue();
     if (patient) {
       return res.status(200).json(patient);
@@ -17,13 +15,17 @@ export default class Controller {
     return res.status(200).json('No patient');
   };
 
-  getName = async (req, res) => {
+  getName = async (req, res, next) => {
     const patient = await currentStorageMethods.checkFirstPatientInQueue();
-    if (patient) {
-      res.status(200).json(patient);
-      return;
+    try {
+      if (patient) {
+        res.status(200).json(patient);
+        return;
+      }
+      throw new ApiError(404, 'No patient found');
+    } catch (error) {
+      next(error);
     }
-    res.status(404).send();
   };
 
   addUser = async (req, res) => {
