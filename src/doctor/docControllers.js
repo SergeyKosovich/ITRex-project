@@ -22,11 +22,12 @@ export default class Controller {
     const { name, resolution } = req.body;
     const ttl = req.body.ttl || TtldefaultInSeconds;
     const isResolutionInstorage =
-      await currentStorageMethods.getResolutionInStorage(name);
+    await currentStorageMethods.getResolutionInStorage(name);
     if (isResolutionInstorage) {
       let previous = await currentStorageMethods.getResolutionInStorage(name);
       previous += resolution;
       await currentStorageMethods.setResolutionInStorage(name, previous);
+      res.status(200).send();
       return;
     }
     await currentStorageMethods.setResolutionInStorage(name, resolution);
