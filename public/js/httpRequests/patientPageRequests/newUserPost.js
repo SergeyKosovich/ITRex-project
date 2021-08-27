@@ -10,9 +10,9 @@ export default async function newUserPost(inner) {
       body: JSON.stringify({ name: inner }),
     });
     if (response.status !== 200) {
-      throw new Error(`Something went wrong. Error: ${response.status}`);
+      throw new Error(`Something went wrong. Error: ${response.statusText}`);
     }
-    return true;
+    return 1;
   } catch (err) {
     console.log(err.message);
     return null;
