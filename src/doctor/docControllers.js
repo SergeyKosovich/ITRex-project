@@ -8,10 +8,10 @@ import { TtlDefaultInSeconds } from '../config.js';
 export default class Controller {
   getByName = async (req, res) => {
     const { name } = req.query;
-    const isResolutionInStorage =
+    const resolution =
       await resolutionsStorageMethods.getResolutionInStorage(name);
-    if (isResolutionInStorage) {
-      res.status(200).json(isResolutionInStorage);
+    if (resolution) {
+      res.status(200).json(resolution);
     } else {
       res.status(200).send('no resolution');
     }
