@@ -1,10 +1,6 @@
 import RedisStorage from './redisStorage.js';
 import InMemoryStorage from './localStorage.js';
 import SqlStorage from './sqlStorage.js';
-import { resolutionsStorage, queueStorage } from '../config.js';
-
-const resolutionStorageType = resolutionsStorage.toString();
-const queueStorageType = queueStorage.toString();
 
 class StorageFactory {
   create(storagetype) {
@@ -25,6 +21,6 @@ class StorageFactory {
 }
 
 const storage = new StorageFactory();
-const resolutionsStorageMethods = storage.create(+resolutionStorageType);
-const queueStorageMethods = storage.create(+queueStorageType);
+const resolutionsStorageMethods = storage.create(3);
+const queueStorageMethods = storage.create(2);
 export { resolutionsStorageMethods, queueStorageMethods, StorageFactory };
