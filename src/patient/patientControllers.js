@@ -35,7 +35,7 @@ export default class Controller {
   };
 
   getQueue = async (req, res) => {
-    const queue = await queueStorageMethods.returnQueue();  
-    res.status(200).json(queue);  
+    const queue = await queueStorageMethods.returnQueue();
+    res.status(200).json(queue);
   };
 }

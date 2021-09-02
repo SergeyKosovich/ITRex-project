@@ -24,6 +24,4 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=node_postgres
     ports: 
-     - 5432:5432  
- 
-     
+     - 5432:5432       
