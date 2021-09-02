@@ -7,7 +7,7 @@ export default async function deleteResolution(val) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name: val }),
+      body: JSON.stringify({ patient_id: val }),
     });
     if (response.status !== 200) {
       throw new Error(`Something went wrong. Error: ${response.statusText}`);

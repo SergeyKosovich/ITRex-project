@@ -1,7 +1,7 @@
 import addResolution from './doctor/addResolution.js';
-import deleteRes from './doctor/deleteRes.js';
-import removeFromStack from './doctor/removePatientFromStack.js';
-import showRes from './doctor/showRes.js';
+import deleteResolutionFromStorage from './doctor/deleteResolutionFromStorage.js';
+import removePatientFromStack from './doctor/removePatientFromStack.js';
+import showResolution from './doctor/showResolution.js';
 import { data } from './main.js';
 import checkNewPatients from './doctor/checkNewPatient.js';
 import checkBoxChange from './doctor/checkBox.js';
@@ -17,16 +17,14 @@ const showResolutionForm = document.querySelector('.show_resolution__form');
 const showResolutionInput = document.querySelector('.show_resolution__input');
 const resolutionText = document.querySelector('.delete_resolution__text');
 const deleteForm = document.querySelector('.delete_resolution__form');
-
 const checkBox = document.querySelector('.input-block__checkbox');
-
 const inputTtl = document.querySelector('.input-block__ttl-number');
-checkBoxChange(checkBox, inputTtl);
 
+checkBoxChange(checkBox, inputTtl);
 addResolution(lastPatient, setResolution, textareaInSetResolution);
-deleteRes(showResolutionInput, deleteForm, resolutionText);
-removeFromStack(removeButton, lastPatient);
-showRes(showResolutionForm, showResolutionInput, resolutionText);
+deleteResolutionFromStorage(showResolutionInput, deleteForm, resolutionText);
+removePatientFromStack(removeButton, lastPatient);
+showResolution(showResolutionForm, showResolutionInput, resolutionText);
 
 ws.addEventListener('open', () => console.log('Connection opened...'));
 ws.addEventListener('close', () => console.log('Connection closed...'));

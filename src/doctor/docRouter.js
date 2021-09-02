@@ -1,13 +1,13 @@
 import express from 'express';
 import Controller from './docControllers.js';
-import Validator from './docValidators.js';
+import Validator from '../validator/validator.js';
 
 const controller = new Controller();
 const validator = new Validator();
 const router = express.Router();
 
-router.patch('/', validator.checkRes, controller.patchResolution);
-router.get('/', validator.checkName, controller.getByName);
+router.patch('/', validator.checkResolution, controller.patchResolution);
+router.get('/', validator.checkToken, validator.checkId, controller.getById);
 router.delete('/', controller.deleteRes);
 
 export default router;

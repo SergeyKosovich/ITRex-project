@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/png" href="./fav.png" />
+    <link rel="stylesheet" href="./assets/css/registration.css" />
+    <title>registration</title>
+</head>
+<body>
+    <div class="wrapper">
+        <header class="header">Create a New Account</header>
+        <main class="main">
+            <form action="#" class="registration-form">
+                <input class="registration-form__input-mail" type="email" name="email" placeholder="email" required />
+                <input class="registration-form__input-password" type="password" name="password"
+                    placeholder="New password" autocomplete="on" required />
+                <input class="registration-form__input-name" type="text" name="firstName" placeholder="First Name"
+                    required />
+                <input class="registration-form__input-last-name" type="text" name="lastName" placeholder="Last Name"
+                    required />
+                <div class="wrapper-select">
+                    <span class="gender-span">chose your gender</span>
+                    <select name='gender' required>
+                        <option></option>
+                        <option value="male">male</option>
+                        <option value="female">female</option>
+                    </select>
+                </div>
+                <div class="wrapper-birthday">
+                    <span class="birthday-span">birthday</span>
+                    <input type="date" name='birthday' required>
+                </div>
+                <button class="registration-form__button">Sign up</button>
+                <a href="./patient.html" class="link-to-patient">Back to patient page</a>
+            </form>
+        </main>
+        <div class="popup">
+            <div class="popup__text"></div>
+        </div>
+    </div>
+</body>
+<script type="module" src="./js/registration.js"></script>
+
+</html>

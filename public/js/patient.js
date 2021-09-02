@@ -1,17 +1,24 @@
-import inputPatient from './patients/inputBlock.js';
-import showForPatient from './patients/showForPatient.js';
+import addUserToQueueForm from './patients/addUserToQueueForm.js';
+import showResolutionForPatient from './patients/showResolutionForPatient.js';
+import authUser from './patients/authUser.js';
+import logoutUser from './patients/logout.js';
 import { data } from './main.js';
 import renderPatientInStack from './patients/renderPatientInStack.js';
+import registrationUser from './patients/registrationUser.js';
+import checkAuth from './patients/checkAuth.js';
 
 const { ws } = data;
 const addForm = document.querySelector('.input-block__form');
 const patientStack = document.getElementsByClassName('patient-stack')[0];
 const patientSearchForm = document.querySelector('.search-block');
-const patientSearchInput = document.querySelector('.search-block__input');
 const patientResults = document.querySelector('.search-block__results');
 
-inputPatient(addForm, patientStack);
-showForPatient(patientSearchForm, patientSearchInput, patientResults);
+addUserToQueueForm(addForm, patientStack);
+showResolutionForPatient(patientSearchForm, patientResults);
+authUser();
+checkAuth();
+logoutUser();
+registrationUser();
 
 ws.addEventListener('open', () => console.log('Connection opened...'));
 ws.addEventListener('close', () => console.log('Connection closed...'));

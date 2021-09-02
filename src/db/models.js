@@ -3,21 +3,24 @@ import data from 'sequelize';
 import sequelizeReturn from './index.js';
 
 const { Model, DataTypes } = data;
-class Patient extends Model {}
 class Resolution extends Model {}
-class Queue extends Model {}
+class User extends Model {}
+class Patient extends Model {}
+
 function sequelizeInit() {
   const sequelize = sequelizeReturn();
-  Queue.init(
+
+  User.init(
     {
-      que_id: {
+      user_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      name: DataTypes.STRING,
+      email: DataTypes.STRING,
+      password: DataTypes.STRING,
     },
-    { sequelize, modelName: 'queues' },
+    { sequelize, modelName: 'users' },
   );
   sequelize.sync();
 
@@ -28,10 +31,16 @@ function sequelizeInit() {
         primaryKey: true,
         autoIncrement: true,
       },
-      name: DataTypes.STRING,
+      firstName: DataTypes.STRING,
+      lastName: DataTypes.STRING,
+      gender: DataTypes.STRING,
+      birthday: DataTypes.STRING,
     },
     { sequelize, modelName: 'patients' },
   );
+  User.hasOne(Patient, { foreignKey: 'user_id' });
+  Patient.belongsTo(User, { foreignKey: 'user_id' });
+
   sequelize.sync();
 
   Resolution.init(
@@ -42,11 +51,11 @@ function sequelizeInit() {
     { sequelize, modelName: 'resolutions' },
   );
   Resolution.belongsTo(Patient, { foreignKey: 'patient_id' });
-  Patient.hasOne(Resolution, { foreignKey: 'patient_id' });
+  Patient.hasMany(Resolution, { foreignKey: 'patient_id' });
   sequelize.sync();
   return sequelize;
 }
 
 export {
-  Queue, Patient, Resolution, sequelizeInit,
+  Patient, Resolution, User, sequelizeInit,
 };

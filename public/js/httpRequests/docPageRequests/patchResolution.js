@@ -1,13 +1,10 @@
 import { docUrl } from '../../config.js';
 
-export default async function patchResolution(text, currentPatient, ttl) {
+export default async function patchResolution(text, currentPatientId, ttl) {
   try {
-    let body = { resolution: text, name: currentPatient };
+    let body = { resolution: text, patient_id: currentPatientId };
     if (ttl) {
-      body = { resolution: text, name: currentPatient, ttl };
-    }
-    if (currentPatient === 'No patient') {
-      body = { resolution: text };
+      body = { resolution: text, patient_id: currentPatientId, ttl };
     }
     const response = await fetch(docUrl, {
       method: 'PATCH',
@@ -20,7 +17,7 @@ export default async function patchResolution(text, currentPatient, ttl) {
       throw new Error(`Something went wrong. Error: ${response.statusText}`);
     }
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
     return false;
   }
   return true;
