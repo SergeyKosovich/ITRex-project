@@ -6,7 +6,7 @@ import ApiError from '../errors/appError.js';
 const ws = new WebSocket(`ws://localhost:${WS_PORT}`);
 
 export default class Controller {
-  deleteFromQueue = async (req, res) => {
+  deleteFirstAndReturnNewFirstFromQueue = async (req, res) => {
     await queueStorageMethods.removeFirstPatientInQue();
     const patient = await queueStorageMethods.checkFirstPatientInQueue();
     if (patient) {
@@ -35,11 +35,7 @@ export default class Controller {
   };
 
   getQueue = async (req, res) => {
-    const queue = await queueStorageMethods.returnQueue();
-    if (queue.length > 0) {
-      res.status(200).json(queue);
-      return;
-    }
-    res.status(200).json([]);
+    const queue = await queueStorageMethods.returnQueue();  
+    res.status(200).json(queue);  
   };
 }
