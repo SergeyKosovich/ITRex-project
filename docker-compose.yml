@@ -3,9 +3,9 @@ services:
   node-app:
       build: .
       environment: 
-        - REDIS_PORT=redis://cache   
-        - MEMORY_TYPE=3      
-        - POST_HOST=db        
+        - REDIS_HOST=redis://cache  
+        - RES_TYPE=2;
+        - QUE_TYPE=2;               
       ports:
         - "3000:3000"
         - "8080:8080"

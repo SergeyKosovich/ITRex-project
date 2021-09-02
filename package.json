@@ -9,7 +9,7 @@
     "prepare": "husky install",
     "serve": "nodemon index.js",
     "start": "node index.js",
-    "test": "jest --runInBand"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -38,12 +38,13 @@
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "joi": "^17.4.2",
-    "jsdom": "^17.0.0",
+    "jsdom": "^17.0.0",  
     "mysql2": "^2.3.0",
     "node-fetch": "^2.6.1",
     "pg": "^8.7.1",
     "redis": "^3.1.2",
-    "sequelize": "^6.6.5",
+    "sequelize": "^6.6.5",    
+    "typescript": "^4.4.2",
     "ws": "^8.1.0"
   }
 }

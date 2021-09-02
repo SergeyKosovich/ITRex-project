@@ -1,25 +1,30 @@
 import RedisStorage from './redisStorage.js';
 import InMemoryStorage from './localStorage.js';
 import SqlStorage from './sqlStorage.js';
-import { StorageType } from '../config.js';
+import { resolutionsStorage, queueStorage } from '../config.js';
 
-const env = StorageType.toString();
+const resolutionStorageType = resolutionsStorage.toString();
+const queueStorageType = queueStorage.toString();
 
 class StorageFactory {
-  static list = {
-    1: InMemoryStorage,
-    2: RedisStorage,
-    3: SqlStorage,
-  };
+  create(storagetype) {
+    switch (storagetype) {
+      case 1:
+        return new InMemoryStorage();
 
-  create(type) {
-    const Memory = StorageFactory.list[type];
-    const storage = new Memory();
-    storage.type = type;
-    return storage;
+      case 2:
+        return new RedisStorage();
+
+      case 3:
+        return new SqlStorage();
+
+      default:
+        return new InMemoryStorage();
+    }
   }
 }
 
 const storage = new StorageFactory();
-const currentStorageMethods = storage.create(+env);
-export default currentStorageMethods;
+const resolutionsStorageMethods = storage.create(+resolutionStorageType);
+const queueStorageMethods = storage.create(+queueStorageType);
+export { resolutionsStorageMethods, queueStorageMethods, StorageFactory };

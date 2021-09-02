@@ -1,8 +1,8 @@
-const queue = [];
-const dataStorage = new Map();
+const queueInMemory = [];
+const resolutionsInMemory = new Map();
 
 export default class InMemoryStorage {
-  constructor() {
+  constructor(queue = queueInMemory, dataStorage = resolutionsInMemory) {
     this.queue = queue;
     this.storage = dataStorage;
   }

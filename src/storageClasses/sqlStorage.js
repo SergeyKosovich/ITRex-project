@@ -1,52 +1,87 @@
-import asyncRedis from 'async-redis';
-import { Patient, Resolution, sequelizeInit } from '../db/models.js';
-import { REDIS_PORT } from '../config.js';
+import {
+  Queue, Patient, Resolution, sequelizeInit,
+} from '../db/models.js';
 
 export default class SqlStorage {
-  constructor() {
-    this.init = sequelizeInit();
-    this.client = asyncRedis.createClient(REDIS_PORT);
-    this.client.on('error', (err) => {
-      console.log(`Error ${err}`);
-    });
-    this.client.FLUSHDB();
-    this.queue = this.client;
-    this.counter = 0;
+  constructor(
+    initSeq = sequelizeInit(),
+    queue = Queue,
+    patient = Patient,
+    resolution = Resolution,
+  ) {
+    this.init = initSeq;
+    this.Queue = queue;
+    this.Patient = patient;
+    this.Resolution = resolution;
   }
 
   async addToque(data) {
-    await this.client.RPUSH('queueForPostgres', data);
+    await this.Queue.create({
+      name: data,
+    });
   }
 
   async indexInQueue(patientName) {
-    const value = await this.client.lrange('queueForPostgres', 0, -1);
-    const arr = Array.from(value);
-    return arr.indexOf(`${patientName}`);
+    const res = await this.Queue.findOne({
+      attributes: ['que_id', 'name'],
+      where: {
+        name: patientName,
+      },
+    });
+    if (!res) {
+      return -1;
+    }
+
+    return res.que_id - 1;
   }
 
   async deleteFromQue(index) {
-    const value = await this.client.lrange('queueForPostgres', 0, -1);
-    const arr = Array.from(value);
-    await this.client.lrem('queueForPostgres', 1, arr[index]);
+    await this.Queue.destroy({
+      where: {
+        que_id: index + 1,
+      },
+    });
   }
 
   async removeFirstPatientInQue() {
-    await this.client.LPOP('queueForPostgres');
+    const user = await this.Queue.findOne({
+      order: [['que_id', 'ASC']],
+      attributes: ['que_id', 'name'],
+    });
+    if (user) {
+      await this.Queue.destroy({
+        where: {
+          name: user.name,
+        },
+      });
+    }
   }
 
   async checkFirstPatientInQueue() {
-    const [patient] = await this.client.lrange('queueForPostgres', 0, 0);
-    return patient;
+    const user = await this.Queue.findOne({
+      order: [['que_id', 'ASC']],
+      attributes: ['que_id', 'name'],
+    });
+    if (user) {
+      return user.name;
+    }
+    await this.Queue.truncate({ restartIdentity: true });
+    return null;
   }
 
   async returnQueue() {
-    const value = await this.client.lrange('queueForPostgres', 0, -1);
-    const arr = Array.from(value);
-    return arr;
+    const usersArr = await this.Queue.findAll({
+      order: [['que_id', 'ASC']],
+      attributes: ['name'],
+    });
+    if (usersArr) {
+      return usersArr.map((user) => user.name);
+    }
+    return [];
   }
 
   async getResolutionInStorage(patientName) {
-    const patient = await Patient.findOne({
+    const patient = await this.Patient.findOne({
       attributes: ['patient_id', 'name'],
       where: {
         name: patientName,
@@ -54,7 +89,7 @@ export default class SqlStorage {
     });
 
     if (patient) {
-      const resolutions = await Resolution.findAll({
+      const resolutions = await this.Resolution.findAll({
         attributes: ['resolution'],
         where: {
           patient_id: patient.patient_id,
@@ -66,37 +101,37 @@ export default class SqlStorage {
   }
 
   async setResolutionInStorage(patientName, previous, resolutions) {
-    const patientIsInTable = await Patient.findOne({
+    const patientIsInTable = await this.Patient.findOne({
       attributes: ['patient_id', 'name'],
       where: {
         name: patientName,
       },
     });
     if (!patientIsInTable) {
-      const patient = await Patient.create({
+      const patient = await this.Patient.create({
         name: patientName,
       });
-      await Resolution.create({
+      await this.Resolution.create({
         patient_id: patient.patient_id,
         resolution: previous,
       });
       return;
     }
     if (!resolutions) {
-      await Resolution.create({
+      await this.Resolution.create({
         patient_id: patientIsInTable.patient_id,
         resolution: previous,
       });
       return;
     }
-    await Resolution.create({
+    await this.Resolution.create({
       patient_id: patientIsInTable.patient_id,
       resolution: resolutions,
     });
   }
 
   async deleteResolutionInStorage(patientName) {
-    const patient = await Patient.findOne({
+    const patient = await this.Patient.findOne({
       attributes: ['patient_id', 'name'],
       where: {
         name: patientName,
@@ -104,7 +139,7 @@ export default class SqlStorage {
     });
     if (patient) {
       const patientId = patient.patient_id;
-      await Resolution.destroy({
+      await this.Resolution.destroy({
         where: {
           patient_id: patientId,
         },

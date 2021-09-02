@@ -1,13 +1,18 @@
 import asyncRedis from 'async-redis';
-import { REDIS_PORT } from '../config.js';
+import { REDIS_HOST } from '../config.js';
+
+function returnClient() {
+  const client = asyncRedis.createClient(REDIS_HOST);
+  client.on('error', (err) => {
+    console.log(`Error ${err}`);
+  });
+  client.FLUSHDB();
+  return client;
+}
 
 export default class RedisStorage {
-  constructor() {
-    this.client = asyncRedis.createClient(REDIS_PORT);
-    this.client.on('error', (err) => {
-      console.log(`Error ${err}`);
-    });
-    this.client.FLUSHDB();
+  constructor(redis = returnClient()) {
+    this.client = redis;
     this.queue = this.client;
     this.storage = this.client;
   }
