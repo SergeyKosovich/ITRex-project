@@ -40,10 +40,10 @@ export default class Controller {
 
   deleteRes = async (req, res, next) => {
     const { name } = req.body;
-    const isResolutionInStorage =
+    const resolution =
       await resolutionsStorageMethods.getResolutionInStorage(name);
     try {
-      if (!isResolutionInStorage) {
+      if (!resolution) {
         throw new ApiError(404, 'No patient found');
       }
       await resolutionsStorageMethods.deleteResolutionInStorage(name);
