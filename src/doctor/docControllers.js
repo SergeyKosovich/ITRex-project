@@ -8,10 +8,10 @@ import { TtlDefaultInSeconds } from '../config.js';
 export default class Controller {
   getById = async (req, res) => {
     const { patient_id } = req.query;
-    const isResolutionInStorage =
+    const resolution =
       await resolutionsStorageMethods.getResolutionInStorage(patient_id);
-    if (isResolutionInStorage) {
-      res.status(200).json(isResolutionInStorage);
+    if (resolution) {
+      res.status(200).json(resolution);
     } else {
       res.status(404).send('no resolutions');
     }
@@ -39,10 +39,10 @@ export default class Controller {
 
   deleteRes = async (req, res, next) => {
     const { patient_id } = req.body;
-    const isResolutionInStorage =
+    const resolution =
       await resolutionsStorageMethods.getResolutionInStorage(patient_id);
     try {
-      if (!isResolutionInStorage) {
+      if (!resolution) {
         throw new ApiError(404, 'No patient found');
       }
       await resolutionsStorageMethods.deleteResolutionInStorage(patient_id);
