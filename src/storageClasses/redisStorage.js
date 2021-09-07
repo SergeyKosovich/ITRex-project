@@ -1,6 +1,9 @@
 import asyncRedis from 'async-redis';
 import { REDIS_HOST } from '../config.js';
 
+const queueKey = 'queue';
+const storageKey = 'storage';
+
 function returnClient() {
   const client = asyncRedis.createClient(REDIS_HOST);
   client.on('error', (err) => {
@@ -18,32 +21,32 @@ export default class RedisStorage {
   }
 
   async addToque(data) {
-    await this.client.RPUSH('queue', data);
+    await this.client.RPUSH(queueKey, data);
   }
 
   async indexInQueue(name) {
-    const value = await this.client.lrange('queue', 0, -1);
+    const value = await this.client.lrange(queueKey, 0, -1);
     const arr = Array.from(value);
     return arr.indexOf(`${name}`);
   }
 
   async deleteFromQueue(index) {
-    const value = await this.client.lrange('queue', 0, -1);
+    const value = await this.client.lrange(queueKey, 0, -1);
     const arr = Array.from(value);
-    await this.client.lrem('queue', 1, arr[index]);
+    await this.client.lrem(queueKey, 1, arr[index]);
   }
 
   async removeFirstPatientInQueue() {
-    await this.client.LPOP('queue');
+    await this.client.LPOP(queueKey);
   }
 
   async checkFirstPatientInQueue() {
-    const [patient] = await this.client.lrange('queue', 0, 0);
+    const [patient] = await this.client.lrange(queueKey, 0, 0);
     return patient;
   }
 
   async returnQueue() {
-    const value = await this.client.lrange('queue', 0, -1);
+    const value = await this.client.lrange(queueKey, 0, -1);
     const arr = Array.from(value);
     return arr;
   }
@@ -62,6 +65,6 @@ export default class RedisStorage {
   }
 
   async deleteResolutionInStorage(name) {
-    await this.client.HDEL('storage', name);
+    await this.client.HDEL(storageKey, name);
   }
 }
