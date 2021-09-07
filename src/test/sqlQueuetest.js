@@ -28,9 +28,9 @@ test('indexInQueue should call findOne method in Queue class with test args', as
   });
 });
 
-test('deleteFromQue should call destroy method in Queue class with test args', async () => {
+test('deleteFromQueue should call destroy method in Queue class with test args', async () => {
   const index = 5;
-  await service.deleteFromQue(index);
+  await service.deleteFromQueue(index);
   expect(Queue.destroy).toHaveBeenCalledTimes(1);
   expect(Queue.destroy).toHaveBeenCalledWith({
     where: {
@@ -39,11 +39,11 @@ test('deleteFromQue should call destroy method in Queue class with test args', a
   });
 });
 
-test('removeFirstPatientInQue should call findOne method in Queue, which returns object if name exist in queue, than called destroy method', async () => {
+test('removeFirstPatientInQueue should call findOne method in Queue, which returns object if name exist in queue, than called destroy method', async () => {
   const user = { name: 'testName' };
   Queue.findOne = jest.fn(() => user);
   Queue.destroy = jest.fn();
-  await service.removeFirstPatientInQue();
+  await service.removeFirstPatientInQueue();
   expect(Queue.findOne).toHaveBeenCalledTimes(1);
   expect(Queue.findOne).toHaveBeenCalledWith({
     order: [['que_id', 'ASC']],

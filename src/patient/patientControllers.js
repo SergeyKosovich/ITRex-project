@@ -6,9 +6,14 @@ import ApiError from '../errors/appError.js';
 const ws = new WebSocket(`ws://localhost:${WS_PORT}`);
 
 export default class Controller {
-  deleteFirstAndReturnNewFirstFromQueue = async (req, res) => {
-    await queueStorageMethods.removeFirstPatientInQue();
-    const patient = await queueStorageMethods.checkFirstPatientInQueue();
+  deleteFirstAndReturnNewFirstFromQueue = async (req, res, next) => {
+    let patient;
+    try {
+      await queueStorageMethods.removeFirstPatientInQueue();
+      patient = await queueStorageMethods.checkFirstPatientInQueue();
+    } catch (error) {
+      return next(error);
+    }
     if (patient) {
       return res.status(200).json(patient);
     }
@@ -28,14 +33,22 @@ export default class Controller {
     }
   };
 
-  addUser = async (req, res) => {
-    await queueStorageMethods.addToque(req.body.name);
-    ws.send(JSON.stringify({ name: req.body.name, event: 'addUser' }));
-    res.status(200).send();
+  addUser = async (req, res, next) => {
+    try {
+      await queueStorageMethods.addToque(req.body.name);
+      ws.send(JSON.stringify({ name: req.body.name, event: 'addUser' }));
+      res.status(200).send();
+    } catch (error) {
+      next(error);
+    }
   };
 
-  getQueue = async (req, res) => {
-    const queue = await queueStorageMethods.returnQueue();
-    res.status(200).json(queue);
+  getQueue = async (req, res, next) => {
+    try {
+      const queue = await queueStorageMethods.returnQueue();
+      res.status(200).json(queue);
+    } catch (error) {
+      next(error);
+    }
   };
 }

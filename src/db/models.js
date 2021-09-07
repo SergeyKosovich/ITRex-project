@@ -38,6 +38,7 @@ function sequelizeInit() {
     {
       patient_id: DataTypes.INTEGER,
       resolution: DataTypes.STRING,
+      ttl: DataTypes.BIGINT,
     },
     { sequelize, modelName: 'resolutions' },
   );

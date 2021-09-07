@@ -27,13 +27,13 @@ export default class RedisStorage {
     return arr.indexOf(`${name}`);
   }
 
-  async deleteFromQue(index) {
+  async deleteFromQueue(index) {
     const value = await this.client.lrange('queue', 0, -1);
     const arr = Array.from(value);
     await this.client.lrem('queue', 1, arr[index]);
   }
 
-  async removeFirstPatientInQue() {
+  async removeFirstPatientInQueue() {
     await this.client.LPOP('queue');
   }
 
@@ -49,12 +49,16 @@ export default class RedisStorage {
   }
 
   async getResolutionInStorage(name) {
-    const [nameIsExist] = await this.client.HMGET('storage', name);
-    return nameIsExist;
+    const value = await this.client.get(name);
+    return value;
   }
 
-  async setResolutionInStorage(name, previous) {
-    await this.client.HMSET('storage', name, previous);
+  async setResolutionInStorage(data) {
+    if (data.previous) {
+      await this.client.setex(data.name, data.ttl, data.previous);
+      return;
+    }
+    await this.client.setex(data.name, data.ttl, data.resolution);
   }
 
   async deleteResolutionInStorage(name) {

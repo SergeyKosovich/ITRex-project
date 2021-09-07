@@ -35,7 +35,7 @@ export default class SqlStorage {
     return res.que_id - 1;
   }
 
-  async deleteFromQue(index) {
+  async deleteFromQueue(index) {
     await this.Queue.destroy({
       where: {
         que_id: index + 1,
@@ -43,18 +43,13 @@ export default class SqlStorage {
     });
   }
 
-  async removeFirstPatientInQue() {
-    const user = await this.Queue.findOne({
+  async removeFirstPatientInQueue() {
+    await this.Queue.destroy({
       order: [['que_id', 'ASC']],
       attributes: ['que_id', 'name'],
+      limit: 1,
+      where: {},
     });
-    if (user) {
-      await this.Queue.destroy({
-        where: {
-          name: user.name,
-        },
-      });
-    }
   }
 
   async checkFirstPatientInQueue() {
@@ -65,7 +60,6 @@ export default class SqlStorage {
     if (user) {
       return user.name;
     }
-    await this.Queue.truncate({ restartIdentity: true });
     return null;
   }
 
@@ -81,52 +75,54 @@ export default class SqlStorage {
   }
 
   async getResolutionInStorage(patientName) {
-    const patient = await this.Patient.findOne({
-      attributes: ['patient_id', 'name'],
-      where: {
-        name: patientName,
-      },
-    });
-
-    if (patient) {
-      const resolutions = await this.Resolution.findAll({
-        attributes: ['resolution'],
-        where: {
-          patient_id: patient.patient_id,
+    const resolutions = await Resolution.findAll({
+      include: [
+        {
+          model: Patient,
+          where: { name: patientName },
         },
-      });
-      return resolutions.map((resolution) => resolution.resolution).join(' ');
-    }
-    return null;
+      ],
+    });
+    const allResolutions = [];
+    resolutions.forEach(async (resolution) => {
+      if (resolution.ttl <= Date.now()) {
+        await this.Resolution.destroy({
+          where: {
+            patient_id: resolution.patient_id,
+            ttl: resolution.ttl,
+          },
+        });
+        return;
+      }
+      allResolutions.push(resolution.resolution);
+    });
+    return allResolutions.join(' ');
   }
 
-  async setResolutionInStorage(patientName, previous, resolutions) {
+  async setResolutionInStorage(data) {
+    const { name, ttl, resolution } = data;
+    const ttlWithCurrentTime = Date.now() + ttl * 1000;
     const patientIsInTable = await this.Patient.findOne({
       attributes: ['patient_id', 'name'],
       where: {
-        name: patientName,
+        name,
       },
     });
     if (!patientIsInTable) {
       const patient = await this.Patient.create({
-        name: patientName,
+        name,
       });
       await this.Resolution.create({
         patient_id: patient.patient_id,
-        resolution: previous,
-      });
-      return;
-    }
-    if (!resolutions) {
-      await this.Resolution.create({
-        patient_id: patientIsInTable.patient_id,
-        resolution: previous,
+        resolution,
+        ttl: ttlWithCurrentTime,
       });
       return;
     }
     await this.Resolution.create({
       patient_id: patientIsInTable.patient_id,
-      resolution: resolutions,
+      resolution,
+      ttl: ttlWithCurrentTime,
     });
   }
 

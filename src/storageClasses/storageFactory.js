@@ -1,5 +1,5 @@
 import RedisStorage from './redisStorage.js';
-import InMemoryStorage from './localStorage.js';
+import InMemoryStorage from './inMemoryStorage.js';
 import SqlStorage from './sqlStorage.js';
 import { resolutionsStorage, queueStorage } from '../config.js';
 

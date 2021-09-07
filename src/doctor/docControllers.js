@@ -8,8 +8,9 @@ import { TtlDefaultInSeconds } from '../config.js';
 export default class Controller {
   getByName = async (req, res) => {
     const { name } = req.query;
-    const resolution =
-      await resolutionsStorageMethods.getResolutionInStorage(name);
+    const resolution = await resolutionsStorageMethods.getResolutionInStorage(
+      name,
+    );
     if (resolution) {
       res.status(200).json(resolution);
     } else {
@@ -18,30 +19,28 @@ export default class Controller {
   };
 
   patchResolution = async (req, res) => {
-    const { name, resolution } = req.body;
-    const ttl = req.body.ttl || TtlDefaultInSeconds;
+    const data = {
+      name: req.body.name,
+      resolution: req.body.resolution,
+      ttl: req.body.ttl || TtlDefaultInSeconds,
+    };
     const isResolutionInStorage =
-      await resolutionsStorageMethods.getResolutionInStorage(name);
+      await resolutionsStorageMethods.getResolutionInStorage(data.name);
     if (isResolutionInStorage) {
-      let previous = await resolutionsStorageMethods.getResolutionInStorage(name);
-      previous += resolution;
-      await resolutionsStorageMethods.setResolutionInStorage(name, previous, resolution);
+      data.previous = isResolutionInStorage + data.resolution;
+      await resolutionsStorageMethods.setResolutionInStorage(data);
       res.status(200).send();
       return;
     }
-    await resolutionsStorageMethods.setResolutionInStorage(name, resolution);
-    if (ttl) {
-      setTimeout(async () => {
-        await resolutionsStorageMethods.deleteResolutionInStorage(name);
-      }, ttl * 1000);
-    }
+    await resolutionsStorageMethods.setResolutionInStorage(data);
     res.status(200).send();
   };
 
   deleteRes = async (req, res, next) => {
     const { name } = req.body;
-    const resolution =
-      await resolutionsStorageMethods.getResolutionInStorage(name);
+    const resolution = await resolutionsStorageMethods.getResolutionInStorage(
+      name,
+    );
     try {
       if (!resolution) {
         throw new ApiError(404, 'No patient found');
