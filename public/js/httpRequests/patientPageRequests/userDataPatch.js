@@ -1,5 +1,3 @@
-import { userUrl } from '../../config.js';
-
 export default async function userDataPatch(
   userMail,
   userPass,
@@ -9,7 +7,7 @@ export default async function userDataPatch(
   userBirthday,
 ) {
   try {
-    const response = await fetch(`${userUrl}/registration`, {
+    const response = await fetch('/registration', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

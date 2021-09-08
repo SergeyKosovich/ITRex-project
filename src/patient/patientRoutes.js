@@ -11,7 +11,5 @@ router.post('/', validator.checkToken, validator.checkId, controller.addUser);
 router.delete('/', controller.deleteFirstAndReturnNewFirstFromQueue);
 router.get('/', controller.getFirstUserInQueue);
 router.get('/queue', controller.getQueue);
-router.post('/auth', controller.authUser);
-router.patch('/registration', controller.registerUser);
 
 export default router;

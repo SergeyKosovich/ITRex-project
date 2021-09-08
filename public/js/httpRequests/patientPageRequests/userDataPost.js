@@ -1,8 +1,6 @@
-import { userUrl } from '../../config.js';
-
 export default async function userDataPost(email, password) {
   try {
-    const response = await fetch(`${userUrl}/auth`, {
+    const response = await fetch('/auth', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

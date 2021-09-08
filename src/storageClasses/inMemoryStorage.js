@@ -15,11 +15,11 @@ export default class InMemoryStorage {
     return this.queue.indexOf(name);
   }
 
-  deleteFromQue(index) {
+  deleteFromQueue(index) {
     this.queue.splice(index, 1);
   }
 
-  removeFirstPatientInQue() {
+  removeFirstPatientInQueue() {
     this.queue.shift();
   }
 
@@ -33,6 +33,7 @@ export default class InMemoryStorage {
 
   getResolutionInStorage(name) {
     const res = this.storage.get(name);
+    console.log(res);
     return res;
   }
 

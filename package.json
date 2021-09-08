@@ -9,7 +9,7 @@
     "prepare": "husky install",
     "serve": "nodemon index.js",
     "start": "node index.js",
-    "test": "jest --runInBand"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",

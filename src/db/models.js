@@ -6,9 +6,23 @@ const { Model, DataTypes } = data;
 class Resolution extends Model {}
 class User extends Model {}
 class Patient extends Model {}
+class Queue extends Model {}
 
 function sequelizeInit() {
   const sequelize = sequelizeReturn();
+
+  Queue.init(
+    {
+      que_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      name: DataTypes.STRING,
+    },
+    { sequelize, modelName: 'queues' },
+  );
+  sequelize.sync();
 
   User.init(
     {
@@ -45,8 +59,14 @@ function sequelizeInit() {
 
   Resolution.init(
     {
+      resolution_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       patient_id: DataTypes.INTEGER,
       resolution: DataTypes.STRING,
+      ttl: DataTypes.BIGINT,
     },
     { sequelize, modelName: 'resolutions' },
   );
@@ -57,5 +77,5 @@ function sequelizeInit() {
 }
 
 export {
-  Patient, Resolution, User, sequelizeInit,
+  Patient, Resolution, User, sequelizeInit, Queue,
 };

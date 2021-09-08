@@ -18,21 +18,23 @@ export default class Controller {
   };
 
   patchResolution = async (req, res, next) => {
-    const { patient_id, resolution } = req.body;
-    const ttl = req.body.ttl || TtlDefaultInSeconds;
-    const patientId = patient_id;
+    const data = {
+      patient_id: req.body.patient_id,
+      resolution: req.body.resolution,
+      ttl: req.body.ttl || TtlDefaultInSeconds,
+    };
     try {
-      if (!patientId) {
+      if (!data.patient_id) {
         throw new ApiError(404, 'No patient found');
       }
     } catch (error) {
       next(error);
     }
-    await resolutionsStorageMethods.setResolutionInStorage(patientId, resolution);
-    if (ttl) {
+    await resolutionsStorageMethods.setResolutionInStorage(data);
+    if (data.ttl) {
       setTimeout(async () => {
-        await resolutionsStorageMethods.deleteResolutionInStorage(patientId);
-      }, ttl * 1000);
+        await resolutionsStorageMethods.deleteResolutionInStorage(data.patient_id);
+      }, data.ttl * 1000);
     }
     res.status(200).send();
   };
