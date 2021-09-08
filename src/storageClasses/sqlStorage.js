@@ -75,17 +75,17 @@ export default class SqlStorage {
   }
 
   async getResolutionInStorage(patientName) {
-    const resolutions = await Resolution.findAll({
+    const resolutions = await this.Resolution.findAll({
       include: [
         {
-          model: Patient,
+          model: this.Patient,
           where: { name: patientName },
         },
       ],
     });
     const allResolutions = [];
     resolutions.forEach(async (resolution) => {
-      if (resolution.ttl <= Date.now()) {
+      if (resolution.ttl <= Date.now() && resolution.ttl) {
         await this.Resolution.destroy({
           where: {
             patient_id: resolution.patient_id,
@@ -101,7 +101,13 @@ export default class SqlStorage {
 
   async setResolutionInStorage(data) {
     const { name, ttl, resolution } = data;
-    const ttlWithCurrentTime = Date.now() + ttl * 1000;
+    const dataForDb = {
+      name,
+      resolution,
+    };
+    if (ttl) {
+      dataForDb.ttl = Date.now() + ttl * 1000;
+    }
     const patientIsInTable = await this.Patient.findOne({
       attributes: ['patient_id', 'name'],
       where: {
@@ -112,18 +118,12 @@ export default class SqlStorage {
       const patient = await this.Patient.create({
         name,
       });
-      await this.Resolution.create({
-        patient_id: patient.patient_id,
-        resolution,
-        ttl: ttlWithCurrentTime,
-      });
+      dataForDb.patient_id = patient.patient_id;
+      await this.Resolution.create(dataForDb);
       return;
     }
-    await this.Resolution.create({
-      patient_id: patientIsInTable.patient_id,
-      resolution,
-      ttl: ttlWithCurrentTime,
-    });
+    dataForDb.patient_id = patientIsInTable.patient_id;
+    await this.Resolution.create(dataForDb);
   }
 
   async deleteResolutionInStorage(patientName) {
