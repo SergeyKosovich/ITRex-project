@@ -3,7 +3,6 @@ import showResolutionForPatient from "./patients/showResolutionForPatient.js";
 import authUser from "./patients/authUser.js";
 import logoutUser from "./patients/logout.js";
 import { data } from "./main.js";
-import renderPatientInStack from "./patients/renderPatientInStack.js";
 import registrationUser from "./patients/registrationUser.js";
 import checkAuth from "./patients/checkAuth.js";
 
@@ -35,4 +34,3 @@ ws.addEventListener("message", async (res) => {
     patientStack.removeChild(patientStack.firstChild);
   }
 });
-renderPatientInStack(patientStack);

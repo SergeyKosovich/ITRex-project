@@ -1,6 +1,6 @@
 import { User } from "../db/models.js";
 
-export default class UserStorage {
+class UserStorage {
   async getUserByEmail(email) {
     const user = await User.findOne({
       attributes: ["email", "password", "user_id"],
@@ -10,3 +10,5 @@ export default class UserStorage {
     return user || null;
   }
 }
+
+export default new UserStorage();

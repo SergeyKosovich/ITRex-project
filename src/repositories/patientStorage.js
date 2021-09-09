@@ -1,6 +1,6 @@
 import { Patient } from "../db/models.js";
 
-export default class PatientStorage {
+class PatientStorage {
   async getPatient(userId) {
     const patient = await Patient.findOne({
       attributes: ["firstName", "lastName", "patient_id"],
@@ -12,3 +12,5 @@ export default class PatientStorage {
     return patient || null;
   }
 }
+
+export default new PatientStorage();

@@ -25,9 +25,9 @@ async function loginDoctor(credential) {
   }
 }
 
-async function getDoctorData(id, jwt) {
+async function getDoctorData(doctorId, jwt) {
   try {
-    const response = await fetch("staff/doctor/" + id, {
+    const response = await fetch("staff/doctor/" + doctorId, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${jwt}`,

@@ -1,18 +1,11 @@
-import { Doctor, Specialization } from "../db/models.js";
+import doctorStorage from "../repositories/doctorStorage.js";
 
 export default class StaffService {
   async getDoctor(id) {
     try {
-      return (
-        await Doctor.findOne({
-          where: { user_id: id },
-          include: {
-            model: Specialization,
-            attributes: ["name"],
-            through: { attributes: [] },
-          },
-        })
-      )?.get({ plain: true });
+      const doctor = await doctorStorage.getDoctor(id);
+
+      return doctor || null;
     } catch (error) {
       throw new Error(error);
     }

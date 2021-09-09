@@ -3,8 +3,8 @@ import { docUrl } from "../../config.js";
 export default async function patchResolution(text, currentPatientId, ttl) {
   try {
     const body = ttl
-      ? { resolution: text, patient_id: currentPatientId }
-      : { resolution: text, patient_id: currentPatientId, ttl };
+      ? { resolution: text, patient_id: currentPatientId, ttl }
+      : { resolution: text, patient_id: currentPatientId };
 
     const jwt = localStorage.getItem("doctor-jwt");
     const response = await fetch(docUrl, {

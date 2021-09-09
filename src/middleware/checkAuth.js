@@ -19,6 +19,8 @@ export default function checkAuth(req, res, next) {
       throw new ApiError(401, "Invalid Token");
     }
 
+    console.log("AUTH MIDDL    ", payload);
+
     req.user = payload;
     return next();
   } catch (error) {

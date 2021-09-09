@@ -1,21 +1,19 @@
 import { secretKey } from "../config.js";
-import PatientStorage from "../repositories/patientStorage.js";
-import StaffService from "../staff/staffService.js";
+import doctorStorage from "../repositories/doctorStorage.js";
+import patientStorage from "../repositories/patientStorage.js";
 import tokenService from "../token/tokenService.js";
 import AuthService from "./authService.js";
 
-const staffService = new StaffService();
 export default class Controller {
   constructor() {
     this.authService = new AuthService();
-    this.patientStorage = new PatientStorage();
   }
 
   authUser = async (req, res, next) => {
     try {
       const response = await this.authService.checkCredentials(req.body);
 
-      const userData = await this.patientStorage.getPatient(response.user_id);
+      const userData = await patientStorage.getPatient(response.user_id);
       const token = tokenService.generate(response.user_id, secretKey);
       userData.dataValues.token = token;
 
@@ -28,13 +26,15 @@ export default class Controller {
   authDoctor = async (req, res, next) => {
     try {
       const user = await this.authService.checkCredentials(req.body);
+      const doctor = await doctorStorage.getDoctorByUserId(user.user_id);
 
-      const token = tokenService.generate(user.user_id, secretKey);
+      const token = tokenService.generateForStaff(
+        { userId: user.user_id, ...doctor },
+        secretKey
+      );
 
-      const doctorData = await staffService.getDoctor(user.user_id);
-      doctorData.token = token;
-      console.log(doctorData);
-      return res.json(doctorData);
+      doctor.token = token;
+      return res.json(doctor);
     } catch (error) {
       return next(error);
     }

@@ -1,8 +1,7 @@
 import { docUrl } from "../config.js";
 
-export default async function getPatientsResolutionsById(id) {
+export default async function getPatientsResolutionsById(id, jwt) {
   try {
-    const jwt = localStorage.getItem("doctor-jwt");
     const res = await fetch(`${docUrl}?patient_id=${id}`, {
       method: "GET",
       headers: {

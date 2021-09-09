@@ -9,6 +9,7 @@ import staffRouter from "./src/staff/staffRouter.js";
 import regRouter from "./src/registration/registrationRouter.js";
 import errorHandler from "./src/handlers/errorHandler.js";
 import { PORT, WS_PORT } from "./src/config.js";
+import checkAuth from "./src/middleware/checkAuth.js";
 
 const dirname = path.resolve();
 const app = express();
@@ -28,11 +29,15 @@ wss.on("connection", (ws) => {
 
 app.use(express.json());
 app.use(express.static(`${dirname}/public`));
-app.use("/name", patientRouter);
-app.use("/resolution", docRouter);
-app.use("/registration", regRouter);
+
 app.use("/auth", authRouter);
+app.use("/registration", regRouter);
+
+app.use(checkAuth);
+app.use("/resolution", docRouter);
+app.use("/queue", patientRouter);
 app.use("/staff", staffRouter);
+
 app.use(errorHandler);
 app.listen(PORT, () => {
   console.log(`server has been started on port ${PORT}`);

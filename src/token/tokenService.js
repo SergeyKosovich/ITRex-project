@@ -19,6 +19,10 @@ class TokenService {
     };
     return jwt.sign(payload, tokenSecret, { expiresIn: "30m" });
   }
+
+  generateForStaff(data, tokenSecret) {
+    return jwt.sign(data, tokenSecret, { expiresIn: "30m" });
+  }
 }
 
 export default new TokenService();

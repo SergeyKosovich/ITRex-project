@@ -1,12 +1,15 @@
-import getPatientsResolutionsById from '../httpRequests/getResolutionById.js';
+import getPatientsResolutionsById from "../httpRequests/getResolutionById.js";
 
-const userNamesAndId = document.querySelector('.input-block__input');
+const userNamesAndId = document.querySelector(".input-block__input");
 
 export default function showResolutionForPatient(form, resolutionText) {
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const userId = userNamesAndId.value.split('id:')[1];
-    const response = await getPatientsResolutionsById(userId);
+
+    const jwt = localStorage.getItem("jwt");
+    const userId = userNamesAndId.value.split("id:")[1];
+
+    const response = await getPatientsResolutionsById(userId, jwt);
     if (!response) {
       return;
     }

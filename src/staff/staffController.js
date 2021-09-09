@@ -7,12 +7,11 @@ class StaffController {
 
   getDoctor = async (req, res, next) => {
     try {
-      const doctor = await this.staffService.getDoctor(req.params.id);
-      if (!doctor) {
-        return res.status(404).json({ message: "Doctor not found" });
-      }
+      const doctor = await this.staffService.getDoctor(req.params.doctorId);
 
-      return res.json(doctor);
+      return doctor
+        ? res.json(doctor)
+        : res.status(404).json({ message: "Doctor not found" });
     } catch (error) {
       return next(error);
     }

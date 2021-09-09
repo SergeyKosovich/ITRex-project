@@ -1,15 +1,11 @@
 import bcrypt from "bcryptjs";
 import ApiError from "../errors/appError.js";
-import UserStorage from "../repositories/userStorage.js";
+import userStorage from "../repositories/userStorage.js";
 
 export default class AuthService {
-  constructor() {
-    this.userStorage = new UserStorage();
-  }
-
   async checkCredentials(body) {
     const { email, password } = body;
-    const data = await this.userStorage.getUserByEmail(email);
+    const data = await userStorage.getUserByEmail(email);
 
     if (!data) {
       throw new ApiError(401, "incorrect login");
