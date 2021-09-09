@@ -1,11 +1,13 @@
-import { docUrl } from '../../config.js';
+import { docUrl } from "../../config.js";
 
 export default async function deleteResolution(val) {
   try {
+    const jwt = localStorage.getItem("doctor-jwt");
     const response = await fetch(docUrl, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
       },
       body: JSON.stringify({ patient_id: val }),
     });

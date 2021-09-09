@@ -1,30 +1,42 @@
-import bcrypt from 'bcryptjs';
-import { resolutionsStorageMethods } from '../storageClasses/storageFactory.js';
-import ApiError from '../errors/appError.js';
-import generateToken from '../validatorSchemes/generateToken.js';
+import { secretKey } from "../config.js";
+import PatientStorage from "../repositories/patientStorage.js";
+import StaffService from "../staff/staffService.js";
+import tokenService from "../token/tokenService.js";
+import AuthService from "./authService.js";
 
+const staffService = new StaffService();
 export default class Controller {
+  constructor() {
+    this.authService = new AuthService();
+    this.patientStorage = new PatientStorage();
+  }
+
   authUser = async (req, res, next) => {
-    const { email, password } = req.body;
     try {
-      const response = await resolutionsStorageMethods.checkUserAndPassInDb(
-        email,
-      );
-      if (!response) {
-        throw new ApiError(401, 'incorrect login');
-      }
-      const validPassword = bcrypt.compareSync(password, response.password);
-      if (!validPassword) {
-        throw new ApiError(401, 'incorrect password');
-      }
-      const userData = await resolutionsStorageMethods.getUserData(
-        response.user_id,
-      );
-      const token = generateToken(response.user_id);
+      const response = await this.authService.checkCredentials(req.body);
+
+      const userData = await this.patientStorage.getPatient(response.user_id);
+      const token = tokenService.generate(response.user_id, secretKey);
       userData.dataValues.token = token;
+
       res.status(200).json(userData);
-    } catch (e) {
-      next(e);
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  authDoctor = async (req, res, next) => {
+    try {
+      const user = await this.authService.checkCredentials(req.body);
+
+      const token = tokenService.generate(user.user_id, secretKey);
+
+      const doctorData = await staffService.getDoctor(user.user_id);
+      doctorData.token = token;
+      console.log(doctorData);
+      return res.json(doctorData);
+    } catch (error) {
+      return next(error);
     }
   };
 }

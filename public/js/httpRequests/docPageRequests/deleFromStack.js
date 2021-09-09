@@ -1,11 +1,13 @@
-import { userUrl } from '../../config.js';
+import { userUrl } from "../../config.js";
 
 export default async function deleteFromStack() {
   try {
+    const jwt = localStorage.getItem("doctor-jwt");
     const lastPatient = await fetch(userUrl, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
       },
     });
     if (lastPatient.status !== 200) {

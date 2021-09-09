@@ -1,21 +1,27 @@
 /* eslint-disable camelcase */
 import {
-  Patient, Resolution, User, sequelizeInit, Queue,
-} from '../db/models.js';
+  Patient,
+  Resolution,
+  User,
+  // sequelizeInit,
+  Queue,
+  // Doctor,
+  // Specialization,
+} from "../db/models.js";
 
 export default class SqlStorage {
   constructor(
-    initSeq = sequelizeInit(),
     queue = Queue,
     patient = Patient,
     resolution = Resolution,
-    user = User,
+    user = User
   ) {
-    this.init = initSeq;
+    // this.init = sequelizeInit().then(() => console.log("DB ready to use!"));
     this.Patient = patient;
     this.Resolution = resolution;
     this.Queue = queue;
     this.User = user;
+    // this.Doctor = Doctor;
   }
 
   async addToque(data) {
@@ -26,7 +32,7 @@ export default class SqlStorage {
 
   async indexInQueue(patientName) {
     const res = await this.Queue.findOne({
-      attributes: ['que_id', 'name'],
+      attributes: ["que_id", "name"],
       where: {
         name: patientName,
       },
@@ -48,8 +54,8 @@ export default class SqlStorage {
 
   async removeFirstPatientInQueue() {
     await this.Queue.destroy({
-      order: [['que_id', 'ASC']],
-      attributes: ['que_id', 'name'],
+      order: [["que_id", "ASC"]],
+      attributes: ["que_id", "name"],
       limit: 1,
       where: {},
     });
@@ -57,8 +63,8 @@ export default class SqlStorage {
 
   async checkFirstPatientInQueue() {
     const user = await this.Queue.findOne({
-      order: [['que_id', 'ASC']],
-      attributes: ['que_id', 'name'],
+      order: [["que_id", "ASC"]],
+      attributes: ["que_id", "name"],
     });
     if (user) {
       return user.name;
@@ -68,8 +74,8 @@ export default class SqlStorage {
 
   async returnQueue() {
     const usersArr = await this.Queue.findAll({
-      order: [['que_id', 'ASC']],
-      attributes: ['name'],
+      order: [["que_id", "ASC"]],
+      attributes: ["name"],
     });
     if (usersArr) {
       return usersArr.map((user) => user.name);
@@ -79,7 +85,7 @@ export default class SqlStorage {
 
   async getResolutionInStorage(patientId) {
     const resolutions = await this.Resolution.findAll({
-      attributes: ['resolution'],
+      attributes: ["resolution"],
       where: {
         patient_id: patientId,
       },
@@ -112,7 +118,7 @@ export default class SqlStorage {
 
   async checkUserAndPassInDb(emailToCheck) {
     const user = await this.User.findOne({
-      attributes: ['email', 'password', 'user_id'],
+      attributes: ["email", "password", "user_id"],
       where: {
         email: emailToCheck,
       },
@@ -125,7 +131,7 @@ export default class SqlStorage {
 
   async getUserData(userId) {
     const user = await this.Patient.findOne({
-      attributes: ['firstName', 'lastName', 'patient_id'],
+      attributes: ["firstName", "lastName", "patient_id"],
       where: {
         user_id: userId,
       },
@@ -142,7 +148,7 @@ export default class SqlStorage {
     userFirstName,
     userLastName,
     userGender,
-    userBirthday,
+    userBirthday
   ) {
     const response = await this.User.create({
       email: userMail,

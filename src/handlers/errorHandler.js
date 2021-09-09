@@ -1,8 +1,8 @@
 /* eslint-disable import/extensions */
-import ApiError from '../errors/appError.js';
+import ApiError from "../errors/appError.js";
 
-export default function errorHandler(err, req, res) {
-  let message = 'Something went wrong';
+export default function errorHandler(err, req, res, next) {
+  let message = "Something went wrong";
   let status = 500;
   if (err instanceof ApiError) {
     message = err.message;
