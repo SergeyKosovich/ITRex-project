@@ -1,10 +1,8 @@
-import jwt from 'jsonwebtoken';
 import ApiError from '../errors/appError.js';
 import {
   schemaForResolutionAndId,
   schemaForId,
 } from '../validatorSchemes/schemas.js';
-import { secretKey } from '../config.js';
 
 export default class Validator {
   checkResolution(req, res, next) {
@@ -22,17 +20,6 @@ export default class Validator {
     if (error) {
       next(new ApiError(400, 'incorrect name of patient'));
     }
-    next();
-  }
-
-  checkToken(req, res, next) {
-    const token = req.headers.authorization.split(' ')[1];
-    if (!token) {
-      throw new ApiError(403, 'user is not authorized');
-    }
-    // Какую ошибку отсылать при неправильном jwt? или оставляем 500?
-    const decodeData = jwt.verify(token, secretKey);
-    console.log(decodeData);
     next();
   }
 }

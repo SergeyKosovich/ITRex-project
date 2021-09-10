@@ -4,7 +4,7 @@ services:
       build: .
       environment: 
         - REDIS_HOST=redis://cache          
-        - POST_HOST=db                  
+        - POSTGRESQL_HOST=db                  
       ports:
         - "3000:3000"
         - "8080:8080"

@@ -1,15 +1,15 @@
 /* eslint-disable max-classes-per-file */
 import data from 'sequelize';
-import sequelizeReturn from './index.js';
+import sequelizeClient from './index.js';
 
 const { Model, DataTypes } = data;
-class Resolution extends Model {}
+class Resolutions extends Model {}
 class User extends Model {}
 class Patient extends Model {}
 class Queue extends Model {}
 
 function sequelizeInit() {
-  const sequelize = sequelizeReturn();
+  const sequelize = sequelizeClient();
 
   Queue.init(
     {
@@ -57,7 +57,7 @@ function sequelizeInit() {
 
   sequelize.sync();
 
-  Resolution.init(
+  Resolutions.init(
     {
       resolution_id: {
         type: DataTypes.INTEGER,
@@ -70,12 +70,12 @@ function sequelizeInit() {
     },
     { sequelize, modelName: 'resolutions' },
   );
-  Resolution.belongsTo(Patient, { foreignKey: 'patient_id' });
-  Patient.hasMany(Resolution, { foreignKey: 'patient_id' });
+  Resolutions.belongsTo(Patient, { foreignKey: 'patient_id' });
+  Patient.hasMany(Resolutions, { foreignKey: 'patient_id' });
   sequelize.sync();
   return sequelize;
 }
 
 export {
-  Patient, Resolution, User, sequelizeInit, Queue,
+  Patient, Resolutions, User, sequelizeInit, Queue,
 };

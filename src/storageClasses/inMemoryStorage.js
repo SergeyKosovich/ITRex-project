@@ -31,17 +31,16 @@ export default class InMemoryStorage {
     return this.queue;
   }
 
-  getResolutionInStorage(name) {
+  getResolutions(name) {
     const res = this.storage.get(name);
-    console.log(res);
     return res;
   }
 
-  setResolutionInStorage(name, previous) {
+  setResolution(name, previous) {
     this.storage.set(name, previous);
   }
 
-  deleteResolutionInStorage(name) {
+  deleteResolution(name) {
     this.storage.delete(name);
   }
 }

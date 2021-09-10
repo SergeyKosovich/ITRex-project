@@ -1,10 +1,12 @@
 import Sequelize from 'sequelize';
-import { SqlHost } from '../config.js';
+import {
+  dbName, dbUserName, dbPassword, SqlHost,
+} from './config.js';
 
-export default function sequelizeReturn() {
-  const sequelize = new Sequelize('node_postgres', 'postgres', '123', {
+export default function sequelizeClient() {
+  const sequelize = new Sequelize(dbName, dbUserName, dbPassword, {
     dialect: 'postgres',
-    host: SqlHost.toString(),
+    host: SqlHost,
   });
   sequelize.sync();
   return sequelize;

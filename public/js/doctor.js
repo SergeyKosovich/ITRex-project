@@ -1,10 +1,10 @@
-import addResolution from './doctor/addResolution.js';
-import deleteResolutionFromStorage from './doctor/deleteResolutionFromStorage.js';
-import removePatientFromStack from './doctor/removePatientFromStack.js';
-import showResolution from './doctor/showResolution.js';
+import addResolution from './doctorPage/addResolution.js';
+import deleteResolutionFromStorage from './doctorPage/deleteResolutionFromStorage.js';
+import removePatientFromStack from './doctorPage/removePatientFromStack.js';
+import showResolution from './doctorPage/showResolution.js';
 import { data } from './main.js';
-import checkNewPatients from './doctor/checkNewPatient.js';
-import checkBoxChange from './doctor/checkBox.js';
+import checkNewPatients from './doctorPage/checkNewPatient.js';
+import checkBoxChange from './doctorPage/checkBox.js';
 
 const { ws } = data;
 const removeButton = document.querySelector('.current-patient__button');
@@ -19,11 +19,12 @@ const resolutionText = document.querySelector('.delete_resolution__text');
 const deleteForm = document.querySelector('.delete_resolution__form');
 const checkBox = document.querySelector('.input-block__checkbox');
 const inputTtl = document.querySelector('.input-block__ttl-number');
+const patientData = [];
 
 checkBoxChange(checkBox, inputTtl);
-addResolution(lastPatient, setResolution, textareaInSetResolution);
+addResolution(patientData, setResolution, textareaInSetResolution);
 deleteResolutionFromStorage(showResolutionInput, deleteForm, resolutionText);
-removePatientFromStack(removeButton, lastPatient);
+removePatientFromStack(removeButton, lastPatient, patientData);
 showResolution(showResolutionForm, showResolutionInput, resolutionText);
 
 ws.addEventListener('open', () => console.log('Connection opened...'));
@@ -38,7 +39,7 @@ ws.addEventListener('message', async (res) => {
     return;
   }
   if (response.event === 'addUser') {
-    checkNewPatients(lastPatient);
+    checkNewPatients(lastPatient, patientData);
   }
 });
-checkNewPatients(lastPatient);
+checkNewPatients(lastPatient, patientData);

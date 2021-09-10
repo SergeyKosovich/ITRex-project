@@ -1,19 +1,19 @@
-export default async function userDataPost(email, password) {
+import { userUrl } from '../../config.js';
+
+export default async function postPatientToQueue() {
   try {
-    const response = await fetch('/auth', {
+    const jwt = localStorage.getItem('jwt');
+    const response = await fetch(userUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwt}`,
       },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
     });
     if (response.status !== 200) {
       throw new Error(`Something went wrong. Error: ${response.statusText}`);
     }
-    return response.json();
+    return 1;
   } catch (err) {
     console.log(err.message);
     return null;

@@ -4,6 +4,6 @@ import Controller from './registrationControllers.js';
 const controller = new Controller();
 const router = express.Router();
 
-router.patch('/', controller.registerUser);
+router.post('/', controller.registerUser);
 
 export default router;

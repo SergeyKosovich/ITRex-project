@@ -2,6 +2,7 @@
 import express from 'express';
 import path from 'path';
 import WebSocket, { WebSocketServer } from 'ws';
+import dotenv from 'dotenv';
 import patientRouter from './src/patient/patientRoutes.js';
 import docRouter from './src/doctor/docRouter.js';
 import authRouter from './src/auth/authRoutes.js';
@@ -10,6 +11,7 @@ import errorHandler from './src/handlers/errorHandler.js';
 import { PORT, WS_PORT } from './src/config.js';
 
 const dirname = path.resolve();
+dotenv.config({ path: path.join(dirname, '.env') });
 const app = express();
 const wss = new WebSocketServer({
   port: WS_PORT,
@@ -27,8 +29,8 @@ wss.on('connection', (ws) => {
 
 app.use(express.json());
 app.use(express.static(`${dirname}/public`));
-app.use('/name', patientRouter);
-app.use('/resolution', docRouter);
+app.use('/patient', patientRouter);
+app.use('/doctor', docRouter);
 app.use('/registration', regRouter);
 app.use('/auth', authRouter);
 app.use(errorHandler);

@@ -17,7 +17,10 @@ export default async function getPatientsResolutionsById(id) {
       throw new Error(`Something went wrong. Error: ${res.statusText}`);
     }
     const resolutionText = await res.json();
-    return resolutionText.map((resolution) => resolution.resolution).join(' ');
+    if (!resolutionText.length) {
+      return null;
+    }
+    return resolutionText.map((resolution) => resolution).join(' ');
   } catch (err) {
     console.log(err.message);
     return null;

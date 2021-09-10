@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import {
-  Patient, Resolution, User, sequelizeInit, Queue,
+  Patient, Resolutions, sequelizeInit, Queue,
 } from '../db/models.js';
 
 export default class SqlStorage {
@@ -8,14 +8,12 @@ export default class SqlStorage {
     initSeq = sequelizeInit(),
     queue = Queue,
     patient = Patient,
-    resolution = Resolution,
-    user = User,
+    resolution = Resolutions,
   ) {
     this.init = initSeq;
     this.Patient = patient;
-    this.Resolution = resolution;
+    this.Resolutions = resolution;
     this.Queue = queue;
-    this.User = user;
   }
 
   async addToque(data) {
@@ -77,20 +75,34 @@ export default class SqlStorage {
     return [];
   }
 
-  async getResolutionInStorage(patientId) {
-    const resolutions = await this.Resolution.findAll({
-      attributes: ['resolution'],
+  async getResolutions(patientId) {
+    const resolutions = await this.Resolutions.findAll({
+      attributes: ['resolution', 'ttl', 'patient_id'],
       where: {
         patient_id: patientId,
       },
     });
     if (!resolutions[0]) {
-      return null;
+      return resolutions;
     }
-    return resolutions;
+    const allResolutions = [];
+    resolutions.forEach(async (resolution) => {
+      if (resolution.ttl <= Date.now() && resolution.ttl) {
+        await this.Resolutions.destroy({
+          where: {
+            patient_id: resolution.patient_id,
+            ttl: resolution.ttl,
+          },
+        });
+        return;
+      }
+      allResolutions.push(resolution.resolution);
+    });
+
+    return allResolutions;
   }
 
-  async setResolutionInStorage(data) {
+  async setResolution(data) {
     const { patient_id, ttl, resolution } = data;
     const dataForDb = {
       patient_id,
@@ -99,31 +111,18 @@ export default class SqlStorage {
     if (ttl) {
       dataForDb.ttl = Date.now() + ttl * 1000;
     }
-    await this.Resolution.create(dataForDb);
+    await this.Resolutions.create(dataForDb);
   }
 
-  async deleteResolutionInStorage(patientId) {
-    await this.Resolution.destroy({
+  async deleteResolution(patientId) {
+    await this.Resolutions.destroy({
       where: {
         patient_id: patientId,
       },
     });
   }
 
-  async checkUserAndPassInDb(emailToCheck) {
-    const user = await this.User.findOne({
-      attributes: ['email', 'password', 'user_id'],
-      where: {
-        email: emailToCheck,
-      },
-    });
-    if (user) {
-      return user;
-    }
-    return null;
-  }
-
-  async getUserData(userId) {
+  async getPatientData(userId) {
     const user = await this.Patient.findOne({
       attributes: ['firstName', 'lastName', 'patient_id'],
       where: {
@@ -136,25 +135,20 @@ export default class SqlStorage {
     return null;
   }
 
-  async createNewUserAndPatient(
-    userMail,
-    userPass,
+  async createNewPatient(
+    userId,
     userFirstName,
     userLastName,
     userGender,
     userBirthday,
   ) {
-    const response = await this.User.create({
-      email: userMail,
-      password: userPass,
-    });
     const patient = await this.Patient.create({
-      user_id: response.user_id,
+      user_id: userId,
       firstName: userFirstName,
       lastName: userLastName,
       gender: userGender,
       birthday: userBirthday,
     });
-    return patient.patient_id;
+    return patient;
   }
 }

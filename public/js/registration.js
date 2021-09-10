@@ -1,4 +1,4 @@
-import userDataPatch from './httpRequests/patientPageRequests/userDataPatch.js';
+import sendUserInfo from './httpRequests/userRequests/sendUserInfo.js';
 
 const registrationForm = document.querySelector('.registration-form');
 const popup = document.querySelector('.popup');
@@ -12,7 +12,7 @@ registrationForm.addEventListener('submit', async (e) => {
   const userLastName = e.target.elements.lastName.value;
   const userGender = e.target.elements.gender.value;
   const userBirthday = e.target.elements.birthday.value;
-  const response = await userDataPatch(
+  const response = await sendUserInfo(
     userMail,
     userPass,
     userFirstName,

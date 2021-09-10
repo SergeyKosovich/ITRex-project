@@ -6,29 +6,29 @@ redisClient.FLUSHDB = jest.fn();
 redisClient.get = jest.fn();
 redisClient.setex = jest.fn();
 redisClient.HDEL = jest.fn();
-
+const storageKey = 'storage';
 const service = new RedisStorage(redisClient);
 
-test('getResolutionInStorage resolution from storage', async () => {
+test('getResolutions resolution from storage', async () => {
   const name = 'testName';
   const textResolution = 'resolution';
   redisClient.get = jest.fn(() => [textResolution]);
-  const resolution = await service.getResolutionInStorage(name);
+  const resolution = await service.getResolutions(name);
   expect(redisClient.get).toHaveBeenCalledTimes(1);
   expect(redisClient.get).toHaveBeenCalledWith(name);
   expect(resolution).toEqual(['resolution']);
 });
 
-test('setResolutionInStorage should call HMSET method', async () => {
+test('setResolution should call HMSET method', async () => {
   const name = 'testName';
   const textResolution = 'resolution';
-  await service.setResolutionInStorage(name, textResolution);
+  await service.setResolution(name, textResolution);
   expect(redisClient.setex).toHaveBeenCalledTimes(1);
 });
 
-test('deleteResolutionInStorage should call HMSET method', async () => {
+test('deleteResolution should call HMSET method', async () => {
   const name = 'testName';
-  await service.deleteResolutionInStorage(name);
+  await service.deleteResolution(name);
   expect(redisClient.HDEL).toHaveBeenCalledTimes(1);
-  expect(redisClient.HDEL).toHaveBeenCalledWith('storage', name);
+  expect(redisClient.HDEL).toHaveBeenCalledWith(storageKey, name);
 });

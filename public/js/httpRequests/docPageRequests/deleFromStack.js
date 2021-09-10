@@ -11,8 +11,7 @@ export default async function deleteFromStack() {
     if (lastPatient.status !== 200) {
       throw new Error(`Something went wrong. Error: ${lastPatient.statusText}`);
     }
-    const response = await lastPatient.json();
-    return response;
+    return 1;
   } catch (err) {
     console.log(err.message);
     return null;

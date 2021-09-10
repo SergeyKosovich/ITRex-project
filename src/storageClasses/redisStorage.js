@@ -9,7 +9,6 @@ function returnClient() {
   client.on('error', (err) => {
     console.log(`Error ${err}`);
   });
-  client.FLUSHDB();
   return client;
 }
 
@@ -51,12 +50,12 @@ export default class RedisStorage {
     return arr;
   }
 
-  async getResolutionInStorage(name) {
+  async getResolutions(name) {
     const value = await this.client.get(name);
     return value;
   }
 
-  async setResolutionInStorage(data) {
+  async setResolution(data) {
     if (data.previous) {
       await this.client.setex(data.name, data.ttl, data.previous);
       return;
@@ -64,7 +63,7 @@ export default class RedisStorage {
     await this.client.setex(data.name, data.ttl, data.resolution);
   }
 
-  async deleteResolutionInStorage(name) {
+  async deleteResolution(name) {
     await this.client.HDEL(storageKey, name);
   }
 }

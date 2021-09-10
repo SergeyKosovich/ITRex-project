@@ -1,4 +1,4 @@
 const wsPort = 8080;
-const userUrl = '/name';
-const docUrl = '/resolution/';
+const userUrl = '/patient';
+const docUrl = '/doctor/';
 export { wsPort, userUrl, docUrl };

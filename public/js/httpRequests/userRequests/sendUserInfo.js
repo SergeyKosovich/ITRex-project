@@ -1,4 +1,4 @@
-export default async function userDataPatch(
+export default async function sendUserInfo(
   userMail,
   userPass,
   userFirstName,
@@ -8,7 +8,7 @@ export default async function userDataPatch(
 ) {
   try {
     const response = await fetch('/registration', {
-      method: 'PATCH',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },

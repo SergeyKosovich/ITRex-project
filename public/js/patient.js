@@ -1,11 +1,10 @@
-import addUserToQueueForm from './patients/addUserToQueueForm.js';
-import showResolutionForPatient from './patients/showResolutionForPatient.js';
-import authUser from './patients/authUser.js';
-import logoutUser from './patients/logout.js';
+import addUserToQueueForm from './patientsPage/addUserToQueueForm.js';
+import showResolutionForPatient from './patientsPage/showResolutionForPatient.js';
+import authUser from './patientsPage/authUser.js';
+import logoutUser from './patientsPage/logout.js';
 import { data } from './main.js';
-import renderPatientInStack from './patients/renderPatientInStack.js';
-import registrationUser from './patients/registrationUser.js';
-import checkAuth from './patients/checkAuth.js';
+import registrationUser from './patientsPage/registrationUser.js';
+import checkAuth from './patientsPage/checkAuth.js';
 
 const { ws } = data;
 const addForm = document.querySelector('.input-block__form');
@@ -35,4 +34,3 @@ ws.addEventListener('message', async (res) => {
     patientStack.removeChild(patientStack.firstChild);
   }
 });
-renderPatientInStack(patientStack);

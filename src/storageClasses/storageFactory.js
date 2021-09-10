@@ -11,9 +11,6 @@ class StorageFactory {
       case 2:
         return new RedisStorage();
 
-      case 3:
-        return new SqlStorage();
-
       default:
         return new InMemoryStorage();
     }
@@ -21,6 +18,6 @@ class StorageFactory {
 }
 
 const storage = new StorageFactory();
-const resolutionsStorageMethods = storage.create(3);
+const resolutionsStorageMethods = new SqlStorage();
 const queueStorageMethods = storage.create(2);
 export { resolutionsStorageMethods, queueStorageMethods, StorageFactory };

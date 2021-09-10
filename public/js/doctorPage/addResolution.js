@@ -1,13 +1,13 @@
 import patchResolution from '../httpRequests/docPageRequests/patchResolution.js';
 
-export default function addResolution(lastPatient, setResolution, textarea) {
+export default function addResolution(patientData, setResolution, textarea) {
   setResolution.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const resolutionText = textarea.value;
-    if (lastPatient.innerHTML === 'No patient') {
+    if (!patientData[0]) {
       return;
     }
-    const currentPatientId = lastPatient.innerHTML.split('id:')[1];
+    const resolutionText = textarea.value;
+    const currentPatientId = patientData[0].patient_id;
     const ttl = e.target.elements.ttlNumber.value;
     const res = await patchResolution(resolutionText, currentPatientId, ttl);
     if (!res) {

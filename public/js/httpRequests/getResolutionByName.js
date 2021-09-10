@@ -7,7 +7,6 @@ export default async function getResolutionByName(name) {
       throw new Error(`Something went wrong. Error: ${res.statusText}`);
     }
     const resolutionText = await res.json();
-
     return resolutionText;
   } catch (err) {
     console.log(err.message);
