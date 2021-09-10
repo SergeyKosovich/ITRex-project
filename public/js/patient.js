@@ -12,10 +12,10 @@ const patientStack = document.getElementsByClassName("patient-stack")[0];
 const patientSearchForm = document.querySelector(".search-block");
 const patientResults = document.querySelector(".search-block__results");
 
-addUserToQueueForm(addForm, patientStack); // добавление в очередь
-showResolutionForPatient(patientSearchForm, patientResults); // поиск резолюции
-authUser(); // логин
-checkAuth(); // проверка логина
+addUserToQueueForm(addForm, patientStack);
+showResolutionForPatient(patientSearchForm, patientResults);
+authUser();
+checkAuth();
 logoutUser();
 registrationUser();
 

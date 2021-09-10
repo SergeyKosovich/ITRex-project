@@ -15,9 +15,8 @@ class DoctorService {
 
     localStorage.setItem("doctor-jwt", doctor.token);
     localStorage.setItem("doctorId", doctor.doctor_id);
-    setTimeout(() => {
-      document.location.href = `http://localhost:3000/doctor.html`;
-    }, 1000);
+
+    document.location.href = `http://localhost:3000/doctor.html`;
   };
 
   getDoctor = async () => {

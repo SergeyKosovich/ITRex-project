@@ -9,8 +9,9 @@ const router = express.Router();
 
 // router.post("/", validator.checkToken, validator.checkId, controller.addUser);
 // router.get("/queue", controller.getQueue);
-router.post("/", validator.checkId, controller.addUser);
-router.delete("/", controller.deleteFirstAndReturnNewFirstFromQueue);
-router.get("/", controller.getFirstUserInQueue);
+router.post("/queue", validator.checkId, controller.addUser);
+router.delete("/queue", controller.deleteFirstAndReturnNewFirstFromQueue);
+router.get("/queue", controller.getFirstUserInQueue);
+router.get("/me", controller.getUser);
 
 export default router;

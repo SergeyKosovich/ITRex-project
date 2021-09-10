@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import Joi from "joi";
 
 const schemaForResolutionAndId = Joi.object({
   body: Joi.object({
@@ -7,7 +7,13 @@ const schemaForResolutionAndId = Joi.object({
     ttl: Joi.number().min(1).max(60),
   }),
 });
+const schemaForCredentials = Joi.object({
+  body: Joi.object({
+    email: Joi.string().min(3).max(50).required(),
+    password: Joi.string().min(3).max(50).required(),
+  }),
+});
 const schemaForId = Joi.object().keys({
   patient_id: Joi.number().min(1).max(32140),
 });
-export { schemaForResolutionAndId, schemaForId };
+export { schemaForResolutionAndId, schemaForId, schemaForCredentials };

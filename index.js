@@ -35,7 +35,7 @@ app.use("/registration", regRouter);
 
 app.use(checkAuth);
 app.use("/resolution", docRouter);
-app.use("/queue", patientRouter);
+app.use("/patient", patientRouter);
 app.use("/staff", staffRouter);
 
 app.use(errorHandler);

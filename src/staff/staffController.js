@@ -1,17 +1,18 @@
-import StaffService from "./staffService.js";
+import doctorStorage from "../repositories/doctorStorage.js";
+import { DOCTOR_NOT_FOUND } from "../constants/messages.js";
+import { NOT_FOUND } from "../constants/statusCodes.js";
+import ApiError from "../errors/appError.js";
 
 class StaffController {
-  constructor() {
-    this.staffService = new StaffService();
-  }
-
   getDoctor = async (req, res, next) => {
     try {
-      const doctor = await this.staffService.getDoctor(req.params.doctorId);
+      const doctor = await doctorStorage.getDoctorById(req.params.doctorId);
 
-      return doctor
-        ? res.json(doctor)
-        : res.status(404).json({ message: "Doctor not found" });
+      if (!doctor) {
+        throw new ApiError(NOT_FOUND, DOCTOR_NOT_FOUND);
+      }
+
+      return res.json(doctor);
     } catch (error) {
       return next(error);
     }

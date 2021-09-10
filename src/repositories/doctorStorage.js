@@ -1,8 +1,8 @@
 import { Doctor, Specialization } from "../db/models.js";
 
 class DoctorStorage {
-  async getDoctor(id) {
-    return (
+  async getDoctorById(id) {
+    const doctor = (
       await Doctor.findByPk(id, {
         include: {
           model: Specialization,
@@ -11,10 +11,12 @@ class DoctorStorage {
         },
       })
     )?.get({ plain: true });
+
+    return doctor || null;
   }
 
   async getDoctorByUserId(userId) {
-    return (
+    const doctor = (
       await Doctor.findOne({
         where: { user_id: userId },
         include: {
@@ -24,6 +26,8 @@ class DoctorStorage {
         },
       })
     )?.get({ plain: true });
+
+    return doctor || null;
   }
 
   async getDoctorBySpecialization(specialization) {
@@ -39,7 +43,7 @@ class DoctorStorage {
       })
     )?.get({ plain: true });
 
-    return data ? data.doctors : null;
+    return data ? data.doctors[0] : null;
   }
 }
 
