@@ -39,7 +39,7 @@ export default class Controller {
         throw new ApiError(NOT_FOUND, DOCTOR_NOT_FOUND);
       }
 
-      const token = tokenService.generateForStaff({ ...doctor }, secretKey);
+      const token = tokenService.generateForStaff(doctor, secretKey);
       doctor.token = token;
 
       return res.json(doctor);

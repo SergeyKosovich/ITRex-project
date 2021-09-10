@@ -26,8 +26,6 @@ export default function checkAuth(req, res, next) {
       throw new ApiError(UNAUTHORIZED, INVALID_TOKEN);
     }
 
-    console.log("AUTH MIDDL    ", payload);
-
     req.user = payload;
     return next();
   } catch (error) {

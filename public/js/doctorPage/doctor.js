@@ -1,10 +1,10 @@
-import addResolution from "./doctor/addResolution.js";
-import deleteResolutionFromStorage from "./doctor/deleteResolutionFromStorage.js";
-import removePatientFromStack from "./doctor/removePatientFromStack.js";
-import showResolution from "./doctor/showResolution.js";
-import { data } from "./main.js";
-import checkNewPatients from "./doctor/checkNewPatient.js";
-import checkBoxChange from "./doctor/checkBox.js";
+import addResolution from "../doctor/addResolution.js";
+import deleteResolutionFromStorage from "../doctor/deleteResolutionFromStorage.js";
+import removePatientFromStack from "../doctor/removePatientFromStack.js";
+import showResolution from "../doctor/showResolution.js";
+import { data } from "../main.js";
+import checkNewPatients from "../doctor/checkNewPatient.js";
+import checkBoxChange from "../doctor/checkBox.js";
 import doctorService from "./doctorService.js";
 
 const { ws } = data;

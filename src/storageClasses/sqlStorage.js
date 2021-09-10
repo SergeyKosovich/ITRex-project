@@ -5,23 +5,15 @@ import {
   User,
   // sequelizeInit,
   Queue,
-  // Doctor,
-  // Specialization,
 } from "../db/models.js";
 
 export default class SqlStorage {
-  constructor(
-    queue = Queue,
-    patient = Patient,
-    resolution = Resolution,
-    user = User
-  ) {
+  constructor() {
     // this.init = sequelizeInit().then(() => console.log("DB ready to use!"));
-    this.Patient = patient;
-    this.Resolution = resolution;
-    this.Queue = queue;
-    this.User = user;
-    // this.Doctor = Doctor;
+    this.Patient = Patient;
+    this.Resolution = Resolution;
+    this.Queue = Queue;
+    this.User = User;
   }
 
   async addToque(data) {
