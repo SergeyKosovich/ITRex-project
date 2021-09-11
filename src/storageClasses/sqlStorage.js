@@ -1,15 +1,8 @@
 /* eslint-disable camelcase */
-import {
-  Patient,
-  Resolution,
-  User,
-  // sequelizeInit,
-  Queue,
-} from "../db/models.js";
+import { Patient, Resolution, User, Queue, sequelize } from "../db/models.js";
 
 export default class SqlStorage {
   constructor() {
-    // this.init = sequelizeInit().then(() => console.log("DB ready to use!"));
     this.Patient = Patient;
     this.Resolution = Resolution;
     this.Queue = Queue;
@@ -77,21 +70,20 @@ export default class SqlStorage {
 
   async getResolutionInStorage(patientId) {
     const resolutions = await this.Resolution.findAll({
-      attributes: ["resolution"],
-      where: {
-        patient_id: patientId,
-      },
+      where: { patient_id: patientId },
+      attributes: ["resolution_id", "resolution", "createdAt"],
+      include: ["doctor"],
+      raw: true,
     });
-    if (!resolutions[0]) {
-      return null;
-    }
-    return resolutions;
+
+    return resolutions.length ? resolutions : null;
   }
 
   async setResolutionInStorage(data) {
-    const { patient_id, ttl, resolution } = data;
+    const { patient_id, ttl, resolution, doctor_id } = data;
     const dataForDb = {
       patient_id,
+      doctor_id,
       resolution,
     };
     if (ttl) {

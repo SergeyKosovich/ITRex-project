@@ -21,7 +21,12 @@ export default class Controller {
         throw new ApiError(NOT_FOUND, PATIENT_NOT_FOUND);
       }
 
-      const token = tokenService.generate(user.user_id, secretKey);
+      const payload = {
+        user_id: user.user_id,
+        patient_id: userData.patient_id,
+      };
+
+      const token = tokenService.generate(payload, secretKey);
       userData.token = token;
 
       res.status(200).json(userData);

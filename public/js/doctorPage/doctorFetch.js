@@ -1,3 +1,5 @@
+import { docUrl } from "../config.js";
+
 async function loginDoctor(credential) {
   try {
     const response = await fetch("/auth/doctor", {
@@ -47,4 +49,28 @@ async function getDoctorData(doctorId, jwt) {
   }
 }
 
-export { getDoctorData, loginDoctor };
+async function getResolutionsById(jwt, name) {
+  try {
+    const search = `?name=${name}`;
+
+    const res = await fetch(docUrl + search, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    if (res.status === 404) {
+      return null;
+    }
+    if (res.status !== 200) {
+      throw new Error(`Something went wrong. Error: ${res.statusText}`);
+    }
+    return res.json();
+  } catch (err) {
+    console.log(err.message);
+    return null;
+  }
+}
+
+export { getDoctorData, loginDoctor, getResolutionsById };

@@ -3,6 +3,7 @@ import ApiError from "../errors/appError.js";
 import {
   schemaForResolutionAndId,
   schemaForId,
+  schemaQueryName,
   schemaForCredentials,
 } from "../validatorSchemes/schemas.js";
 import { secretKey } from "../config.js";
@@ -28,6 +29,15 @@ export default class Validator {
 
   checkId(req, res, next) {
     const schema = schemaForId;
+    const { error } = schema.validate(req.query);
+    if (error) {
+      next(new ApiError(400, "incorrect name of patient"));
+    }
+    next();
+  }
+
+  checkQueryName(req, res, next) {
+    const schema = schemaQueryName;
     const { error } = schema.validate(req.query);
     if (error) {
       next(new ApiError(400, "incorrect name of patient"));

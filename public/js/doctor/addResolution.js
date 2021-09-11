@@ -6,7 +6,7 @@ export default function addResolution(lastPatient, setResolution, textarea) {
     if (lastPatient.innerHTML === "No patient") {
       return;
     }
-    const resolutionText = textarea.value;
+    const resolutionText = textarea.value.trim();
     const currentPatientId = lastPatient.innerHTML.split("id:")[1];
     const ttl = e.target.elements.ttlNumber.value;
     const res = await patchResolution(resolutionText, currentPatientId, ttl);

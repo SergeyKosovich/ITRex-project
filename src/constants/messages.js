@@ -1,5 +1,6 @@
 const DOCTOR_NOT_FOUND = "Doctor not found";
 const PATIENT_NOT_FOUND = "Patient not found";
+const RESOLUTIONS_NOT_FOUND = "Resolutions not found";
 const INCORRECT_LOGIN = "Incorrect login";
 const INCORRECT_PASSWORD = "Incorrect password";
 const NOT_AUTORIZED = "User is not authorized";
@@ -9,6 +10,7 @@ const EXPIRED_ERROR = "TokenExpiredError";
 
 export {
   DOCTOR_NOT_FOUND,
+  RESOLUTIONS_NOT_FOUND,
   PATIENT_NOT_FOUND,
   INCORRECT_LOGIN,
   INCORRECT_PASSWORD,

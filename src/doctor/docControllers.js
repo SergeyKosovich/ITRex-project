@@ -4,17 +4,39 @@
 import { resolutionsStorageMethods } from "../storageClasses/storageFactory.js";
 import ApiError from "../errors/appError.js";
 import { TtlDefaultInSeconds } from "../config.js";
+import patientStorage from "../repositories/patientStorage.js";
+import ResolutionForDoctorDto from "../dtos/resolutionForDoctorDto.js";
+import {
+  PATIENT_NOT_FOUND,
+  RESOLUTIONS_NOT_FOUND,
+} from "../constants/messages.js";
+import { NOT_FOUND } from "../constants/statusCodes.js";
 
 export default class Controller {
-  getById = async (req, res) => {
-    const { patient_id } = req.query;
-    const resolution = await resolutionsStorageMethods.getResolutionInStorage(
-      patient_id
-    );
-    if (resolution) {
-      res.status(200).json(resolution);
-    } else {
-      res.status(404).send("no resolutions");
+  getResolutions = async (req, res, next) => {
+    try {
+      const patient = await patientStorage.getPatientByName(req.query.name);
+
+      if (!patient) {
+        throw new ApiError(NOT_FOUND, PATIENT_NOT_FOUND);
+      }
+
+      const resolutions =
+        await resolutionsStorageMethods.getResolutionInStorage(
+          patient.patient_id
+        );
+
+      if (!resolutions.length) {
+        throw new ApiError(NOT_FOUND, RESOLUTIONS_NOT_FOUND);
+      }
+
+      const data = resolutions.map(
+        (resolution) => new ResolutionForDoctorDto(resolution, patient)
+      );
+
+      return res.json(data);
+    } catch (error) {
+      return next(error);
     }
   };
 
@@ -22,6 +44,7 @@ export default class Controller {
     const data = {
       patient_id: req.body.patient_id,
       resolution: req.body.resolution,
+      doctor_id: req.user.doctor_id,
       ttl: req.body.ttl || TtlDefaultInSeconds,
     };
     try {

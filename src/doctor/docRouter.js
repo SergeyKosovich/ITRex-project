@@ -7,7 +7,7 @@ const validator = new Validator();
 const router = express.Router();
 
 router.patch("/", validator.checkResolution, controller.patchResolution);
-router.get("/", validator.checkId, controller.getById);
+router.get("/", validator.checkQueryName, controller.getResolutions);
 router.delete("/", controller.deleteRes);
 
 export default router;

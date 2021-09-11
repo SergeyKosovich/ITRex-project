@@ -26,7 +26,7 @@ class DoctorService {
     const doctor = await getDoctorData(doctorId, jwt);
     if (!doctor) return;
 
-    userLogin.innerHTML = `${doctor.name} | Specialization: '${doctor.specializations[0].name}'`;
+    userLogin.innerHTML = `${doctor.name} | '${doctor.specializations[0].name}'`;
     loginWrapper.classList.add("hidden");
     logoutWrapper.classList.add("active");
   };

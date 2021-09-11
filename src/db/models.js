@@ -85,6 +85,8 @@ async function sequelizeInit() {
   );
   User.hasOne(Doctor, { foreignKey: "user_id" });
   Doctor.belongsTo(User, { foreignKey: "user_id" });
+  Resolution.belongsTo(Doctor, { foreignKey: "doctor_id" });
+  Doctor.hasMany(Resolution, { foreignKey: "doctor_id" });
 
   Specialization.init(
     {
@@ -106,23 +108,24 @@ async function sequelizeInit() {
     foreignKey: "doctor_id",
   });
 
-  await sequelize.sync({ force: true });
+  await sequelize.sync(/* { force: true } */);
 
-  const savedSpecs = await Specialization.bulkCreate(specializations);
-  const savedUsers = await User.bulkCreate(users);
+  // const savedSpecs = await Specialization.bulkCreate(specializations);
+  // const savedUsers = await User.bulkCreate(users);
 
-  doctors.forEach(async (doctor, i) => {
-    const savedDoctor = await Doctor.create({
-      name: doctor.name,
-      user_id: savedUsers[i].user_id,
-    });
-    savedDoctor.addSpecialization(savedSpecs[i].specialization_id);
-  });
+  // doctors.forEach(async (doctor, i) => {
+  //   const savedDoctor = await Doctor.create({
+  //     name: doctor.name,
+  //     user_id: savedUsers[i].user_id,
+  //   });
+  //   savedDoctor.addSpecialization(savedSpecs[i].specialization_id);
+  // });
 
   return sequelize;
 }
 
-sequelizeInit().then(() => console.log("DB ready to use!"));
+// sequelizeInit().then(() => console.log("DB ready to use!"));
+const sequelize = await sequelizeInit();
 
 export {
   Patient,
@@ -132,4 +135,5 @@ export {
   Queue,
   Doctor,
   Specialization,
+  sequelize,
 };

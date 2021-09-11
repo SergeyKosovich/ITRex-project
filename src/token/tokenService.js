@@ -14,8 +14,7 @@ class TokenService {
     }
   }
 
-  generate(userId, tokenSecret) {
-    const payload = { user_id: userId };
+  generate(payload, tokenSecret) {
     return jwt.sign(payload, tokenSecret, { expiresIn: tokenAge });
   }
 

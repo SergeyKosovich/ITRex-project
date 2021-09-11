@@ -1,8 +1,6 @@
-import { docUrl } from "../config.js";
-
-export default async function getPatientsResolutionsById(id, jwt) {
+export default async function getPatientsResolutionsById(jwt) {
   try {
-    const res = await fetch(`${docUrl}?patient_id=${id}`, {
+    const res = await fetch("/patient/me/resolutions", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -15,8 +13,8 @@ export default async function getPatientsResolutionsById(id, jwt) {
     if (res.status !== 200) {
       throw new Error(`Something went wrong. Error: ${res.statusText}`);
     }
-    const resolutionText = await res.json();
-    return resolutionText.map((resolution) => resolution.resolution).join(" ");
+
+    return res.json();
   } catch (err) {
     console.log(err.message);
     return null;

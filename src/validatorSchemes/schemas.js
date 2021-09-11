@@ -16,4 +16,12 @@ const schemaForCredentials = Joi.object({
 const schemaForId = Joi.object().keys({
   patient_id: Joi.number().min(1).max(32140),
 });
-export { schemaForResolutionAndId, schemaForId, schemaForCredentials };
+const schemaQueryName = Joi.object().keys({
+  name: Joi.string().min(1).max(32140),
+});
+export {
+  schemaForResolutionAndId,
+  schemaForId,
+  schemaForCredentials,
+  schemaQueryName,
+};
