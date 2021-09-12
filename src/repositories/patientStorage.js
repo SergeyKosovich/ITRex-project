@@ -6,17 +6,26 @@ class PatientStorage {
       where: {
         user_id: userId,
       },
-      attributes: ["firstName", "lastName", "patient_id", "gender", "birthday"],
+      attributes: ["name", "patient_id", "gender", "birthday"],
       raw: true,
     });
 
     return patient || null;
   }
 
-  async getPatientByName(firstName) {
+  async getPatientById(id) {
+    const patient = await Patient.findByPk(id, {
+      attributes: ["name", "patient_id", "gender", "birthday"],
+      raw: true,
+    });
+
+    return patient || null;
+  }
+
+  async getPatientByName(name) {
     const patient = await Patient.findOne({
-      where: { firstName },
-      attributes: ["firstName", "lastName", "patient_id", "gender", "birthday"],
+      where: { name },
+      attributes: ["name", "patient_id", "gender", "birthday"],
       raw: true,
     });
 

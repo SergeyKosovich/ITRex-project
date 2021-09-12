@@ -18,7 +18,7 @@ export default class Validator {
     next();
   }
 
-  checkCredential(req, res, next) {
+  checkCredentialBody(req, res, next) {
     const schema = schemaForCredentials;
     const { error } = schema.validate({ body: req.body });
     if (error) {

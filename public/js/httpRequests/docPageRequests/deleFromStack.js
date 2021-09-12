@@ -1,8 +1,7 @@
 import { userUrl } from "../../config.js";
 
-export default async function deleteFromStack() {
+export default async function deleteFromStack(jwt) {
   try {
-    const jwt = localStorage.getItem("doctor-jwt");
     const lastPatient = await fetch(userUrl, {
       method: "DELETE",
       headers: {

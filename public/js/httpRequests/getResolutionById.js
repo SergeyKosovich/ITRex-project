@@ -1,4 +1,4 @@
-export default async function getPatientsResolutionsById(jwt) {
+export default async function getPatientsResolutions(jwt) {
   try {
     const res = await fetch("/patient/me/resolutions", {
       method: "GET",

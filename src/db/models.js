@@ -46,8 +46,7 @@ async function sequelizeInit() {
         primaryKey: true,
         autoIncrement: true,
       },
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
+      name: DataTypes.STRING,
       gender: DataTypes.STRING,
       birthday: DataTypes.STRING,
     },
@@ -124,8 +123,7 @@ async function sequelizeInit() {
   return sequelize;
 }
 
-// sequelizeInit().then(() => console.log("DB ready to use!"));
-const sequelize = await sequelizeInit();
+sequelizeInit().then(() => console.log("DB ready to use!"));
 
 export {
   Patient,
@@ -135,5 +133,4 @@ export {
   Queue,
   Doctor,
   Specialization,
-  sequelize,
 };

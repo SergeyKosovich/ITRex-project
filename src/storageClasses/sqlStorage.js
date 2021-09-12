@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Patient, Resolution, User, Queue, sequelize } from "../db/models.js";
+import { Patient, Resolution, User, Queue } from "../db/models.js";
 
 export default class SqlStorage {
   constructor() {
@@ -115,7 +115,7 @@ export default class SqlStorage {
 
   async getUserData(userId) {
     const user = await this.Patient.findOne({
-      attributes: ["firstName", "lastName", "patient_id"],
+      attributes: ["name", "patient_id"],
       where: {
         user_id: userId,
       },
@@ -140,8 +140,7 @@ export default class SqlStorage {
     });
     const patient = await this.Patient.create({
       user_id: response.user_id,
-      firstName: userFirstName,
-      lastName: userLastName,
+      name: `${userFirstName} ${userLastName}`,
       gender: userGender,
       birthday: userBirthday,
     });

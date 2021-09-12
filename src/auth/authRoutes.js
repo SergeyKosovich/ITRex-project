@@ -7,7 +7,7 @@ const validator = new Validator();
 const controller = new Controller();
 const router = express.Router();
 
-router.use(validator.checkCredential);
+router.use(validator.checkCredentialBody);
 router.post("/", controller.authUser);
 router.post("/doctor", controller.authDoctor);
 

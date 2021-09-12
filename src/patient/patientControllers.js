@@ -71,7 +71,6 @@ export default class Controller {
   getUser = async (req, res, next) => {
     try {
       const userData = await patientStorage.getPatientById(req.user.patient_id);
-
       if (!userData) {
         throw new ApiError(NOT_FOUND, PATIENT_NOT_FOUND);
       }
@@ -99,7 +98,7 @@ export default class Controller {
       const data = resolutions.map(
         (resolution) => new ResolutionForUserDto(resolution)
       );
-      console.log(data);
+
       res.status(200).json(data);
     } else {
       res.status(404).send("no resolutions");

@@ -11,11 +11,13 @@ import {
   RESOLUTIONS_NOT_FOUND,
 } from "../constants/messages.js";
 import { NOT_FOUND } from "../constants/statusCodes.js";
+import prepareNameSearch from "../utils/prepareNameSearch.js";
 
 export default class Controller {
   getResolutions = async (req, res, next) => {
     try {
-      const patient = await patientStorage.getPatientByName(req.query.name);
+      const name = prepareNameSearch(req.query.name);
+      const patient = await patientStorage.getPatientByName(name);
 
       if (!patient) {
         throw new ApiError(NOT_FOUND, PATIENT_NOT_FOUND);

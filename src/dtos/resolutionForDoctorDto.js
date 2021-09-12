@@ -1,7 +1,6 @@
 export default class ResolutionForDoctorDto {
   constructor(resolution, patient) {
-    this.firstName = patient.firstName;
-    this.lastName = patient.lastName;
+    this.name = patient.name;
     this.gender = patient.gender;
     this.birthday = patient.birthday;
     this.resolution_id = resolution.resolution_id;

@@ -49,7 +49,7 @@ async function getDoctorData(doctorId, jwt) {
   }
 }
 
-async function getResolutionsById(jwt, name) {
+async function getResolutionsByName(jwt, name) {
   try {
     const search = `?name=${name}`;
 
@@ -73,4 +73,4 @@ async function getResolutionsById(jwt, name) {
   }
 }
 
-export { getDoctorData, loginDoctor, getResolutionsById };
+export { getDoctorData, loginDoctor, getResolutionsByName };
