@@ -123,7 +123,8 @@ async function sequelizeInit() {
   return sequelize;
 }
 
-sequelizeInit().then(() => console.log("DB ready to use!"));
+const sequelize =
+  sequelizeInit(); /* .then(() => console.log("DB ready to use!")); */
 
 export {
   Patient,
@@ -133,4 +134,5 @@ export {
   Queue,
   Doctor,
   Specialization,
+  sequelize,
 };

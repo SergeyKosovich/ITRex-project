@@ -4,9 +4,7 @@ async function loginDoctor(credential) {
   try {
     const response = await fetch("/auth/doctor", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(credential),
     });
 
@@ -31,9 +29,7 @@ async function getDoctorData(doctorId, jwt) {
   try {
     const response = await fetch("staff/doctor/" + doctorId, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
+      headers: { Authorization: `Bearer ${jwt}` },
     });
 
     if (response.status === 401) {
@@ -55,18 +51,20 @@ async function getResolutionsByName(jwt, name) {
 
     const res = await fetch(docUrl + search, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${jwt}`,
-      },
+      headers: { Authorization: `Bearer ${jwt}` },
     });
+
+    const data = await res.json();
+
     if (res.status === 404) {
-      return null;
+      return { message: data.message };
     }
+
     if (res.status !== 200) {
       throw new Error(`Something went wrong. Error: ${res.statusText}`);
     }
-    return res.json();
+
+    return { data };
   } catch (err) {
     console.log(err.message);
     return null;

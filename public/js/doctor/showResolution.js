@@ -3,14 +3,12 @@ import { getResolutionsByName } from "../doctorPage/doctorFetch.js";
 export default async function showResolution(form, input, resolutionText) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
-    const defaultText = "no matches by this id";
     const jwt = localStorage.getItem("doctor-jwt");
 
-    const data = await getResolutionsByName(jwt, input.value);
+    const { data, message } = await getResolutionsByName(jwt, input.value);
 
-    if (!data) {
-      resolutionText.value = defaultText;
+    if (message) {
+      resolutionText.value = message;
       return;
     }
 

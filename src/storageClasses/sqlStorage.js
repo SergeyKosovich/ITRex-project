@@ -92,10 +92,11 @@ export default class SqlStorage {
     await this.Resolution.create(dataForDb);
   }
 
-  async deleteResolutionInStorage(patientId) {
-    await this.Resolution.destroy({
+  async deleteResolutionInStorage(patientId, doctorId) {
+    return this.Resolution.destroy({
       where: {
         patient_id: patientId,
+        doctor_id: doctorId,
       },
     });
   }

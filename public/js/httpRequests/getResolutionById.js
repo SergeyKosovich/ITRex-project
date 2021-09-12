@@ -8,7 +8,7 @@ export default async function getPatientsResolutions(jwt) {
       },
     });
     if (res.status === 404) {
-      return "no matches by this name";
+      return null;
     }
     if (res.status !== 200) {
       throw new Error(`Something went wrong. Error: ${res.statusText}`);

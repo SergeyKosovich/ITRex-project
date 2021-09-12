@@ -10,7 +10,7 @@ import {
   PATIENT_NOT_FOUND,
   RESOLUTIONS_NOT_FOUND,
 } from "../constants/messages.js";
-import { NOT_FOUND } from "../constants/statusCodes.js";
+import { NOT_FOUND, NO_CONTENT } from "../constants/statusCodes.js";
 import prepareNameSearch from "../utils/prepareNameSearch.js";
 
 export default class Controller {
@@ -28,7 +28,7 @@ export default class Controller {
           patient.patient_id
         );
 
-      if (!resolutions.length) {
+      if (!resolutions) {
         throw new ApiError(NOT_FOUND, RESOLUTIONS_NOT_FOUND);
       }
 
@@ -68,19 +68,27 @@ export default class Controller {
     res.status(200).send();
   };
 
-  deleteRes = async (req, res, next) => {
-    const { patient_id } = req.body;
-    const resolution = await resolutionsStorageMethods.getResolutionInStorage(
-      patient_id
-    );
+  deleteResolution = async (req, res, next) => {
+    const name = prepareNameSearch(req.query.name);
     try {
-      if (!resolution) {
-        throw new ApiError(404, "No patient found");
+      const patient = await patientStorage.getPatientByName(name);
+      if (!patient) {
+        throw new ApiError(NOT_FOUND, PATIENT_NOT_FOUND);
       }
-      await resolutionsStorageMethods.deleteResolutionInStorage(patient_id);
-      res.status(200).send();
+
+      const foundAndDeleted =
+        await resolutionsStorageMethods.deleteResolutionInStorage(
+          patient.patient_id,
+          req.user.doctor_id
+        );
+
+      if (!foundAndDeleted) {
+        throw new ApiError(NOT_FOUND, RESOLUTIONS_NOT_FOUND);
+      }
+
+      return res.status(NO_CONTENT).json();
     } catch (error) {
-      next(error);
+      return next(error);
     }
   };
 }

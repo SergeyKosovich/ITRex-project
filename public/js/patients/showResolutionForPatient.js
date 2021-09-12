@@ -3,10 +3,12 @@ import getPatientsResolutions from "../httpRequests/getResolutionById.js";
 export default function showResolutionForPatient(form, resolutionText) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    const deafaultMessage = "You have no resolutions!";
     const jwt = localStorage.getItem("jwt");
 
     const data = await getPatientsResolutions(jwt);
     if (!data) {
+      resolutionText.value = deafaultMessage;
       return;
     }
 

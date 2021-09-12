@@ -1,20 +1,25 @@
 import { docUrl } from "../../config.js";
 
-export default async function deleteResolution(val) {
+export default async function deleteResolution(jwt, name) {
   try {
-    const jwt = localStorage.getItem("doctor-jwt");
-    const response = await fetch(docUrl, {
+    const search = `?name=${name}`;
+
+    const response = await fetch(docUrl + search, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${jwt}`,
-      },
-      body: JSON.stringify({ patient_id: val }),
+      headers: { Authorization: `Bearer ${jwt}` },
     });
-    if (response.status !== 200) {
+
+    if (response.status === 404) {
+      return { error: "No resolutions you can delete" };
+    }
+
+    if (response.status !== 204) {
       throw new Error(`Something went wrong. Error: ${response.statusText}`);
     }
-    return true;
+
+    return {
+      success: "Your resolutions have been successfully deleted",
+    };
   } catch (err) {
     console.log(err.message);
     return null;

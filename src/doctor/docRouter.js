@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.patch("/", validator.checkResolution, controller.patchResolution);
 router.get("/", validator.checkQueryName, controller.getResolutions);
-router.delete("/", controller.deleteRes);
+router.delete("/", controller.deleteResolution);
 
 export default router;
