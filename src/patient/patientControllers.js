@@ -1,12 +1,11 @@
 import WebSocket from "ws";
 import { secretKey, WS_PORT } from "../config.js";
 import { queueStorageMethods } from "../storageClasses/storageFactory.js";
-import ApiError from "../errors/appError.js";
 import doctorStorage from "../repositories/doctorStorage.js";
 import tokenService from "../token/tokenService.js";
 import patientStorage from "../repositories/patientStorage.js";
-import { NOT_FOUND } from "../constants/statusCodes.js";
-import { PATIENT_NOT_FOUND, DOCTOR_NOT_FOUND } from "../constants/messages.js";
+import PatientNotFoundError from "../errors/patientNotFoundError.js";
+import DoctorNotFoundError from "../errors/doctorNotFoundError.js";
 
 const ws = new WebSocket(`ws://localhost:${WS_PORT}`);
 
@@ -37,7 +36,8 @@ export default class Controller {
       if (patient) {
         return res.status(200).json(patient);
       }
-      throw new ApiError(NOT_FOUND, PATIENT_NOT_FOUND);
+
+      throw new PatientNotFoundError();
     } catch (error) {
       next(error);
     }
@@ -52,7 +52,7 @@ export default class Controller {
       );
 
       if (!doctor) {
-        throw new ApiError(NOT_FOUND, DOCTOR_NOT_FOUND);
+        throw new DoctorNotFoundError();
       }
 
       await queueStorageMethods.addToque(name, doctor.doctor_id);
@@ -69,7 +69,7 @@ export default class Controller {
     try {
       const userData = await patientStorage.getPatientByUserId(userId);
       if (!userData) {
-        throw new ApiError(NOT_FOUND, PATIENT_NOT_FOUND);
+        throw new PatientNotFoundError();
       }
 
       const token = tokenService.generate(userId, secretKey);
