@@ -1,8 +1,7 @@
 import bcrypt from "bcryptjs";
-import ApiError from "../errors/appError.js";
 import userStorage from "../repositories/userStorage.js";
-import { INCORRECT_LOGIN, INCORRECT_PASSWORD } from "../constants/messages.js";
-import { UNAUTHORIZED } from "../constants/statusCodes.js";
+import InvalidLoginError from "../errors/invalidLoginError.js";
+import InvalidPasswordError from "../errors/invalidPasswordError.js";
 
 export default class AuthService {
   async checkCredentials(body) {
@@ -10,12 +9,12 @@ export default class AuthService {
     const data = await userStorage.getUserByEmail(email);
 
     if (!data) {
-      throw new ApiError(UNAUTHORIZED, INCORRECT_LOGIN);
+      throw new InvalidLoginError();
     }
 
     const validPassword = bcrypt.compareSync(password, data.password);
     if (!validPassword) {
-      throw new ApiError(UNAUTHORIZED, INCORRECT_PASSWORD);
+      throw new InvalidPasswordError();
     }
 
     return data;

@@ -2,16 +2,13 @@
 /* eslint-disable camelcase */
 
 import { resolutionsStorageMethods } from "../storageClasses/storageFactory.js";
-import ApiError from "../errors/appError.js";
 import { TtlDefaultInSeconds } from "../config.js";
 import patientStorage from "../repositories/patientStorage.js";
 import ResolutionForDoctorDto from "../dtos/resolutionForDoctorDto.js";
-import {
-  PATIENT_NOT_FOUND,
-  RESOLUTIONS_NOT_FOUND,
-} from "../constants/messages.js";
-import { NOT_FOUND, NO_CONTENT } from "../constants/statusCodes.js";
+import { NO_CONTENT } from "../constants/statusCodes.js";
 import prepareNameSearch from "../utils/prepareNameSearch.js";
+import PatientNotFoundError from "../errors/patientNotFoundError.js";
+import ResolutionNotFoundError from "../errors/resolutionNotFoundError.js";
 
 export default class Controller {
   getResolutions = async (req, res, next) => {
@@ -20,7 +17,7 @@ export default class Controller {
       const patient = await patientStorage.getPatientByName(name);
 
       if (!patient) {
-        throw new ApiError(NOT_FOUND, PATIENT_NOT_FOUND);
+        throw new PatientNotFoundError();
       }
 
       const resolutions =
@@ -29,7 +26,7 @@ export default class Controller {
         );
 
       if (!resolutions) {
-        throw new ApiError(NOT_FOUND, RESOLUTIONS_NOT_FOUND);
+        throw new ResolutionNotFoundError();
       }
 
       const data = resolutions.map(
@@ -51,7 +48,7 @@ export default class Controller {
     };
     try {
       if (!data.patient_id) {
-        throw new ApiError(404, "No patient found");
+        throw new PatientNotFoundError();
       }
     } catch (error) {
       next(error);
@@ -73,7 +70,7 @@ export default class Controller {
     try {
       const patient = await patientStorage.getPatientByName(name);
       if (!patient) {
-        throw new ApiError(NOT_FOUND, PATIENT_NOT_FOUND);
+        throw new PatientNotFoundError();
       }
 
       const foundAndDeleted =
@@ -83,7 +80,7 @@ export default class Controller {
         );
 
       if (!foundAndDeleted) {
-        throw new ApiError(NOT_FOUND, RESOLUTIONS_NOT_FOUND);
+        throw new ResolutionNotFoundError();
       }
 
       return res.status(NO_CONTENT).json();
