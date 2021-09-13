@@ -1,11 +1,10 @@
 import jwt from "jsonwebtoken";
-import { tokenAge } from "../../config";
+import { tokenAge, secretKey } from "../../config";
 import tokenService from "../../token/tokenService";
 
 jest.mock("jsonwebtoken");
 
 const token = "lksjfba8a9sd.asofuq9wfuasf.as9d8afwa";
-const tokenSecret = "tokenSecret";
 const userId = "1234456";
 const payload = { user_id: userId };
 const data = {
@@ -23,11 +22,11 @@ describe("Class 'TokenService'", () => {
   it("Method 'verify', if token is valid", () => {
     jwt.verify.mockReturnValue(payload);
 
-    expect(tokenService.verify(token, tokenSecret)).toEqual({
+    expect(tokenService.verify(token)).toEqual({
       payload,
       error: false,
     });
-    expect(jwt.verify).toHaveBeenCalledWith(token, tokenSecret);
+    expect(jwt.verify).toHaveBeenCalledWith(token, secretKey);
     expect(jwt.verify).toHaveBeenCalledTimes(1);
   });
 
@@ -37,19 +36,19 @@ describe("Class 'TokenService'", () => {
       throw error;
     });
 
-    expect(tokenService.verify(token, tokenSecret)).toEqual({
+    expect(tokenService.verify(token)).toEqual({
       payload: null,
       error: error.name,
     });
-    expect(jwt.verify).toHaveBeenCalledWith(token, tokenSecret);
+    expect(jwt.verify).toHaveBeenCalledWith(token, secretKey);
     expect(jwt.verify).toHaveBeenCalledTimes(1);
   });
 
   it("Method 'generate'", () => {
     jwt.sign.mockReturnValue("access token");
 
-    expect(tokenService.generate(userId, tokenSecret)).toBe("access token");
-    expect(jwt.sign).toHaveBeenCalledWith(payload, tokenSecret, {
+    expect(tokenService.generate(userId)).toBe("access token");
+    expect(jwt.sign).toHaveBeenCalledWith(payload, secretKey, {
       expiresIn: tokenAge,
     });
     expect(jwt.sign).toHaveBeenCalledTimes(1);
@@ -58,10 +57,8 @@ describe("Class 'TokenService'", () => {
   it("Method 'generateForStaff'", () => {
     jwt.sign.mockReturnValue("access token");
 
-    expect(tokenService.generateForStaff(data, tokenSecret)).toBe(
-      "access token"
-    );
-    expect(jwt.sign).toHaveBeenCalledWith(data, tokenSecret, {
+    expect(tokenService.generateForStaff(data)).toBe("access token");
+    expect(jwt.sign).toHaveBeenCalledWith(data, secretKey, {
       expiresIn: tokenAge,
     });
     expect(jwt.sign).toHaveBeenCalledTimes(1);

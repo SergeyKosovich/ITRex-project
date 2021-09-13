@@ -1,29 +1,24 @@
-import { secretKey } from "../config.js";
 import tokenService from "../token/tokenService.js";
-import ApiError from "../errors/appError.js";
-import {
-  NOT_AUTORIZED,
-  EXPIRED_TOKEN,
-  INVALID_TOKEN,
-  EXPIRED_ERROR,
-} from "../constants/messages.js";
-import { UNAUTHORIZED } from "../constants/statusCodes.js";
+import { EXPIRED_ERROR } from "../constants/messages.js";
+import UserUnauthorizedError from "../errors/userUnauthorizedError.js";
+import ExpiredTokenError from "../errors/expiredTokenError.js";
+import InvalidTokenError from "../errors/invalidTokenError.js";
 
 export default function checkAuth(req, res, next) {
   try {
     const token = req.headers.authorization.split(" ")[1];
     if (!token) {
-      throw new ApiError(UNAUTHORIZED, NOT_AUTORIZED);
+      throw new UserUnauthorizedError();
     }
 
-    const { payload, error } = tokenService.verify(token, secretKey);
+    const { payload, error } = tokenService.verify(token);
 
     if (error.name === EXPIRED_ERROR) {
-      throw new ApiError(UNAUTHORIZED, EXPIRED_TOKEN);
+      throw new ExpiredTokenError();
     }
 
     if (!payload) {
-      throw new ApiError(UNAUTHORIZED, INVALID_TOKEN);
+      throw new InvalidTokenError();
     }
 
     req.user = payload;

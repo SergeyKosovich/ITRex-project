@@ -1,10 +1,14 @@
 import jwt from "jsonwebtoken";
-import { tokenAge } from "../config.js";
+import { tokenAge, secretKey } from "../config.js";
 
 class TokenService {
-  verify(token, tokenSecret) {
+  constructor() {
+    this.secretKey = secretKey;
+  }
+
+  verify(token) {
     try {
-      const payload = jwt.verify(token, tokenSecret);
+      const payload = jwt.verify(token, this.secretKey);
       return { payload, error: false };
     } catch (error) {
       return {
@@ -14,13 +18,13 @@ class TokenService {
     }
   }
 
-  generate(userId, tokenSecret) {
+  generate(userId) {
     const payload = { user_id: userId };
-    return jwt.sign(payload, tokenSecret, { expiresIn: tokenAge });
+    return jwt.sign(payload, this.secretKey, { expiresIn: tokenAge });
   }
 
-  generateForStaff(data, tokenSecret) {
-    return jwt.sign(data, tokenSecret, { expiresIn: tokenAge });
+  generateForStaff(data) {
+    return jwt.sign(data, this.secretKey, { expiresIn: tokenAge });
   }
 }
 

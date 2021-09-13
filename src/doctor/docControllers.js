@@ -2,7 +2,8 @@
 /* eslint-disable camelcase */
 
 import { resolutionsStorageMethods } from "../storageClasses/storageFactory.js";
-import ApiError from "../errors/appError.js";
+import PatientNotFoundError from "../errors/patientNotFoundError.js";
+import ResolutionNotFoundError from "../errors/resolutionNotFoundError.js";
 import { TtlDefaultInSeconds } from "../config.js";
 
 export default class Controller {
@@ -26,7 +27,7 @@ export default class Controller {
     };
     try {
       if (!data.patient_id) {
-        throw new ApiError(404, "No patient found");
+        throw new PatientNotFoundError();
       }
     } catch (error) {
       next(error);
@@ -50,7 +51,7 @@ export default class Controller {
     );
     try {
       if (!resolution) {
-        throw new ApiError(404, "No patient found");
+        throw new ResolutionNotFoundError();
       }
       await resolutionsStorageMethods.deleteResolutionInStorage(patient_id);
       res.status(200).send();

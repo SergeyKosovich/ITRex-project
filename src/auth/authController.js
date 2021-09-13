@@ -1,11 +1,9 @@
-import { secretKey } from "../config.js";
-import { NOT_FOUND } from "../constants/statusCodes.js";
-import ApiError from "../errors/appError.js";
 import doctorStorage from "../repositories/doctorStorage.js";
 import patientStorage from "../repositories/patientStorage.js";
 import tokenService from "../token/tokenService.js";
 import AuthService from "./authService.js";
-import { PATIENT_NOT_FOUND, DOCTOR_NOT_FOUND } from "../constants/messages.js";
+import DoctorNotFoundError from "../errors/doctorNotFoundError.js";
+import PatientNotFoundError from "../errors/patientNotFoundError.js";
 
 export default class Controller {
   constructor() {
@@ -18,10 +16,10 @@ export default class Controller {
       const userData = await patientStorage.getPatientByUserId(user.user_id);
 
       if (!userData) {
-        throw new ApiError(NOT_FOUND, PATIENT_NOT_FOUND);
+        throw new PatientNotFoundError();
       }
 
-      const token = tokenService.generate(user.user_id, secretKey);
+      const token = tokenService.generate(user.user_id);
       userData.token = token;
 
       res.status(200).json(userData);
@@ -36,10 +34,10 @@ export default class Controller {
       const doctor = await doctorStorage.getDoctorByUserId(user.user_id);
 
       if (!doctor) {
-        throw new ApiError(NOT_FOUND, DOCTOR_NOT_FOUND);
+        throw new DoctorNotFoundError();
       }
 
-      const token = tokenService.generateForStaff(doctor, secretKey);
+      const token = tokenService.generateForStaff(doctor);
       doctor.token = token;
 
       return res.json(doctor);
