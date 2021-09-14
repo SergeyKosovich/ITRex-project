@@ -33,11 +33,12 @@ export default class Controller {
       const patient = await queueStorageMethods.checkFirstPatientInQueue(
         doctorId
       );
-      if (patient) {
-        return res.status(200).json(patient);
+
+      if (!patient) {
+        throw new PatientNotFoundError();
       }
 
-      throw new PatientNotFoundError();
+      return res.status(200).json(patient);
     } catch (error) {
       next(error);
     }
