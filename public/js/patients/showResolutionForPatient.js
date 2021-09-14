@@ -15,9 +15,9 @@ export default function showResolutionForPatient(form, resolutionText) {
     const text = data
       .map(
         (resolution) =>
-          `\t Resolution №: ${resolution.resolution_id} \n` +
-          `Resolution: ${resolution.resolution} \n` +
-          `Date of the resolution: ${resolution.createdData.split("T")[0]} \n` +
+          `\t\t Medical card №: ${resolution.patient_id} \n` +
+          `Resolution №: ${resolution.resolution_id}: ${resolution.resolution} \n` +
+          `Date of creation: ${resolution.createdData.split("T")[0]} \n` +
           `Doctor: ${resolution.doctorName} \n\n`
       )
       .join(" ");

@@ -6,14 +6,14 @@ import { TtlDefaultInSeconds } from "../config.js";
 import patientStorage from "../repositories/patientStorage.js";
 import ResolutionForDoctorDto from "../dtos/resolutionForDoctorDto.js";
 import { NO_CONTENT } from "../constants/statusCodes.js";
-import prepareNameSearch from "../utils/prepareNameSearch.js";
+import prepareName from "../utils/prepareName.js";
 import PatientNotFoundError from "../errors/patientNotFoundError.js";
 import ResolutionNotFoundError from "../errors/resolutionNotFoundError.js";
 
 export default class Controller {
   getResolutions = async (req, res, next) => {
     try {
-      const name = prepareNameSearch(req.query.name);
+      const name = prepareName(req.query.name);
       const patient = await patientStorage.getPatientByName(name);
 
       if (!patient) {
@@ -30,11 +30,12 @@ export default class Controller {
       }
 
       const data = resolutions.map(
-        (resolution) => new ResolutionForDoctorDto(resolution, patient)
+        (resolution) => new ResolutionForDoctorDto(patient, resolution)
       );
 
       return res.json(data);
     } catch (error) {
+      console.log(error);
       return next(error);
     }
   };
@@ -66,7 +67,7 @@ export default class Controller {
   };
 
   deleteResolution = async (req, res, next) => {
-    const name = prepareNameSearch(req.query.name);
+    const name = prepareName(req.query.name);
     try {
       const patient = await patientStorage.getPatientByName(name);
       if (!patient) {

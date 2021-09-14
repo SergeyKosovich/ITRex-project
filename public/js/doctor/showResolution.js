@@ -12,15 +12,20 @@ export default async function showResolution(form, input, resolutionText) {
       return;
     }
 
+    const name = data[0].name
+      .split(" ")
+      .map((part) => part.slice(0, 1).toUpperCase() + part.slice(1))
+      .join(" ");
+
     const text = data
       .map(
         (resolution) =>
-          `\t Resolution №: ${resolution.resolution_id} \n` +
-          `Patient: ${resolution.name} \n` +
+          `\t\t Medical card №: ${resolution.patient_id} \n` +
+          `Patient: ${name} \n` +
           `Gender: ${resolution.gender} \n` +
           `DoB: ${resolution.birthday} \n` +
-          `Resolution: ${resolution.resolution} \n` +
-          `Date of the resolution: ${resolution.createdData.split("T")[0]} \n` +
+          `Resolution №: ${resolution.resolution_id}: ${resolution.resolution} \n` +
+          `Date of creation: ${resolution.createdData.split("T")[0]} \n` +
           `Doctor: ${resolution.doctorName} \n\n`
       )
       .join(" ");

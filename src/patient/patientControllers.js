@@ -95,7 +95,8 @@ export default class Controller {
 
     if (resolutions) {
       const data = resolutions.map(
-        (resolution) => new ResolutionForUserDto(resolution)
+        (resolution) =>
+          new ResolutionForUserDto(req.user.patient_id, resolution)
       );
 
       res.status(200).json(data);

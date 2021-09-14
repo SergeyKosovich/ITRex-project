@@ -23,6 +23,7 @@ class PatientStorage {
   }
 
   async getPatientByName(name) {
+    console.log(name);
     const patient = await Patient.findOne({
       where: { name },
       attributes: ["name", "patient_id", "gender", "birthday"],

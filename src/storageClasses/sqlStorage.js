@@ -130,8 +130,7 @@ export default class SqlStorage {
   async createNewUserAndPatient(
     userMail,
     userPass,
-    userFirstName,
-    userLastName,
+    userName,
     userGender,
     userBirthday
   ) {
@@ -141,7 +140,7 @@ export default class SqlStorage {
     });
     const patient = await this.Patient.create({
       user_id: response.user_id,
-      name: `${userFirstName} ${userLastName}`,
+      name: userName,
       gender: userGender,
       birthday: userBirthday,
     });

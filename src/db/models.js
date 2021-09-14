@@ -50,7 +50,10 @@ async function sequelizeInit() {
       gender: DataTypes.STRING,
       birthday: DataTypes.STRING,
     },
-    { sequelize, modelName: "patients" }
+    {
+      sequelize,
+      modelName: "patients",
+    }
   );
   User.hasOne(Patient, { foreignKey: "user_id" });
   Patient.belongsTo(User, { foreignKey: "user_id" });
@@ -123,8 +126,7 @@ async function sequelizeInit() {
   return sequelize;
 }
 
-const sequelize =
-  sequelizeInit(); /* .then(() => console.log("DB ready to use!")); */
+const sequelize = await sequelizeInit();
 
 export {
   Patient,
