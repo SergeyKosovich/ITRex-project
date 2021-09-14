@@ -1,5 +1,7 @@
+import Sequelize from "sequelize";
 import { Patient } from "../db/models.js";
 
+const { Op } = Sequelize;
 class PatientStorage {
   async getPatientByUserId(userId) {
     const patient = await Patient.findOne({
@@ -23,14 +25,15 @@ class PatientStorage {
   }
 
   async getPatientByName(name) {
-    console.log(name);
-    const patient = await Patient.findOne({
-      where: { name },
+    return Patient.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${name}%`,
+        },
+      },
       attributes: ["name", "patient_id", "gender", "birthday"],
       raw: true,
     });
-
-    return patient || null;
   }
 }
 

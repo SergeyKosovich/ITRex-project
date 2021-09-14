@@ -9,20 +9,25 @@ import { NO_CONTENT } from "../constants/statusCodes.js";
 import prepareName from "../utils/prepareName.js";
 import PatientNotFoundError from "../errors/patientNotFoundError.js";
 import ResolutionNotFoundError from "../errors/resolutionNotFoundError.js";
+import CannotBeDeletedError from "../errors/cannotBeDeletedError.js";
 
 export default class Controller {
   getResolutions = async (req, res, next) => {
     try {
       const name = prepareName(req.query.name);
-      const patient = await patientStorage.getPatientByName(name);
+      const patients = await patientStorage.getPatientByName(name);
 
-      if (!patient) {
+      if (!patients.length) {
         throw new PatientNotFoundError();
+      }
+
+      if (patients.length > 1) {
+        return res.json({ patients });
       }
 
       const resolutions =
         await resolutionsStorageMethods.getResolutionInStorage(
-          patient.patient_id
+          patients[0].patient_id
         );
 
       if (!resolutions) {
@@ -30,10 +35,10 @@ export default class Controller {
       }
 
       const data = resolutions.map(
-        (resolution) => new ResolutionForDoctorDto(patient, resolution)
+        (resolution) => new ResolutionForDoctorDto(patients[0], resolution)
       );
 
-      return res.json(data);
+      return res.json({ resolutions: data });
     } catch (error) {
       console.log(error);
       return next(error);
@@ -69,14 +74,18 @@ export default class Controller {
   deleteResolution = async (req, res, next) => {
     const name = prepareName(req.query.name);
     try {
-      const patient = await patientStorage.getPatientByName(name);
-      if (!patient) {
+      const patients = await patientStorage.getPatientByName(name);
+      if (!patients.length) {
         throw new PatientNotFoundError();
+      }
+
+      if (patients.length > 1) {
+        throw new CannotBeDeletedError();
       }
 
       const foundAndDeleted =
         await resolutionsStorageMethods.deleteResolutionInStorage(
-          patient.patient_id,
+          patients[0].patient_id,
           req.user.doctor_id
         );
 
