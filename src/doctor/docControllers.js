@@ -46,7 +46,7 @@ export default class Controller {
 
   patchResolution = async (req, res, next) => {
     const data = {
-      patient_id: req.body.patient_id,
+      patient_id: parseFloat(req.body.patient_id),
       resolution: req.body.resolution,
       doctor_id: req.user.doctor_id,
       ttl: req.body.ttl || TtlDefaultInSeconds,
