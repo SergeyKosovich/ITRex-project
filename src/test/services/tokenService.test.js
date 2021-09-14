@@ -47,7 +47,7 @@ describe("Class 'TokenService'", () => {
   it("Method 'generate'", () => {
     jwt.sign.mockReturnValue("access token");
 
-    expect(tokenService.generate(userId)).toBe("access token");
+    expect(tokenService.generate(payload)).toBe("access token");
     expect(jwt.sign).toHaveBeenCalledWith(payload, secretKey, {
       expiresIn: tokenAge,
     });

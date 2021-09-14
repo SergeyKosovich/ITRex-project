@@ -38,6 +38,7 @@ class DoctorStorage {
         },
         include: {
           model: Doctor,
+          attributes: ["doctor_id", "user_id", "name"],
           through: { attributes: [] },
         },
       })

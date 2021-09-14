@@ -24,7 +24,7 @@ class PatientStorage {
     return patient || null;
   }
 
-  async getPatientByName(name) {
+  async getPatientsByName(name) {
     return Patient.findAll({
       where: {
         name: {

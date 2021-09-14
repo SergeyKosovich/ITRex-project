@@ -15,7 +15,7 @@ export default class Controller {
   getResolutions = async (req, res, next) => {
     try {
       const name = prepareName(req.query.name);
-      const patients = await patientStorage.getPatientByName(name);
+      const patients = await patientStorage.getPatientsByName(name);
 
       if (!patients.length) {
         throw new PatientNotFoundError();
@@ -74,7 +74,7 @@ export default class Controller {
   deleteResolution = async (req, res, next) => {
     const name = prepareName(req.query.name);
     try {
-      const patients = await patientStorage.getPatientByName(name);
+      const patients = await patientStorage.getPatientsByName(name);
       if (!patients.length) {
         throw new PatientNotFoundError();
       }
