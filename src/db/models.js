@@ -23,6 +23,7 @@ async function sequelizeInit() {
       },
       name: DataTypes.STRING,
     },
+
     { sequelize, modelName: "queues" }
   );
 
@@ -36,7 +37,16 @@ async function sequelizeInit() {
       email: DataTypes.STRING,
       password: DataTypes.STRING,
     },
-    { sequelize, modelName: "users" }
+    {
+      indexes: [
+        {
+          unique: true,
+          fields: ["email"],
+        },
+      ],
+      sequelize,
+      modelName: "users",
+    }
   );
 
   Patient.init(
@@ -51,6 +61,15 @@ async function sequelizeInit() {
       birthday: DataTypes.STRING,
     },
     {
+      indexes: [
+        {
+          fields: ["name"],
+        },
+        {
+          unique: true,
+          fields: ["user_id"],
+        },
+      ],
       sequelize,
       modelName: "patients",
     }
@@ -69,7 +88,16 @@ async function sequelizeInit() {
       resolution: DataTypes.STRING,
       ttl: DataTypes.BIGINT,
     },
-    { sequelize, modelName: "resolutions" }
+    {
+      indexes: [
+        {
+          unique: true,
+          fields: ["patient_id"],
+        },
+      ],
+      sequelize,
+      modelName: "resolutions",
+    }
   );
   Resolution.belongsTo(Patient, { foreignKey: "patient_id" });
   Patient.hasMany(Resolution, { foreignKey: "patient_id" });
@@ -83,7 +111,16 @@ async function sequelizeInit() {
       },
       name: DataTypes.STRING,
     },
-    { sequelize, modelName: "doctors" }
+    {
+      indexes: [
+        {
+          unique: true,
+          fields: ["user_id"],
+        },
+      ],
+      sequelize,
+      modelName: "doctors",
+    }
   );
   User.hasOne(Doctor, { foreignKey: "user_id" });
   Doctor.belongsTo(User, { foreignKey: "user_id" });
@@ -99,7 +136,16 @@ async function sequelizeInit() {
       },
       name: DataTypes.STRING,
     },
-    { sequelize, modelName: "specializations" }
+    {
+      indexes: [
+        {
+          unique: true,
+          fields: ["name"],
+        },
+      ],
+      sequelize,
+      modelName: "specializations",
+    }
   );
   Specialization.belongsToMany(Doctor, {
     through: "doctor_specialization",
@@ -110,18 +156,18 @@ async function sequelizeInit() {
     foreignKey: "doctor_id",
   });
 
-  await sequelize.sync({ force: true });
+  await sequelize.sync(/* { force: true } */);
 
-  const savedSpecs = await Specialization.bulkCreate(specializations);
-  const savedUsers = await User.bulkCreate(users);
+  // const savedSpecs = await Specialization.bulkCreate(specializations);
+  // const savedUsers = await User.bulkCreate(users);
 
-  doctors.forEach(async (doctor, i) => {
-    const savedDoctor = await Doctor.create({
-      name: doctor.name,
-      user_id: savedUsers[i].user_id,
-    });
-    savedDoctor.addSpecialization(savedSpecs[i].specialization_id);
-  });
+  // doctors.forEach(async (doctor, i) => {
+  //   const savedDoctor = await Doctor.create({
+  //     name: doctor.name,
+  //     user_id: savedUsers[i].user_id,
+  //   });
+  //   savedDoctor.addSpecialization(savedSpecs[i].specialization_id);
+  // });
 
   return sequelize;
 }

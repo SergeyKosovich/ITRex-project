@@ -40,7 +40,6 @@ export default class Controller {
 
       return res.json({ resolutions: data });
     } catch (error) {
-      console.log(error);
       return next(error);
     }
   };

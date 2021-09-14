@@ -4,6 +4,6 @@ import staffController from "./staffController.js";
 
 const router = express.Router();
 
-router.get("/doctor/:doctorId", staffController.getDoctor);
+router.get("/doctor", staffController.getDoctor);
 
 export default router;
