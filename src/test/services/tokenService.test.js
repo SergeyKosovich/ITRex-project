@@ -22,24 +22,7 @@ describe("Class 'TokenService'", () => {
   it("Method 'verify', if token is valid", () => {
     jwt.verify.mockReturnValue(payload);
 
-    expect(tokenService.verify(token)).toEqual({
-      payload,
-      error: false,
-    });
-    expect(jwt.verify).toHaveBeenCalledWith(token, secretKey);
-    expect(jwt.verify).toHaveBeenCalledTimes(1);
-  });
-
-  it("Method 'verify', if token is invalid", () => {
-    const error = new Error();
-    jwt.verify.mockImplementation(() => {
-      throw error;
-    });
-
-    expect(tokenService.verify(token)).toEqual({
-      payload: null,
-      error: error.name,
-    });
+    expect(tokenService.verify(token)).toEqual(payload);
     expect(jwt.verify).toHaveBeenCalledWith(token, secretKey);
     expect(jwt.verify).toHaveBeenCalledTimes(1);
   });

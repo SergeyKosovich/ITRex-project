@@ -7,15 +7,7 @@ class TokenService {
   }
 
   verify(token) {
-    try {
-      const payload = jwt.verify(token, this.secretKey);
-      return { payload, error: false };
-    } catch (error) {
-      return {
-        payload: null,
-        error: error.name,
-      };
-    }
+    return jwt.verify(token, this.secretKey);
   }
 
   generate(payload) {

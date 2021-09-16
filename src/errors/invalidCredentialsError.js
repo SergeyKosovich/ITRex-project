@@ -1,8 +1,8 @@
 import { UNAUTHORIZED } from "../constants/statusCodes.js";
 import ApiError from "./appError.js";
 
-export default class InvalidTokenError extends ApiError {
+export default class InvalidCredentialsError extends ApiError {
   constructor() {
-    super(UNAUTHORIZED, "Invalid Token");
+    super(UNAUTHORIZED, "Incorrect credentials");
   }
 }
