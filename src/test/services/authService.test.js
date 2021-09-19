@@ -24,7 +24,7 @@ describe("Class 'AuthService': ", () => {
     expect(userStorage.getUserByEmail).toHaveBeenCalledTimes(1);
     expect(bcrypt.compareSync).toHaveBeenCalledWith(
       body.password,
-      data.password
+      data.password,
     );
     expect(bcrypt.compareSync).toHaveBeenCalledTimes(1);
   });
@@ -33,10 +33,10 @@ describe("Class 'AuthService': ", () => {
     userStorage.getUserByEmail.mockResolvedValue(null);
 
     await expect(authService.checkCredentials(body)).rejects.toThrowError(
-      INCORRECT_CREDENTIALS
+      INCORRECT_CREDENTIALS,
     );
     await expect(authService.checkCredentials(body)).rejects.toThrowError(
-      ApiError
+      ApiError,
     );
 
     expect(userStorage.getUserByEmail).toHaveBeenCalledWith(body.email);
@@ -48,16 +48,16 @@ describe("Class 'AuthService': ", () => {
     bcrypt.compareSync.mockReturnValue(false);
 
     await expect(authService.checkCredentials(body)).rejects.toThrowError(
-      INCORRECT_CREDENTIALS
+      INCORRECT_CREDENTIALS,
     );
     await expect(authService.checkCredentials(body)).rejects.toThrowError(
-      ApiError
+      ApiError,
     );
 
     expect(userStorage.getUserByEmail).toHaveBeenCalledWith(body.email);
     expect(bcrypt.compareSync).toHaveBeenCalledWith(
       body.password,
-      data.password
+      data.password,
     );
   });
 });
