@@ -1,10 +1,10 @@
-import DoctorNotFoundError from "../errors/doctorNotFoundError.js";
-import PatientNotFoundError from "../errors/patientNotFoundError.js";
-import { secretKey } from "../config.js";
-import doctorStorage from "../repositories/doctorStorage.js";
-import patientStorage from "../repositories/patientStorage.js";
-import tokenService from "../token/tokenService.js";
-import AuthService from "./authService.js";
+import DoctorNotFoundError from '../errors/doctorNotFoundError.js';
+import PatientNotFoundError from '../errors/patientNotFoundError.js';
+import { secretKey } from '../config.js';
+import doctorStorage from '../repositories/doctorStorage.js';
+import patientStorage from '../repositories/patientStorage.js';
+import tokenService from '../token/tokenService.js';
+import AuthService from './authService.js';
 
 export default class Controller {
   constructor() {

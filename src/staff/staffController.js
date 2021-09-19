@@ -1,5 +1,5 @@
-import doctorStorage from "../repositories/doctorStorage.js";
-import DoctorNotFoundError from "../errors/doctorNotFoundError.js";
+import doctorStorage from '../repositories/doctorStorage.js';
+import DoctorNotFoundError from '../errors/doctorNotFoundError.js';
 
 class StaffController {
   getDoctor = async (req, res, next) => {

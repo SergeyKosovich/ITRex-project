@@ -1,5 +1,5 @@
-import doctorStorage from "../../repositories/doctorStorage.js";
-import { Doctor, Specialization } from "../../db/models.js";
+import doctorStorage from '../../repositories/doctorStorage.js';
+import { Doctor, Specialization } from '../../db/models.js';
 
 Doctor.findByPk = jest.fn();
 Doctor.findOne = jest.fn();
@@ -10,12 +10,12 @@ objectData.get = jest.fn();
 
 const id = 1;
 const userId = 1;
-const specialization = "therapist";
+const specialization = 'therapist';
 const doctor = {
   doctor_id: id,
-  field1: "data",
-  field2: "data2",
-  field3: "data3",
+  field1: 'data',
+  field2: 'data2',
+  field3: 'data3',
 };
 
 beforeEach(() => jest.clearAllMocks());
@@ -29,7 +29,7 @@ describe("'doctorStorage' repository", () => {
     expect(Doctor.findByPk).toHaveBeenCalledWith(id, {
       include: {
         model: Specialization,
-        attributes: ["name"],
+        attributes: ['name'],
         through: { attributes: [] },
       },
     });
@@ -53,7 +53,7 @@ describe("'doctorStorage' repository", () => {
       where: { user_id: userId },
       include: {
         model: Specialization,
-        attributes: ["name"],
+        attributes: ['name'],
         through: { attributes: [] },
       },
     });
@@ -70,22 +70,22 @@ describe("'doctorStorage' repository", () => {
 
   test("'getDoctorBySpecialization' method, if specialization exist", async () => {
     Specialization.findOne.mockResolvedValue(objectData);
-    const doctor = { doctor_id: 1, user_id: 1, name: "Kyle Simpson" };
+    const doctorData = { doctor_id: 1, user_id: 1, name: 'Kyle Simpson' };
     const data = {};
-    data.doctors = [doctor];
+    data.doctors = [doctorData];
 
     objectData.get.mockReturnValue(data);
 
     expect(
-      await doctorStorage.getDoctorBySpecialization(specialization)
-    ).toEqual(doctor);
+      await doctorStorage.getDoctorBySpecialization(specialization),
+    ).toEqual(doctorData);
     expect(Specialization.findOne).toHaveBeenCalledWith({
       where: {
         name: specialization,
       },
       include: {
         model: Doctor,
-        attributes: ["doctor_id", "user_id", "name"],
+        attributes: ['doctor_id', 'user_id', 'name'],
         through: { attributes: [] },
       },
     });
@@ -98,7 +98,7 @@ describe("'doctorStorage' repository", () => {
   test("'getDoctorBySpecialization' method, if specialization doesn't exist", async () => {
     Specialization.findOne.mockResolvedValue(null);
     expect(
-      await doctorStorage.getDoctorBySpecialization(specialization)
+      await doctorStorage.getDoctorBySpecialization(specialization),
     ).toBeNull();
   });
 });

@@ -4,6 +4,6 @@ export default class ResolutionForUserDto {
     this.resolution_id = data.resolution_id;
     this.resolution = data.resolution;
     this.createdData = data.createdAt;
-    this.doctorName = data["doctor.name"];
+    this.doctorName = data['doctor.name'];
   }
 }

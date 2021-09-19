@@ -1,10 +1,10 @@
-import { docUrl } from "../config.js";
+import { docUrl } from '../config.js';
 
 async function loginDoctor(credential) {
   try {
-    const response = await fetch("/auth/doctor", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const response = await fetch('/auth/doctor', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(credential),
     });
 
@@ -27,13 +27,13 @@ async function loginDoctor(credential) {
 
 async function getDoctorData(jwt) {
   try {
-    const response = await fetch("staff/doctor", {
-      method: "GET",
+    const response = await fetch('staff/doctor', {
+      method: 'GET',
       headers: { Authorization: `Bearer ${jwt}` },
     });
 
     if (response.status === 401) {
-      window.location.href = `http://localhost:3000/doctorLogin.html`;
+      window.location.href = 'http://localhost:3000/doctorLogin.html';
     } else if (response.status !== 200) {
       throw new Error(`Something went wrong. Error: ${response.statusText}`);
     }
@@ -50,7 +50,7 @@ async function getResolutionsByName(jwt, name) {
     const search = `?name=${name}`;
 
     const res = await fetch(docUrl + search, {
-      method: "GET",
+      method: 'GET',
       headers: { Authorization: `Bearer ${jwt}` },
     });
 

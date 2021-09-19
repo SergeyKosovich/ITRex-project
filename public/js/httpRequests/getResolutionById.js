@@ -1,9 +1,9 @@
 export default async function getPatientsResolutions(jwt) {
   try {
-    const res = await fetch("/patient/me/resolutions", {
-      method: "GET",
+    const res = await fetch('/patient/me/resolutions', {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${jwt}`,
       },
     });

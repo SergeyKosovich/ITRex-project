@@ -1,4 +1,4 @@
-import { Doctor, Specialization } from "../db/models.js";
+import { Doctor, Specialization } from '../db/models.js';
 
 class DoctorStorage {
   async getDoctorById(id) {
@@ -6,7 +6,7 @@ class DoctorStorage {
       await Doctor.findByPk(id, {
         include: {
           model: Specialization,
-          attributes: ["name"],
+          attributes: ['name'],
           through: { attributes: [] },
         },
       })
@@ -21,7 +21,7 @@ class DoctorStorage {
         where: { user_id: userId },
         include: {
           model: Specialization,
-          attributes: ["name"],
+          attributes: ['name'],
           through: { attributes: [] },
         },
       })
@@ -38,7 +38,7 @@ class DoctorStorage {
         },
         include: {
           model: Doctor,
-          attributes: ["doctor_id", "user_id", "name"],
+          attributes: ['doctor_id', 'user_id', 'name'],
           through: { attributes: [] },
         },
       })

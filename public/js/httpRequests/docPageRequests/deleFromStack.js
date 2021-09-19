@@ -1,11 +1,11 @@
-import { userUrl } from "../../config.js";
+import { userUrl } from '../../config.js';
 
 export default async function deleteFromStack(jwt) {
   try {
     const lastPatient = await fetch(userUrl, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${jwt}`,
       },
     });

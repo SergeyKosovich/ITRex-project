@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
-import data from "sequelize";
-import sequelizeReturn from "./index.js";
-import { doctors, users, specializations } from "./seed.js";
+import data from 'sequelize';
+import sequelizeReturn from './index.js';
+import { doctors, users, specializations } from './seed.js';
 
 const { Model, DataTypes } = data;
 class Resolution extends Model {}
@@ -24,7 +24,7 @@ async function sequelizeInit() {
       name: DataTypes.STRING,
     },
 
-    { sequelize, modelName: "queues" }
+    { sequelize, modelName: 'queues' },
   );
 
   User.init(
@@ -41,12 +41,12 @@ async function sequelizeInit() {
       indexes: [
         {
           unique: true,
-          fields: ["email"],
+          fields: ['email'],
         },
       ],
       sequelize,
-      modelName: "users",
-    }
+      modelName: 'users',
+    },
   );
 
   Patient.init(
@@ -63,19 +63,19 @@ async function sequelizeInit() {
     {
       indexes: [
         {
-          fields: ["name"],
+          fields: ['name'],
         },
         {
           unique: true,
-          fields: ["user_id"],
+          fields: ['user_id'],
         },
       ],
       sequelize,
-      modelName: "patients",
-    }
+      modelName: 'patients',
+    },
   );
-  User.hasOne(Patient, { foreignKey: "user_id" });
-  Patient.belongsTo(User, { foreignKey: "user_id" });
+  User.hasOne(Patient, { foreignKey: 'user_id' });
+  Patient.belongsTo(User, { foreignKey: 'user_id' });
 
   Resolution.init(
     {
@@ -91,15 +91,15 @@ async function sequelizeInit() {
     {
       indexes: [
         {
-          fields: ["patient_id"],
+          fields: ['patient_id'],
         },
       ],
       sequelize,
-      modelName: "resolutions",
-    }
+      modelName: 'resolutions',
+    },
   );
-  Resolution.belongsTo(Patient, { foreignKey: "patient_id" });
-  Patient.hasMany(Resolution, { foreignKey: "patient_id" });
+  Resolution.belongsTo(Patient, { foreignKey: 'patient_id' });
+  Patient.hasMany(Resolution, { foreignKey: 'patient_id' });
 
   Doctor.init(
     {
@@ -114,17 +114,17 @@ async function sequelizeInit() {
       indexes: [
         {
           unique: true,
-          fields: ["user_id"],
+          fields: ['user_id'],
         },
       ],
       sequelize,
-      modelName: "doctors",
-    }
+      modelName: 'doctors',
+    },
   );
-  User.hasOne(Doctor, { foreignKey: "user_id" });
-  Doctor.belongsTo(User, { foreignKey: "user_id" });
-  Resolution.belongsTo(Doctor, { foreignKey: "doctor_id" });
-  Doctor.hasMany(Resolution, { foreignKey: "doctor_id" });
+  User.hasOne(Doctor, { foreignKey: 'user_id' });
+  Doctor.belongsTo(User, { foreignKey: 'user_id' });
+  Resolution.belongsTo(Doctor, { foreignKey: 'doctor_id' });
+  Doctor.hasMany(Resolution, { foreignKey: 'doctor_id' });
 
   Specialization.init(
     {
@@ -139,20 +139,20 @@ async function sequelizeInit() {
       indexes: [
         {
           unique: true,
-          fields: ["name"],
+          fields: ['name'],
         },
       ],
       sequelize,
-      modelName: "specializations",
-    }
+      modelName: 'specializations',
+    },
   );
   Specialization.belongsToMany(Doctor, {
-    through: "doctor_specialization",
-    foreignKey: "specialization_id",
+    through: 'doctor_specialization',
+    foreignKey: 'specialization_id',
   });
   Doctor.belongsToMany(Specialization, {
-    through: "doctor_specialization",
-    foreignKey: "doctor_id",
+    through: 'doctor_specialization',
+    foreignKey: 'doctor_id',
   });
 
   await sequelize.sync({ force: true });

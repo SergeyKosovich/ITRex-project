@@ -1,17 +1,19 @@
-import bcrypt from "bcryptjs";
-import { resolutionsStorageMethods } from "../storageClasses/storageFactory.js";
-import prepareName from "../utils/prepareName.js";
-import EmailExistError from "../errors/emailExistError.js";
+import bcrypt from 'bcryptjs';
+import { resolutionsStorageMethods } from '../storageClasses/storageFactory.js';
+import prepareName from '../utils/prepareName.js';
+import EmailExistError from '../errors/emailExistError.js';
 
 export default class Controller {
   registerUser = async (req, res, next) => {
-    const { email, password, firstName, lastName, gender, birthday } = req.body;
+    const {
+      email, password, firstName, lastName, gender, birthday,
+    } = req.body;
 
     const name = `${prepareName(firstName)} ${prepareName(lastName)}`;
     try {
       const response = await resolutionsStorageMethods.checkUserAndPassInDb(
         email,
-        password
+        password,
       );
       if (response) {
         throw new EmailExistError();
@@ -22,7 +24,7 @@ export default class Controller {
         hashPassword,
         name,
         gender,
-        birthday
+        birthday,
       );
       res.status(201).json({ patient_id: patientId });
     } catch (e) {

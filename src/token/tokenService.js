@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
-import { tokenAge, secretKey } from "../config.js";
+import jwt from 'jsonwebtoken';
+import { tokenAge, secretKey } from '../config.js';
 
 class TokenService {
   constructor() {

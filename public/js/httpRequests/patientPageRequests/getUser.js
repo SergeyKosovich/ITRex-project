@@ -1,7 +1,7 @@
 export default async function getUser(jwt) {
   try {
-    const response = await fetch("/patient/me", {
-      method: "GET",
+    const response = await fetch('/patient/me', {
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${jwt}`,
       },

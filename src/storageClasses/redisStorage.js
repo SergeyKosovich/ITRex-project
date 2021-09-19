@@ -1,12 +1,12 @@
-import asyncRedis from "async-redis";
-import { REDIS_HOST } from "../config.js";
+import asyncRedis from 'async-redis';
+import { REDIS_HOST } from '../config.js';
 
-const queueKey = "queue";
-const storageKey = "storage";
+const queueKey = 'queue';
+const storageKey = 'storage';
 
 function returnClient() {
   const client = asyncRedis.createClient(REDIS_HOST);
-  client.on("error", (err) => {
+  client.on('error', (err) => {
     console.log(`Error ${err}`);
   });
   // client.FLUSHDB();
@@ -21,15 +21,15 @@ export default class RedisStorage {
   }
 
   async addToque(data, doctorId) {
-    await this.client.RPUSH(queueKey + `:${doctorId}`, data);
+    await this.client.RPUSH(`${queueKey}:${doctorId}`, data);
   }
 
   async removeFirstPatientInQueue(doctorId) {
-    await this.client.LPOP(queueKey + `:${doctorId}`);
+    await this.client.LPOP(`${queueKey}:${doctorId}`);
   }
 
   async checkFirstPatientInQueue(doctorId) {
-    const [patient] = await this.client.lrange(queueKey + `:${doctorId}`, 0, 0);
+    const [patient] = await this.client.lrange(`${queueKey}:${doctorId}`, 0, 0);
     return patient;
   }
 

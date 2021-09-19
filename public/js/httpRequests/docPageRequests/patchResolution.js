@@ -1,4 +1,4 @@
-import { docUrl } from "../../config.js";
+import { docUrl } from '../../config.js';
 
 export default async function patchResolution(text, currentPatientId, ttl) {
   try {
@@ -6,11 +6,11 @@ export default async function patchResolution(text, currentPatientId, ttl) {
       ? { resolution: text, patient_id: currentPatientId, ttl }
       : { resolution: text, patient_id: currentPatientId };
 
-    const jwt = localStorage.getItem("doctor-jwt");
+    const jwt = localStorage.getItem('doctor-jwt');
     const response = await fetch(docUrl, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${jwt}`,
       },
       body: JSON.stringify(body),

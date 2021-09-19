@@ -1,10 +1,10 @@
-import { userUrl } from "../../config.js";
+import { userUrl } from '../../config.js';
 
 export default async function getFirstUserInQueue(jwt) {
-  let name = "No patient";
+  let name = 'No patient';
   try {
     const userCurrent = await fetch(userUrl, {
-      method: "GET",
+      method: 'GET',
       headers: {
         Authorization: `Bearer ${jwt}`,
       },

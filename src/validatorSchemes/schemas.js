@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from 'joi';
 
 const schemaForResolutionAndId = Joi.object({
   body: Joi.object({

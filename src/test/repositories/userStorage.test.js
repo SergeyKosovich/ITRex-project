@@ -1,13 +1,13 @@
-import userStorage from "../../repositories/userStorage.js";
-import { User } from "../../db/models.js";
+import userStorage from '../../repositories/userStorage.js';
+import { User } from '../../db/models.js';
 
 User.findOne = jest.fn();
 
-const email = "mia@mail.ru";
+const email = 'mia@mail.ru';
 const user = {
-  field1: "data",
-  field2: "data2",
-  field3: "data3",
+  field1: 'data',
+  field2: 'data2',
+  field3: 'data3',
 };
 
 beforeEach(() => jest.clearAllMocks());
@@ -18,7 +18,7 @@ describe("'userStorage' repository", () => {
 
     expect(await userStorage.getUserByEmail(email)).toEqual(user);
     expect(User.findOne).toHaveBeenCalledWith({
-      attributes: ["email", "password", "user_id"],
+      attributes: ['email', 'password', 'user_id'],
       where: { email },
     });
     expect(User.findOne).toHaveBeenCalledTimes(1);

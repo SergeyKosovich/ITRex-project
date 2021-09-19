@@ -1,12 +1,12 @@
-import { userUrl } from "../../config.js";
+import { userUrl } from '../../config.js';
 
 export default async function postUserToQueue(name, specialization) {
   try {
-    const jwt = localStorage.getItem("jwt");
+    const jwt = localStorage.getItem('jwt');
     const response = await fetch(userUrl, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${jwt}`,
       },
       body: JSON.stringify({ name, specialization }),

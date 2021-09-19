@@ -1,15 +1,15 @@
-import WebSocket from "ws";
-import { secretKey, WS_PORT } from "../config.js";
+import WebSocket from 'ws';
+import { secretKey, WS_PORT } from '../config.js';
 import {
   queueStorageMethods,
   resolutionsStorageMethods,
-} from "../storageClasses/storageFactory.js";
-import doctorStorage from "../repositories/doctorStorage.js";
-import tokenService from "../token/tokenService.js";
-import patientStorage from "../repositories/patientStorage.js";
-import ResolutionForUserDto from "../dtos/resolutionForUserDto.js";
-import PatientNotFoundError from "../errors/patientNotFoundError.js";
-import DoctorNotFoundError from "../errors/doctorNotFoundError.js";
+} from '../storageClasses/storageFactory.js';
+import doctorStorage from '../repositories/doctorStorage.js';
+import tokenService from '../token/tokenService.js';
+import patientStorage from '../repositories/patientStorage.js';
+import ResolutionForUserDto from '../dtos/resolutionForUserDto.js';
+import PatientNotFoundError from '../errors/patientNotFoundError.js';
+import DoctorNotFoundError from '../errors/doctorNotFoundError.js';
 
 const ws = new WebSocket(`ws://localhost:${WS_PORT}`);
 
@@ -19,12 +19,12 @@ export default class Controller {
     try {
       await queueStorageMethods.removeFirstPatientInQueue(doctorId);
       const patient = await queueStorageMethods.checkFirstPatientInQueue(
-        doctorId
+        doctorId,
       );
       if (patient) {
         return res.status(200).json(patient);
       }
-      return res.status(200).json("No patient");
+      return res.status(200).json('No patient');
     } catch (error) {
       return next(error);
     }
@@ -35,7 +35,7 @@ export default class Controller {
 
     try {
       const patient = await queueStorageMethods.checkFirstPatientInQueue(
-        doctorId
+        doctorId,
       );
 
       if (!patient) {
@@ -53,7 +53,7 @@ export default class Controller {
 
     try {
       const doctor = await doctorStorage.getDoctorBySpecialization(
-        specialization
+        specialization,
       );
 
       if (!doctor) {
@@ -61,7 +61,7 @@ export default class Controller {
       }
 
       await queueStorageMethods.addToque(name, doctor.doctor_id);
-      ws.send(JSON.stringify({ name: req.body.name, event: "addUser" }));
+      ws.send(JSON.stringify({ name: req.body.name, event: 'addUser' }));
 
       return res.send();
     } catch (error) {
@@ -92,18 +92,17 @@ export default class Controller {
 
   getResolutions = async (req, res) => {
     const resolutions = await resolutionsStorageMethods.getResolutionInStorage(
-      req.user.patient_id
+      req.user.patient_id,
     );
 
     if (resolutions) {
       const data = resolutions.map(
-        (resolution) =>
-          new ResolutionForUserDto(req.user.patient_id, resolution)
+        (resolution) => new ResolutionForUserDto(req.user.patient_id, resolution),
       );
 
       res.status(200).json(data);
     } else {
-      res.status(404).send("no resolutions");
+      res.status(404).send('no resolutions');
     }
   };
 

@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
-import { Patient, Resolution, User, Queue } from "../db/models.js";
+import {
+  Patient, Resolution, User, Queue,
+} from '../db/models.js';
 
 export default class SqlStorage {
   constructor() {
@@ -17,7 +19,7 @@ export default class SqlStorage {
 
   async indexInQueue(patientName) {
     const res = await this.Queue.findOne({
-      attributes: ["que_id", "name"],
+      attributes: ['que_id', 'name'],
       where: {
         name: patientName,
       },
@@ -39,8 +41,8 @@ export default class SqlStorage {
 
   async removeFirstPatientInQueue() {
     await this.Queue.destroy({
-      order: [["que_id", "ASC"]],
-      attributes: ["que_id", "name"],
+      order: [['que_id', 'ASC']],
+      attributes: ['que_id', 'name'],
       limit: 1,
       where: {},
     });
@@ -48,8 +50,8 @@ export default class SqlStorage {
 
   async checkFirstPatientInQueue() {
     const user = await this.Queue.findOne({
-      order: [["que_id", "ASC"]],
-      attributes: ["que_id", "name"],
+      order: [['que_id', 'ASC']],
+      attributes: ['que_id', 'name'],
     });
     if (user) {
       return user.name;
@@ -59,8 +61,8 @@ export default class SqlStorage {
 
   async returnQueue() {
     const usersArr = await this.Queue.findAll({
-      order: [["que_id", "ASC"]],
-      attributes: ["name"],
+      order: [['que_id', 'ASC']],
+      attributes: ['name'],
     });
     if (usersArr) {
       return usersArr.map((user) => user.name);
@@ -71,8 +73,8 @@ export default class SqlStorage {
   async getResolutionInStorage(patientId) {
     const resolutions = await this.Resolution.findAll({
       where: { patient_id: patientId },
-      attributes: ["resolution_id", "resolution", "createdAt"],
-      include: ["doctor"],
+      attributes: ['resolution_id', 'resolution', 'createdAt'],
+      include: ['doctor'],
       raw: true,
     });
 
@@ -80,7 +82,9 @@ export default class SqlStorage {
   }
 
   async setResolutionInStorage(data) {
-    const { patient_id, ttl, resolution, doctor_id } = data;
+    const {
+      patient_id, ttl, resolution, doctor_id,
+    } = data;
     const dataForDb = {
       patient_id,
       doctor_id,
@@ -103,7 +107,7 @@ export default class SqlStorage {
 
   async checkUserAndPassInDb(emailToCheck) {
     const user = await this.User.findOne({
-      attributes: ["email", "password", "user_id"],
+      attributes: ['email', 'password', 'user_id'],
       where: {
         email: emailToCheck,
       },
@@ -116,7 +120,7 @@ export default class SqlStorage {
 
   async getUserData(userId) {
     const user = await this.Patient.findOne({
-      attributes: ["name", "patient_id"],
+      attributes: ['name', 'patient_id'],
       where: {
         user_id: userId,
       },
@@ -132,7 +136,7 @@ export default class SqlStorage {
     userPass,
     userName,
     userGender,
-    userBirthday
+    userBirthday,
   ) {
     const response = await this.User.create({
       email: userMail,

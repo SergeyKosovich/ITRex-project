@@ -1,19 +1,16 @@
-import bcrypt from "bcryptjs";
-import AuthService from "../../auth/authService.js";
-import {
-  INCORRECT_LOGIN,
-  INCORRECT_PASSWORD,
-} from "../../constants/messages.js";
-import ApiError from "../../errors/appError.js";
-import userStorage from "../../repositories/userStorage.js";
+import bcrypt from 'bcryptjs';
+import AuthService from '../../auth/authService.js';
+import { INCORRECT_CREDENTIALS } from '../../constants/messages.js';
+import ApiError from '../../errors/appError.js';
+import userStorage from '../../repositories/userStorage.js';
 
 const authService = new AuthService();
 
-jest.mock("bcryptjs");
+jest.mock('bcryptjs');
 userStorage.getUserByEmail = jest.fn();
 
-const body = { email: "it@email.ru", password: "123456" };
-const data = { password: "123456" };
+const body = { email: 'it@email.ru', password: '123456' };
+const data = { password: '123456' };
 
 beforeEach(() => jest.clearAllMocks());
 
@@ -36,7 +33,7 @@ describe("Class 'AuthService': ", () => {
     userStorage.getUserByEmail.mockResolvedValue(null);
 
     await expect(authService.checkCredentials(body)).rejects.toThrowError(
-      INCORRECT_LOGIN
+      INCORRECT_CREDENTIALS
     );
     await expect(authService.checkCredentials(body)).rejects.toThrowError(
       ApiError
@@ -51,7 +48,7 @@ describe("Class 'AuthService': ", () => {
     bcrypt.compareSync.mockReturnValue(false);
 
     await expect(authService.checkCredentials(body)).rejects.toThrowError(
-      INCORRECT_PASSWORD
+      INCORRECT_CREDENTIALS
     );
     await expect(authService.checkCredentials(body)).rejects.toThrowError(
       ApiError

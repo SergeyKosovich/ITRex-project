@@ -1,8 +1,8 @@
-import addPatientToStack from "./addPatientToStack.js";
-import postUserToQueue from "../httpRequests/patientPageRequests/postUserToQueue.js";
+import addPatientToStack from './addPatientToStack.js';
+import postUserToQueue from '../httpRequests/patientPageRequests/postUserToQueue.js';
 
 export default async function addUserToQueueForm(addForm, patientStack) {
-  addForm.addEventListener("submit", async (e) => {
+  addForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const inner = e.target.elements.patient.value;

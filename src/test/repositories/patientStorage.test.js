@@ -1,6 +1,6 @@
-import Sequelize from "sequelize";
-import patientStorage from "../../repositories/patientStorage.js";
-import { Patient } from "../../db/models.js";
+import Sequelize from 'sequelize';
+import patientStorage from '../../repositories/patientStorage.js';
+import { Patient } from '../../db/models.js';
 
 const { Op } = Sequelize;
 
@@ -10,12 +10,12 @@ Patient.findAll = jest.fn();
 
 const id = 1;
 const userId = 1;
-const name = "mia";
+const name = 'mia';
 const patient = {
   patient_id: id,
-  field1: "data",
-  field2: "data2",
-  field3: "data3",
+  field1: 'data',
+  field2: 'data2',
+  field3: 'data3',
 };
 
 beforeEach(() => jest.clearAllMocks());
@@ -29,7 +29,7 @@ describe("'patientStorage' repository", () => {
       where: {
         user_id: userId,
       },
-      attributes: ["name", "patient_id", "gender", "birthday"],
+      attributes: ['name', 'patient_id', 'gender', 'birthday'],
       raw: true,
     });
     expect(Patient.findOne).toHaveBeenCalledTimes(1);
@@ -45,7 +45,7 @@ describe("'patientStorage' repository", () => {
 
     expect(await patientStorage.getPatientById(id)).toEqual(patient);
     expect(Patient.findByPk).toHaveBeenCalledWith(id, {
-      attributes: ["name", "patient_id", "gender", "birthday"],
+      attributes: ['name', 'patient_id', 'gender', 'birthday'],
       raw: true,
     });
     expect(Patient.findByPk).toHaveBeenCalledTimes(1);
@@ -67,7 +67,7 @@ describe("'patientStorage' repository", () => {
           [Op.like]: `%${name}%`,
         },
       },
-      attributes: ["name", "patient_id", "gender", "birthday"],
+      attributes: ['name', 'patient_id', 'gender', 'birthday'],
       raw: true,
     });
     expect(Patient.findAll).toHaveBeenCalledTimes(1);

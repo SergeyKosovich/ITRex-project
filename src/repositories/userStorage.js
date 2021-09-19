@@ -1,9 +1,9 @@
-import { User } from "../db/models.js";
+import { User } from '../db/models.js';
 
 class UserStorage {
   async getUserByEmail(email) {
     const user = await User.findOne({
-      attributes: ["email", "password", "user_id"],
+      attributes: ['email', 'password', 'user_id'],
       where: { email },
     });
 

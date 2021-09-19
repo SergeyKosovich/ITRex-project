@@ -1,5 +1,5 @@
-import Sequelize from "sequelize";
-import { Patient } from "../db/models.js";
+import Sequelize from 'sequelize';
+import { Patient } from '../db/models.js';
 
 const { Op } = Sequelize;
 class PatientStorage {
@@ -8,7 +8,7 @@ class PatientStorage {
       where: {
         user_id: userId,
       },
-      attributes: ["name", "patient_id", "gender", "birthday"],
+      attributes: ['name', 'patient_id', 'gender', 'birthday'],
       raw: true,
     });
 
@@ -17,7 +17,7 @@ class PatientStorage {
 
   async getPatientById(id) {
     const patient = await Patient.findByPk(id, {
-      attributes: ["name", "patient_id", "gender", "birthday"],
+      attributes: ['name', 'patient_id', 'gender', 'birthday'],
       raw: true,
     });
 
@@ -31,7 +31,7 @@ class PatientStorage {
           [Op.like]: `%${name}%`,
         },
       },
-      attributes: ["name", "patient_id", "gender", "birthday"],
+      attributes: ['name', 'patient_id', 'gender', 'birthday'],
       raw: true,
     });
   }

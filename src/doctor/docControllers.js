@@ -1,15 +1,15 @@
 /* eslint operator-linebreak: ["error", "after"] */
 /* eslint-disable camelcase */
 
-import { resolutionsStorageMethods } from "../storageClasses/storageFactory.js";
-import { TtlDefaultInSeconds } from "../config.js";
-import patientStorage from "../repositories/patientStorage.js";
-import ResolutionForDoctorDto from "../dtos/resolutionForDoctorDto.js";
-import { NO_CONTENT } from "../constants/statusCodes.js";
-import prepareName from "../utils/prepareName.js";
-import PatientNotFoundError from "../errors/patientNotFoundError.js";
-import ResolutionNotFoundError from "../errors/resolutionNotFoundError.js";
-import CannotBeDeletedError from "../errors/cannotBeDeletedError.js";
+import { resolutionsStorageMethods } from '../storageClasses/storageFactory.js';
+import { TtlDefaultInSeconds } from '../config.js';
+import patientStorage from '../repositories/patientStorage.js';
+import ResolutionForDoctorDto from '../dtos/resolutionForDoctorDto.js';
+import { NO_CONTENT } from '../constants/statusCodes.js';
+import prepareName from '../utils/prepareName.js';
+import PatientNotFoundError from '../errors/patientNotFoundError.js';
+import ResolutionNotFoundError from '../errors/resolutionNotFoundError.js';
+import CannotBeDeletedError from '../errors/cannotBeDeletedError.js';
 
 export default class Controller {
   getResolutions = async (req, res, next) => {
@@ -27,7 +27,7 @@ export default class Controller {
 
       const resolutions =
         await resolutionsStorageMethods.getResolutionInStorage(
-          patients[0].patient_id
+          patients[0].patient_id,
         );
 
       if (!resolutions) {
@@ -35,7 +35,7 @@ export default class Controller {
       }
 
       const data = resolutions.map(
-        (resolution) => new ResolutionForDoctorDto(patients[0], resolution)
+        (resolution) => new ResolutionForDoctorDto(patients[0], resolution),
       );
 
       return res.json({ resolutions: data });
@@ -63,7 +63,7 @@ export default class Controller {
     if (data.ttl) {
       setTimeout(async () => {
         await resolutionsStorageMethods.deleteResolutionInStorage(
-          data.patient_id
+          data.patient_id,
         );
       }, data.ttl * 1000);
     }
@@ -85,7 +85,7 @@ export default class Controller {
       const foundAndDeleted =
         await resolutionsStorageMethods.deleteResolutionInStorage(
           patients[0].patient_id,
-          req.user.doctor_id
+          req.user.doctor_id,
         );
 
       if (!foundAndDeleted) {
