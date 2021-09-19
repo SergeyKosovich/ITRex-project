@@ -1,3 +1,3 @@
-export default function addFirstPatient(txt, firstPat) {
-  firstPat.innerHTML = txt;
+export default function addFirstPatient(txt, firstPatient) {
+  firstPatient.innerHTML = txt;
 }

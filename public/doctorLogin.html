@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="shortcut icon" type="image/png" href="./fav.png" />
+    <title>Staff Login</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <form class="registration-form">
+          <div class="login-wrapper">
+            <div class="input-wrapper">
+              <span class="registration-form__span">Username:</span
+              ><input
+                class="registration-form__user-name"
+                type="text"
+                name="email"
+                required
+              />
+            </div>
+            <div class="input-wrapper">
+              <span class="registration-form__span">Password:</span
+              ><input
+                class="registration-form__user-password"
+                type="password"
+                name="password"
+                autocomplete="on"
+                required
+              />
+            </div>
+            <div class="registration-form__button-wrapper">
+              <button class="registration-form__button" type="submit">
+                Login
+              </button>
+            </div>
+          </div>
+        </form>
+      </header>
+      <div style="margin: 5rem auto; font-size: large">
+        <ul>
+          <li>
+            ------------email ---------------- password ------- specialization
+          </li>
+          <li>kyle_simpson@clinic.com -- kyle_simpson -- therapist</li>
+          <li>martin_fowler@clinic.com -- martin_fowler -- dentist</li>
+          <li>linus_torvalds@clinic.com -- linus_torvalds -- pediatrician</li>
+        </ul>
+      </div>
+    </div>
+
+    <script type="module" src="./js/doctorPage/doctorLogin.js"></script>
+  </body>
+</html>

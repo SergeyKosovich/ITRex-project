@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/png" href="./fav.png" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>patient</title>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <a href="./doctor.html">To doctor</a>
+        <form class="registration-form">
+          <div class="login-wrapper">
+            <div class="input-wrapper">
+              <span class="registration-form__span">Username:</span
+              ><input
+                class="registration-form__user-name"
+                type="text"
+                name="email"
+                required
+              />
+            </div>
+            <div class="input-wrapper">
+              <span class="registration-form__span">Password:</span
+              ><input
+                class="registration-form__user-password"
+                type="password"
+                name="password"
+                autocomplete="on"
+                required
+              />
+            </div>
+            <div class="registration-form__button-wrapper">
+              <button class="registration-form__button" type="submit">
+                Login</button
+              ><button
+                class="registration-form__button"
+                id="registrationButton"
+                type="button"
+              >
+                Registration
+              </button>
+            </div>
+          </div>
+          <div class="logout-wrapper">
+            <span class="logout-user-name"></span>
+            <button
+              class="registration-form__button"
+              id="logoutButton"
+              type="button"
+            >
+              Logout
+            </button>
+          </div>
+        </form>
+      </header>
+      <main class="main">
+        <div class="queqe">
+          <h2 class="queqe__h2">My Profile</h2>
+          <div class="input-block">
+            <div class="input-block__values">
+              <h3 class="input-block__h3">System messages</h3>
+              <div class="patient-stack"></div>
+            </div>
+            <div class="input-block__wrapper">
+              <form class="input-block__form" action="#">
+                <!-- dropdown -->
+                <div class="wrapper-select">
+                  <span class="doctor-span">Please, chose the doctor: </span>
+                  <select name="specialization" required>
+                    <option></option>
+                    <option value="therapist">therapist</option>
+                    <option value="dentist">dentist</option>
+                    <option value="pediatrician">pediatrician</option>
+                  </select>
+                </div>
+                <input
+                  class="input-block__input"
+                  type="text"
+                  name="patient"
+                  value=""
+                  disabled
+                />
+                <div class="input_block__button-wrapper">
+                  <button class="input-block__button" type="submit">
+                    Add to queue
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <form class="search-block" action="#">
+            <button type="submit" class="showres-button">
+              show resolutions
+            </button>
+            <textarea class="search-block__results"></textarea>
+          </form>
+        </div>
+      </main>
+      <div class="popup">
+        <div class="popup__text">incorrect login or password!</div>
+      </div>
+    </div>
+  </body>
+  <script type="module" src="./js/patient.js"></script>
+</html>

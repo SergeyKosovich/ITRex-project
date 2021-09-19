@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  node1:
+    build: .
+    environment:
+      - REDIS_HOST=redis://cache
+      - POST_HOST=db
+    ports:
+      - "3000:3000"
+      - "8080:8080"
+    depends_on:
+      - db
+    volumes:
+      - ./:/usr/src/app
+  redis:
+    image: "redis"
+    container_name: cache
+    expose:
+      - 6379
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=node_postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
