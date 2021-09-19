@@ -23,6 +23,25 @@ describe("Class 'TokenService'", () => {
     jwt.verify.mockReturnValue(payload);
 
     expect(tokenService.verify(token)).toEqual(payload);
+    expect(tokenService.verify(token)).toEqual({
+      payload,
+      error: false,
+    });
+    expect(jwt.verify).toHaveBeenCalledWith(token, secretKey);
+    expect(jwt.verify).toHaveBeenCalledTimes(1);
+  });
+
+  it("Method 'verify', if token is invalid", () => {
+    const error = new Error();
+    jwt.verify.mockImplementation(() => {
+      throw error;
+    });
+
+    expect(tokenService.verify(token)).toEqual({
+      payload: null,
+      error: error.name,
+    });
+
     expect(jwt.verify).toHaveBeenCalledWith(token, secretKey);
     expect(jwt.verify).toHaveBeenCalledTimes(1);
   });
@@ -30,7 +49,11 @@ describe("Class 'TokenService'", () => {
   it("Method 'generate'", () => {
     jwt.sign.mockReturnValue("access token");
 
+
     expect(tokenService.generate(payload)).toBe("access token");
+
+    expect(tokenService.generate(userId)).toBe("access token");
+
     expect(jwt.sign).toHaveBeenCalledWith(payload, secretKey, {
       expiresIn: tokenAge,
     });

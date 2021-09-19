@@ -2,6 +2,8 @@
 /* eslint-disable camelcase */
 
 import { resolutionsStorageMethods } from "../storageClasses/storageFactory.js";
+import PatientNotFoundError from "../errors/patientNotFoundError.js";
+import ResolutionNotFoundError from "../errors/resolutionNotFoundError.js";
 import { TtlDefaultInSeconds } from "../config.js";
 import patientStorage from "../repositories/patientStorage.js";
 import ResolutionForDoctorDto from "../dtos/resolutionForDoctorDto.js";
@@ -89,6 +91,7 @@ export default class Controller {
         );
 
       if (!foundAndDeleted) {
+      if (!resolution) {
         throw new ResolutionNotFoundError();
       }
 

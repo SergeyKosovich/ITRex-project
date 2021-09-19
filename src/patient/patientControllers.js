@@ -8,6 +8,10 @@ import doctorStorage from "../repositories/doctorStorage.js";
 import tokenService from "../token/tokenService.js";
 import patientStorage from "../repositories/patientStorage.js";
 import ResolutionForUserDto from "../dtos/resolutionForUserDto.js";
+import { queueStorageMethods } from "../storageClasses/storageFactory.js";
+import doctorStorage from "../repositories/doctorStorage.js";
+import tokenService from "../token/tokenService.js";
+import patientStorage from "../repositories/patientStorage.js";
 import PatientNotFoundError from "../errors/patientNotFoundError.js";
 import DoctorNotFoundError from "../errors/doctorNotFoundError.js";
 

@@ -1,6 +1,9 @@
 import bcrypt from "bcryptjs";
 import InvalidCredentialsError from "../errors/invalidCredentialsError.js";
 import userStorage from "../repositories/userStorage.js";
+import userStorage from "../repositories/userStorage.js";
+import InvalidCredentialsError from "../errors/invalidCredentialsError.js";
+
 
 export default class AuthService {
   async checkCredentials(body) {

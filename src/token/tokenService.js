@@ -14,6 +14,13 @@ class TokenService {
     return jwt.sign(payload, this.secretKey, { expiresIn: tokenAge });
   }
 
+  }
+
+  generate(userId) {
+    const payload = { user_id: userId };
+    return jwt.sign(payload, this.secretKey, { expiresIn: tokenAge });
+  }
+
   generateForStaff(data) {
     return jwt.sign(data, this.secretKey, { expiresIn: tokenAge });
   }

@@ -5,6 +5,8 @@ import doctorStorage from "../repositories/doctorStorage.js";
 import patientStorage from "../repositories/patientStorage.js";
 import tokenService from "../token/tokenService.js";
 import AuthService from "./authService.js";
+import DoctorNotFoundError from "../errors/doctorNotFoundError.js";
+import PatientNotFoundError from "../errors/patientNotFoundError.js";
 
 export default class Controller {
   constructor() {
@@ -20,12 +22,15 @@ export default class Controller {
         throw new PatientNotFoundError();
       }
 
+
       const payload = {
         user_id: user.user_id,
         patient_id: userData.patient_id,
       };
 
       const token = tokenService.generate(payload, secretKey);
+
+      const token = tokenService.generate(user.user_id);
       userData.token = token;
 
       res.status(200).json(userData);
@@ -43,7 +48,7 @@ export default class Controller {
         throw new DoctorNotFoundError();
       }
 
-      const token = tokenService.generateForStaff(doctor, secretKey);
+      const token = tokenService.generateForStaff(doctor);
       doctor.token = token;
 
       return res.json(doctor);
