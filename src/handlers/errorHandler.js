@@ -2,6 +2,7 @@
 import ApiError from "../errors/appError.js";
 
 export default function errorHandler(err, req, res, next) {
+  console.log(err);
   let message = "Something went wrong";
   let status = 500;
   if (err instanceof ApiError) {

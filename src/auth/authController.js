@@ -1,3 +1,6 @@
+import DoctorNotFoundError from "../errors/doctorNotFoundError.js";
+import PatientNotFoundError from "../errors/patientNotFoundError.js";
+import { secretKey } from "../config.js";
 import doctorStorage from "../repositories/doctorStorage.js";
 import patientStorage from "../repositories/patientStorage.js";
 import tokenService from "../token/tokenService.js";
@@ -18,6 +21,14 @@ export default class Controller {
       if (!userData) {
         throw new PatientNotFoundError();
       }
+
+
+      const payload = {
+        user_id: user.user_id,
+        patient_id: userData.patient_id,
+      };
+
+      const token = tokenService.generate(payload, secretKey);
 
       const token = tokenService.generate(user.user_id);
       userData.token = token;

@@ -23,6 +23,7 @@ async function sequelizeInit() {
       },
       name: DataTypes.STRING,
     },
+
     { sequelize, modelName: "queues" }
   );
 
@@ -36,7 +37,16 @@ async function sequelizeInit() {
       email: DataTypes.STRING,
       password: DataTypes.STRING,
     },
-    { sequelize, modelName: "users" }
+    {
+      indexes: [
+        {
+          unique: true,
+          fields: ["email"],
+        },
+      ],
+      sequelize,
+      modelName: "users",
+    }
   );
 
   Patient.init(
@@ -46,12 +56,23 @@ async function sequelizeInit() {
         primaryKey: true,
         autoIncrement: true,
       },
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
+      name: DataTypes.STRING,
       gender: DataTypes.STRING,
       birthday: DataTypes.STRING,
     },
-    { sequelize, modelName: "patients" }
+    {
+      indexes: [
+        {
+          fields: ["name"],
+        },
+        {
+          unique: true,
+          fields: ["user_id"],
+        },
+      ],
+      sequelize,
+      modelName: "patients",
+    }
   );
   User.hasOne(Patient, { foreignKey: "user_id" });
   Patient.belongsTo(User, { foreignKey: "user_id" });
@@ -67,7 +88,15 @@ async function sequelizeInit() {
       resolution: DataTypes.STRING,
       ttl: DataTypes.BIGINT,
     },
-    { sequelize, modelName: "resolutions" }
+    {
+      indexes: [
+        {
+          fields: ["patient_id"],
+        },
+      ],
+      sequelize,
+      modelName: "resolutions",
+    }
   );
   Resolution.belongsTo(Patient, { foreignKey: "patient_id" });
   Patient.hasMany(Resolution, { foreignKey: "patient_id" });
@@ -81,10 +110,21 @@ async function sequelizeInit() {
       },
       name: DataTypes.STRING,
     },
-    { sequelize, modelName: "doctors" }
+    {
+      indexes: [
+        {
+          unique: true,
+          fields: ["user_id"],
+        },
+      ],
+      sequelize,
+      modelName: "doctors",
+    }
   );
   User.hasOne(Doctor, { foreignKey: "user_id" });
   Doctor.belongsTo(User, { foreignKey: "user_id" });
+  Resolution.belongsTo(Doctor, { foreignKey: "doctor_id" });
+  Doctor.hasMany(Resolution, { foreignKey: "doctor_id" });
 
   Specialization.init(
     {
@@ -95,7 +135,16 @@ async function sequelizeInit() {
       },
       name: DataTypes.STRING,
     },
-    { sequelize, modelName: "specializations" }
+    {
+      indexes: [
+        {
+          unique: true,
+          fields: ["name"],
+        },
+      ],
+      sequelize,
+      modelName: "specializations",
+    }
   );
   Specialization.belongsToMany(Doctor, {
     through: "doctor_specialization",
@@ -122,7 +171,7 @@ async function sequelizeInit() {
   return sequelize;
 }
 
-sequelizeInit().then(() => console.log("DB ready to use!"));
+sequelizeInit().then();
 
 export {
   Patient,

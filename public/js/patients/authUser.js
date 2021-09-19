@@ -12,7 +12,9 @@ export default async function authUser() {
     e.preventDefault();
     const userMail = e.target.elements.email.value;
     const userPass = e.target.elements.password.value;
+
     const response = await userDataPost(userMail, userPass);
+
     if (!response) {
       popup.classList.add("active");
       setTimeout(() => {
@@ -20,11 +22,11 @@ export default async function authUser() {
       }, 1000);
       return;
     }
+
     localStorage.setItem("jwt", response.token);
-    localStorage.setItem("email", userMail);
-    localStorage.setItem("password", userPass);
-    userName.value = `${response.firstName} ${response.lastName} id:${response.patient_id}`;
-    userLogin.innerHTML = `${response.firstName} ${response.lastName}`;
+    userName.value = `${response.name} id:${response.patient_id}`;
+    userLogin.innerHTML = `${response.name}`;
+
     loginWrapper.classList.add("hidden");
     logoutWrapper.classList.add("active");
   });

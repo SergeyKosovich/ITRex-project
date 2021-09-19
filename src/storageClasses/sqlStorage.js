@@ -1,15 +1,8 @@
 /* eslint-disable camelcase */
-import {
-  Patient,
-  Resolution,
-  User,
-  // sequelizeInit,
-  Queue,
-} from "../db/models.js";
+import { Patient, Resolution, User, Queue } from "../db/models.js";
 
 export default class SqlStorage {
   constructor() {
-    // this.init = sequelizeInit().then(() => console.log("DB ready to use!"));
     this.Patient = Patient;
     this.Resolution = Resolution;
     this.Queue = Queue;
@@ -77,21 +70,20 @@ export default class SqlStorage {
 
   async getResolutionInStorage(patientId) {
     const resolutions = await this.Resolution.findAll({
-      attributes: ["resolution"],
-      where: {
-        patient_id: patientId,
-      },
+      where: { patient_id: patientId },
+      attributes: ["resolution_id", "resolution", "createdAt"],
+      include: ["doctor"],
+      raw: true,
     });
-    if (!resolutions[0]) {
-      return null;
-    }
-    return resolutions;
+
+    return resolutions.length ? resolutions : null;
   }
 
   async setResolutionInStorage(data) {
-    const { patient_id, ttl, resolution } = data;
+    const { patient_id, ttl, resolution, doctor_id } = data;
     const dataForDb = {
       patient_id,
+      doctor_id,
       resolution,
     };
     if (ttl) {
@@ -100,10 +92,11 @@ export default class SqlStorage {
     await this.Resolution.create(dataForDb);
   }
 
-  async deleteResolutionInStorage(patientId) {
-    await this.Resolution.destroy({
+  async deleteResolutionInStorage(patientId, doctorId) {
+    return this.Resolution.destroy({
       where: {
         patient_id: patientId,
+        doctor_id: doctorId,
       },
     });
   }
@@ -123,7 +116,7 @@ export default class SqlStorage {
 
   async getUserData(userId) {
     const user = await this.Patient.findOne({
-      attributes: ["firstName", "lastName", "patient_id"],
+      attributes: ["name", "patient_id"],
       where: {
         user_id: userId,
       },
@@ -137,8 +130,7 @@ export default class SqlStorage {
   async createNewUserAndPatient(
     userMail,
     userPass,
-    userFirstName,
-    userLastName,
+    userName,
     userGender,
     userBirthday
   ) {
@@ -148,8 +140,7 @@ export default class SqlStorage {
     });
     const patient = await this.Patient.create({
       user_id: response.user_id,
-      firstName: userFirstName,
-      lastName: userLastName,
+      name: userName,
       gender: userGender,
       birthday: userBirthday,
     });

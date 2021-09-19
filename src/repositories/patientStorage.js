@@ -1,17 +1,39 @@
+import Sequelize from "sequelize";
 import { Patient } from "../db/models.js";
 
+const { Op } = Sequelize;
 class PatientStorage {
   async getPatientByUserId(userId) {
-    const patient = (
-      await Patient.findOne({
-        attributes: ["firstName", "lastName", "patient_id"],
-        where: {
-          user_id: userId,
-        },
-      })
-    )?.get({ plain: true });
+    const patient = await Patient.findOne({
+      where: {
+        user_id: userId,
+      },
+      attributes: ["name", "patient_id", "gender", "birthday"],
+      raw: true,
+    });
 
     return patient || null;
+  }
+
+  async getPatientById(id) {
+    const patient = await Patient.findByPk(id, {
+      attributes: ["name", "patient_id", "gender", "birthday"],
+      raw: true,
+    });
+
+    return patient || null;
+  }
+
+  async getPatientsByName(name) {
+    return Patient.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${name}%`,
+        },
+      },
+      attributes: ["name", "patient_id", "gender", "birthday"],
+      raw: true,
+    });
   }
 }
 

@@ -1,10 +1,10 @@
+import { docUrl } from "../config.js";
+
 async function loginDoctor(credential) {
   try {
     const response = await fetch("/auth/doctor", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(credential),
     });
 
@@ -25,13 +25,11 @@ async function loginDoctor(credential) {
   }
 }
 
-async function getDoctorData(doctorId, jwt) {
+async function getDoctorData(jwt) {
   try {
-    const response = await fetch("staff/doctor/" + doctorId, {
+    const response = await fetch("staff/doctor", {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-      },
+      headers: { Authorization: `Bearer ${jwt}` },
     });
 
     if (response.status === 401) {
@@ -47,4 +45,30 @@ async function getDoctorData(doctorId, jwt) {
   }
 }
 
-export { getDoctorData, loginDoctor };
+async function getResolutionsByName(jwt, name) {
+  try {
+    const search = `?name=${name}`;
+
+    const res = await fetch(docUrl + search, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${jwt}` },
+    });
+
+    const data = await res.json();
+
+    if (res.status === 404) {
+      return { message: data.message };
+    }
+
+    if (res.status !== 200) {
+      throw new Error(`Something went wrong. Error: ${res.statusText}`);
+    }
+
+    return { data };
+  } catch (err) {
+    console.log(err.message);
+    return null;
+  }
+}
+
+export { getDoctorData, loginDoctor, getResolutionsByName };

@@ -1,5 +1,13 @@
 import WebSocket from "ws";
 import { secretKey, WS_PORT } from "../config.js";
+import {
+  queueStorageMethods,
+  resolutionsStorageMethods,
+} from "../storageClasses/storageFactory.js";
+import doctorStorage from "../repositories/doctorStorage.js";
+import tokenService from "../token/tokenService.js";
+import patientStorage from "../repositories/patientStorage.js";
+import ResolutionForUserDto from "../dtos/resolutionForUserDto.js";
 import { queueStorageMethods } from "../storageClasses/storageFactory.js";
 import doctorStorage from "../repositories/doctorStorage.js";
 import tokenService from "../token/tokenService.js";
@@ -66,19 +74,40 @@ export default class Controller {
   };
 
   getUser = async (req, res, next) => {
-    const userId = req.user.user_id;
     try {
-      const userData = await patientStorage.getPatientByUserId(userId);
+      const userData = await patientStorage.getPatientById(req.user.patient_id);
       if (!userData) {
         throw new PatientNotFoundError();
       }
 
-      const token = tokenService.generate(userId, secretKey);
+      const payload = {
+        user_id: req.user.user_id,
+        patient_id: userData.patient_id,
+      };
+
+      const token = tokenService.generate(payload, secretKey);
       userData.token = token;
 
       return res.json(userData);
     } catch (error) {
       return next(error);
+    }
+  };
+
+  getResolutions = async (req, res) => {
+    const resolutions = await resolutionsStorageMethods.getResolutionInStorage(
+      req.user.patient_id
+    );
+
+    if (resolutions) {
+      const data = resolutions.map(
+        (resolution) =>
+          new ResolutionForUserDto(req.user.patient_id, resolution)
+      );
+
+      res.status(200).json(data);
+    } else {
+      res.status(404).send("no resolutions");
     }
   };
 

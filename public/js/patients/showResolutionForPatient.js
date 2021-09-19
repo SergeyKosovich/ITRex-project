@@ -1,18 +1,27 @@
-import getPatientsResolutionsById from "../httpRequests/getResolutionById.js";
-
-const userNamesAndId = document.querySelector(".input-block__input");
+import getPatientsResolutions from "../httpRequests/getResolutionById.js";
 
 export default function showResolutionForPatient(form, resolutionText) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
+    const deafaultMessage = "You have no resolutions!";
     const jwt = localStorage.getItem("jwt");
-    const userId = userNamesAndId.value.split("id:")[1];
 
-    const response = await getPatientsResolutionsById(userId, jwt);
-    if (!response) {
+    const data = await getPatientsResolutions(jwt);
+    if (!data) {
+      resolutionText.value = deafaultMessage;
       return;
     }
-    resolutionText.value = response;
+
+    const text = data
+      .map(
+        (resolution) =>
+          `\t\t Medical card №: ${resolution.patient_id} \n` +
+          `Resolution №: ${resolution.resolution_id}: ${resolution.resolution} \n` +
+          `Date of creation: ${resolution.createdData.split("T")[0]} \n` +
+          `Doctor: ${resolution.doctorName} \n\n`
+      )
+      .join(" ");
+
+    resolutionText.value = text;
   });
 }
