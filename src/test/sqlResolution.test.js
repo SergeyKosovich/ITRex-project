@@ -20,10 +20,7 @@ test("'getResolutionInStorage' returns all resolutions by 'patientId', case if r
   const resolutions = await service.getResolutionInStorage(patientId);
   expect(Resolution.findAll).toHaveBeenCalledTimes(1);
   expect(Resolution.findAll).toHaveBeenCalledWith({
-    where: {
-      patient_id: patientId,
-    },
-    attributes: ['resolution_id', 'resolution', 'createdAt'],
+    where: { patient_id: patientId },
     include: ['doctor'],
     raw: true,
   });
@@ -35,10 +32,7 @@ test("'getResolutionInStorage', case if resolutions doesn't exist", async () => 
   const resolutions = await service.getResolutionInStorage(patientId);
   expect(Resolution.findAll).toHaveBeenCalledTimes(1);
   expect(Resolution.findAll).toHaveBeenCalledWith({
-    where: {
-      patient_id: patientId,
-    },
-    attributes: ['resolution_id', 'resolution', 'createdAt'],
+    where: { patient_id: patientId },
     include: ['doctor'],
     raw: true,
   });

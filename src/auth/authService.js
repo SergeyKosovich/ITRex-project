@@ -6,7 +6,6 @@ export default class AuthService {
   async checkCredentials(body) {
     const { email, password } = body;
     const data = await userStorage.getUserByEmail(email);
-
     if (!data) {
       throw new InvalidCredentialsError();
     }

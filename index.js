@@ -2,6 +2,7 @@
 import express from 'express';
 import path from 'path';
 import WebSocket, { WebSocketServer } from 'ws';
+import dotenv from 'dotenv';
 import patientRouter from './src/patient/patientRoutes.js';
 import docRouter from './src/doctor/docRouter.js';
 import authRouter from './src/auth/authRoutes.js';
@@ -12,6 +13,7 @@ import { PORT, WS_PORT } from './src/config.js';
 import checkAuth from './src/middleware/checkAuth.js';
 
 const dirname = path.resolve();
+dotenv.config({ path: path.join(dirname, '.env') });
 const app = express();
 const wss = new WebSocketServer({
   port: WS_PORT,

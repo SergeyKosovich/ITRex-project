@@ -9,7 +9,7 @@
     "prepare": "husky install",
     "serve": "nodemon index.js",
     "start": "node index.js",
-    "test": "jest --watch"
+    "test": "jest --watchAll"
   },
   "keywords": [],
   "author": "",
@@ -36,6 +36,7 @@
     "async-redis": "^2.0.0",
     "babel-eslint": "^10.1.0",
     "bcryptjs": "^2.4.3",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "joi": "^17.4.2",
     "jsdom": "^17.0.0",

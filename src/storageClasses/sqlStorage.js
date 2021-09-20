@@ -73,12 +73,24 @@ export default class SqlStorage {
   async getResolutionInStorage(patientId) {
     const resolutions = await this.Resolution.findAll({
       where: { patient_id: patientId },
-      attributes: ['resolution_id', 'resolution', 'createdAt'],
       include: ['doctor'],
       raw: true,
     });
+    const resolutionAll = [];
+    resolutions.forEach(async (resolution) => {
+      if (resolution.ttl <= Date.now()) {
+        await this.Resolution.destroy({
+          where: {
+            patient_id: resolution.patient_id,
+            ttl: resolution.ttl,
+          },
+        });
+        return;
+      }
+      resolutionAll.push(resolution);
+    });
 
-    return resolutions.length ? resolutions : null;
+    return resolutionAll.length ? resolutionAll : null;
   }
 
   async setResolutionInStorage(data) {

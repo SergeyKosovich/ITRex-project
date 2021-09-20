@@ -1,7 +1,7 @@
-import getFirstUserInQueue from '../httpRequests/docPageRequests/getFirstUserInQueue.js';
+import getFirstPatientInQueue from '../httpRequests/docPageRequests/getFirstPatientInQueue.js';
 
 export default async function checkNewPatients(lastPatient) {
   const jwt = localStorage.getItem('doctor-jwt');
-  const userCurrent = await getFirstUserInQueue(jwt);
-  lastPatient.innerHTML = userCurrent;
+  const patientCurrent = await getFirstPatientInQueue(jwt);
+  lastPatient.innerHTML = patientCurrent.name;
 }

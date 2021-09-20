@@ -1,7 +1,10 @@
 /* eslint operator-linebreak: ["error", "after"] */
 /* eslint-disable camelcase */
 
-import { resolutionsStorageMethods } from '../storageClasses/storageFactory.js';
+import {
+  resolutionsStorageMethods,
+  queueStorageMethods,
+} from '../storageClasses/storageFactory.js';
 import { TtlDefaultInSeconds } from '../config.js';
 import patientStorage from '../repositories/patientStorage.js';
 import ResolutionForDoctorDto from '../dtos/resolutionForDoctorDto.js';
@@ -45,8 +48,11 @@ export default class Controller {
   };
 
   patchResolution = async (req, res, next) => {
+    const patient = await queueStorageMethods.checkFirstPatientInQueue(
+      req.user.doctor_id,
+    );
     const data = {
-      patient_id: parseFloat(req.body.patient_id),
+      patient_id: patient,
       resolution: req.body.resolution,
       doctor_id: req.user.doctor_id,
       ttl: req.body.ttl || TtlDefaultInSeconds,
@@ -60,13 +66,6 @@ export default class Controller {
     }
 
     await resolutionsStorageMethods.setResolutionInStorage(data);
-    if (data.ttl) {
-      setTimeout(async () => {
-        await resolutionsStorageMethods.deleteResolutionInStorage(
-          data.patient_id,
-        );
-      }, data.ttl * 1000);
-    }
     res.status(200).send();
   };
 

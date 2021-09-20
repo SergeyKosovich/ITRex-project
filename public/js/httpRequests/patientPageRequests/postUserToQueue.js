@@ -1,6 +1,6 @@
 import { userUrl } from '../../config.js';
 
-export default async function postUserToQueue(name, specialization) {
+export default async function postUserToQueue(specialization) {
   try {
     const jwt = localStorage.getItem('jwt');
     const response = await fetch(userUrl, {
@@ -9,7 +9,7 @@ export default async function postUserToQueue(name, specialization) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${jwt}`,
       },
-      body: JSON.stringify({ name, specialization }),
+      body: JSON.stringify({ specialization }),
     });
     if (response.status !== 200) {
       throw new Error(`Something went wrong. Error: ${response.statusText}`);

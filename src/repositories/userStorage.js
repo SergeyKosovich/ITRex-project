@@ -6,7 +6,6 @@ class UserStorage {
       attributes: ['email', 'password', 'user_id'],
       where: { email },
     });
-
     return user || null;
   }
 }

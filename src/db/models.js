@@ -155,6 +155,7 @@ async function sequelizeInit() {
     foreignKey: 'doctor_id',
   });
 
+  // First run :npm run lint
   await sequelize.sync({ force: true });
 
   const savedSpecs = await Specialization.bulkCreate(specializations);
@@ -167,7 +168,7 @@ async function sequelizeInit() {
     });
     savedDoctor.addSpecialization(savedSpecs[i].specialization_id);
   });
-
+  //  First run
   return sequelize;
 }
 

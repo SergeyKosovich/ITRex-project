@@ -30,18 +30,17 @@ export default class Controller {
     }
   };
 
-  getFirstUserInQueue = async (req, res, next) => {
+  getFirstPatientInQueue = async (req, res, next) => {
     const doctorId = req.user.doctor_id;
 
     try {
-      const patient = await queueStorageMethods.checkFirstPatientInQueue(
+      const patientId = await queueStorageMethods.checkFirstPatientInQueue(
         doctorId,
       );
-
+      const patient = await patientStorage.getPatientById(patientId);
       if (!patient) {
         throw new PatientNotFoundError();
       }
-
       return res.status(200).json(patient);
     } catch (error) {
       next(error);
@@ -49,19 +48,24 @@ export default class Controller {
   };
 
   addUser = async (req, res, next) => {
-    const { name, specialization } = req.body;
-
+    const { specialization } = req.body;
     try {
       const doctor = await doctorStorage.getDoctorBySpecialization(
         specialization,
       );
+      const patient = await patientStorage.getPatientById(req.user.patient_id);
 
       if (!doctor) {
         throw new DoctorNotFoundError();
       }
 
-      await queueStorageMethods.addToque(name, doctor.doctor_id);
-      ws.send(JSON.stringify({ name: req.body.name, event: 'addUser' }));
+      if (!patient) {
+        throw new PatientNotFoundError();
+      }
+
+      await queueStorageMethods.addToque(patient.patient_id, doctor.doctor_id);
+      console.log(patient.patient_id, doctor.doctor_id);
+      ws.send(JSON.stringify({ name: patient.name, event: 'addUser' }));
 
       return res.send();
     } catch (error) {

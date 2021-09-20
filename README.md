@@ -1,21 +1,18 @@
 # ITRex-Project
 This project will be a single Express-based app that serves two separate, unrelated pieces of functionality  
 
-How to run docker:  
-docker build . -t node-app/node-web-app  
-docker-compose up
+How to run app in docker:   
+docker-compose up -d  
 
-In docker compose.yml:  
-MEMORY_TYPE=1 - memory  
-MEMORY_TYPE=2 - redis  
-MEMORY_TYPE=3 - postgres 
+Doctor accounts:  
+kyle_simpson@clinic.com password: git - therapist  
+martin_fowler@clinic.com  password: martin_fowler - dentist  
+linus_torvalds@clinic.com  password: linus_torvalds  - pediatrician  
 
 How to run app:  
+npm i
 npm start  
-In config.js:  
-StorageType = 1 - memory  
-StorageType = 2 - redis   
-StorageType = 3 - postgres  
+
 
 How to test:  
 npm test  

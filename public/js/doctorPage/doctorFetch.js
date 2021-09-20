@@ -54,16 +54,15 @@ async function getResolutionsByName(jwt, name) {
       headers: { Authorization: `Bearer ${jwt}` },
     });
 
-    const data = await res.json();
-
     if (res.status === 404) {
-      return { message: data.message };
+      return { message: res.statusText };
     }
 
     if (res.status !== 200) {
       throw new Error(`Something went wrong. Error: ${res.statusText}`);
     }
 
+    const data = await res.json();
     return { data };
   } catch (err) {
     console.log(err.message);

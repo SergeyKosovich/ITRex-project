@@ -11,7 +11,9 @@ class DoctorService {
     const password = e.target.elements.password.value;
 
     const doctor = await loginDoctor({ email, password });
-    if (!doctor) { return; }
+    if (!doctor) {
+      return;
+    }
 
     localStorage.setItem('doctor-jwt', doctor.token);
     document.location.href = 'http://localhost:3000/doctor.html';
@@ -21,7 +23,9 @@ class DoctorService {
     const jwt = localStorage.getItem('doctor-jwt');
 
     const doctor = await getDoctorData(jwt);
-    if (!doctor) { return; }
+    if (!doctor) {
+      return;
+    }
 
     userLogin.innerHTML = `${doctor.name} | '${doctor.specializations[0].name}'`;
     loginWrapper.classList.add('hidden');

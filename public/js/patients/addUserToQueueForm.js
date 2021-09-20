@@ -5,10 +5,9 @@ export default async function addUserToQueueForm(addForm, patientStack) {
   addForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const inner = e.target.elements.patient.value;
     const specialization = e.target.elements.specialization.value;
 
-    const response = await postUserToQueue(inner, specialization);
+    const response = await postUserToQueue(specialization);
     if (!response) {
       return;
     }

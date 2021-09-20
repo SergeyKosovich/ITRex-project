@@ -48,12 +48,10 @@ export default class Validator {
   checkToken(req, res, next) {
     const token = req.headers.authorization.split(' ')[1];
     if (!token) {
-      throw new ApiError(403, 'user is not authorized');
+      throw new ApiError(401, 'user is not authorized');
     }
-    // Какую ошибку отсылать при неправильном jwt? или оставляем 500?
     const decodeData = jwt.verify(token, secretKey);
     req.user = decodeData;
-    // console.log(decodeData);
     next();
   }
 }

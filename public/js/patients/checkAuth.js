@@ -13,7 +13,7 @@ export default async function checkAuth() {
     return;
   }
   localStorage.setItem('jwt', response.token);
-  userName.value = `${response.name} id:${response.patient_id}`;
+  userName.value = `${response.name}`;
   userLogin.innerHTML = `${response.name}`;
   loginWrapper.classList.add('hidden');
   logoutWrapper.classList.add('active');

@@ -32,9 +32,7 @@ export default class InMemoryStorage {
   }
 
   getResolutionInStorage(name) {
-    const res = this.storage.get(name);
-    console.log(res);
-    return res;
+    return this.storage.get(name);
   }
 
   setResolutionInStorage(name, previous) {

@@ -7,9 +7,8 @@ export default function addResolution(lastPatient, setResolution, textarea) {
       return;
     }
     const resolutionText = textarea.value.trim();
-    const currentPatientId = lastPatient.innerHTML.split('id:')[1];
     const ttl = e.target.elements.ttlNumber.value;
-    const res = await patchResolution(resolutionText, currentPatientId, ttl);
+    const res = await patchResolution(resolutionText, ttl);
     if (!res) {
       return;
     }
