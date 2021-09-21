@@ -5,7 +5,7 @@ How to run app in docker:
 docker-compose up -d  
 
 Doctor accounts:  
-kyle_simpson@clinic.com password: git - therapist  
+kyle_simpson@clinic.com password: kyle_simpson - therapist  
 martin_fowler@clinic.com  password: martin_fowler - dentist  
 linus_torvalds@clinic.com  password: linus_torvalds  - pediatrician  
 
